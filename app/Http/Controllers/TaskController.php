@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tag;
 use App\Models\Task;
 
 class TaskController extends Controller
@@ -11,8 +12,9 @@ class TaskController extends Controller
     {
         $tasks = Task::all()->groupBy('status')->toArray();
         $listas = ['TODO', 'DONE', 'TODO EXTRA', 'NEXT-DAY'];
+        $tags = Tag::all();
 
-        return view('welcome2', compact('tasks', 'listas'));
+        return view('home', compact('tasks', 'listas', 'tags'));
     }
 
     public function store(Request $request)

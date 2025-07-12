@@ -1,0 +1,21 @@
+# CHANGELOG
+
+## 2025-07-05
+
++ Inicar projeto
++ Incluit Tailwind, JQuery, raias
+
+## 2025-07-12
+
++ Adicionar CRUD de Task
++ Criar layout para a aplicação
+
+## Next
+
++ Criar Task com Tags (criaar e recuperar do banco junto alem de incluir no front)
++ Habilitar a troca das tasks entre rais e um botao de salvar para salr o novo status delas (que está numa nova raia)
+    + Melhrorar Layout das raias
+    + Bordas nas tasks e serem text-area
++ Calendário!
+    + Reaproveitar do dia anterior
+    + Navegar pelos dias (soment edias em que relamente houve algo)

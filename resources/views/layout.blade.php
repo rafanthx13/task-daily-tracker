@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Meu Projeto Laravel' }}</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
+    <!-- Tailwind Utility Styles para listas e cards -->
+    <style>
+        .lista {
+            @apply bg-gray-100 rounded p-4 mb-6 min-h-[150px] border-2 border-gray-300;
+        }
+
+        .card {
+            @apply bg-white p-3 mb-2 rounded shadow cursor-move border border-gray-400;
+        }
+
+        .ui-dialog-titlebar {
+            @apply bg-blue-600 text-white text-lg font-semibold rounded-t px-4 py-2;
+        }
+
+        .ui-dialog-content {
+            @apply p-4;
+        }
+
+        .ui-dialog-buttonpane {
+            @apply px-4 pb-4;
+        }
+
+        .ui-dialog-buttonset button {
+            @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded;
+        }
+    </style>
+
+    @stack('head') <!-- Para adicionar coisas específicas por página -->
+</head>
+
+<body class="bg-gray-50 p-6 max-w-3xl mx-auto font-sans">
+    <header class="mb-6 text-center">
+        <h1 class="text-3xl font-bold mb-4">{{ $title ?? 'Daily Tracker' }}</h1>
+        <nav class="mb-4">
+            <a href="{{ route('home') }}"
+               class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tarefas</a>
+            <a href="{{ route('tags.index') }}"
+               class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Tags</a>
+        </nav>
+    </header>
+
+    @yield('content')
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    @stack('scripts') <!-- Para scripts específicos -->
+
+    <script>
+            $(function() {
+                $(".lista").sortable({
+                    connectWith: ".lista",
+                    placeholder: "bg-blue-200 border-2 border-blue-400 h-12 rounded mb-2",
+                    forcePlaceholderSize: true,
+                    tolerance: "pointer",
+                    cursor: "move"
+                }).disableSelection();
+
+                // Configura modal
+                $("#modalAddCard").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    width: 400,
+                });
+
+                // Botão abre modal
+                $("#btnAddCard").click(function() {
+                    $("#modalAddCard").dialog("open");
+                });
+            });
+        </script>
+</body>
+</html>
