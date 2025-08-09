@@ -12,6 +12,8 @@
 
 ## Next
 
+Time: 1h
+
 + Criar Task com Tags (criaar e recuperar do banco junto alem de incluir no front)
 + Habilitar a troca das tasks entre rais e um botao de salvar para salr o novo status delas (que está numa nova raia)
     + Melhrorar Layout das raias
@@ -19,3 +21,23 @@
 + Calendário!
     + Reaproveitar do dia anterior
     + Navegar pelos dias (soment edias em que relamente houve algo)
+
+## 2025-08-09
+
+Time: 1h50min
+
+Atividades Feitas
++ Pedir ao GPT5 para cria rum projeto comolpeo (nâo funcionu 100% mas criou uma boa base de banco)
++ Mehlorar Modal de Add Task
++ Arrasatar entre Lanes
++ Mudar status quando arrasta entre lanes
++ Alterar o card das task para ter> title, notes e tags
++ Visiar dias pasados com /day/yyyy-mm-dd
+
+Next:
++ Editar task após ser feita
++ Botâo para voltar a, ele deve levar ao último dia que teve task
++ Pegar task do último dia (que esteja em Next): Deve epgar asolutamente tudo
+  + isSubTask: Eu quero que a primeira task tenh 'idOriginal' como null, e se eu pegar e repetir a de um outro dia, ela terá um id próprio mas esse seu 'idOriginal' deverá ser proveniente do outro, e se pegar de outra substask, deverá ser a mesma
++ Iniciar uma aprt de relatórios
+

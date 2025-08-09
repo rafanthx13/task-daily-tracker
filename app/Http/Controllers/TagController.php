@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TagController extends Controller
 {
-    public function index()
+    public function index($date = null)
     {
+        $date = $date ? Carbon::parse($date)->startOfDay() : now()->startOfDay();
+
+        // previous working day (for display)
+        $prev = $this->previousWorkingDay($date->copy());
+        $next = $this->nextWorkingDay($date->copy());
+
         $tags = Tag::all();
-        return view('tags.index', compact('tags'));
+        return view('tags.index', compact('tags', 'date'));
     }
 
     public function store(Request $request)
@@ -31,5 +38,19 @@ class TagController extends Controller
     {
         $tag->delete();
         return back()->with('success', 'Tag excluída com sucesso!');
+    }
+
+    private function previousWorkingDay(Carbon $d)
+    {
+        $d->subDay();
+        while ($d->isWeekend()) $d->subDay();
+        return $d;
+    }
+
+    private function nextWorkingDay(Carbon $d)
+    {
+        $d->addDay();
+        while ($d->isWeekend()) $d->addDay();
+        return $d;
     }
 }

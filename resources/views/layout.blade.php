@@ -35,6 +35,12 @@
         .ui-dialog-buttonset button {
             @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded;
         }
+
+        .lista {
+            min-height: 50px; /* altura mínima */
+            border: 2px dashed #cbd5e0; /* opcional: borda para indicar área */
+            padding: 0.5rem; /* espaço interno */
+        }
     </style>
 
     @stack('head') <!-- Para adicionar coisas específicas por página -->
@@ -42,7 +48,7 @@
 
 <body class="bg-gray-50 p-6 max-w-3xl mx-auto font-sans">
     <header class="mb-6 text-center">
-        <h1 class="text-3xl font-bold mb-4">{{ $title ?? 'Daily Tracker' }}</h1>
+        <h1 class="text-3xl font-bold mb-4">{{ $title ?? 'Daily Tracker' }} - {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</h1>
         <nav class="mb-4">
             <a href="{{ route('home') }}"
                class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tarefas</a>
@@ -66,7 +72,27 @@
                     placeholder: "bg-blue-200 border-2 border-blue-400 h-12 rounded mb-2",
                     forcePlaceholderSize: true,
                     tolerance: "pointer",
-                    cursor: "move"
+                    cursor: "move",
+                    receive: function(event, ui) {
+                        let taskId = ui.item.data('id'); // ID da task
+                        let newStatus = $(this).attr('id').replace('lista-', '').toUpperCase(); // pega parte final do ID e converte
+
+                        // Faz o update via AJAX
+                        $.ajax({
+                            url: `/tasks/change-lane/${taskId}`,
+                            method: 'PUT',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                status: newStatus.toLowerCase()
+                            },
+                            success: function(response) {
+                                console.log("Status atualizado:", response);
+                            },
+                            error: function(xhr) {
+                                console.error("Erro ao atualizar status:", xhr.responseText);
+                            }
+                        });
+                    }
                 }).disableSelection();
 
                 // Configura modal

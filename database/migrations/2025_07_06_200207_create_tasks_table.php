@@ -14,16 +14,36 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('status'); // TODO, DONE, TODO EXTRA, NEXT-DAY
+            $table->text('notes')->nullable();
+            $table->enum('status', ['todo','next','extra','done'])->default('todo');
+            $table->date('date'); // a data do dia a que a task pertence
+            $table->integer('ordering')->default(0);
+            $table->integer('repeat_days_left')->nullable(); // se >0, será copiada nos próximos imports e decrementada
             $table->timestamps();
         });
+
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('color')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('tag_task', function (Blueprint $table) {
+            $table->foreignId('task_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained()->onDelete('cascade');
+            $table->primary(['task_id','tag_id']);
+        });
+
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
+        Schema::dropIfExists('tag_task');
+        Schema::dropIfExists('tags');
         Schema::dropIfExists('tasks');
     }
 };
