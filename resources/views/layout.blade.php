@@ -194,6 +194,24 @@
         });
     });
 
+    // Deletar Task
+    $('#deleteTaskForm').click(function(e) {
+        e.preventDefault();
+
+        let id = $('#editTaskId').val();
+
+        $.ajax({
+            url: '/tasks/' + id,
+            method: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function() {
+                location.reload(); // ou atualizar só o card editado
+            }
+        });
+    });
+
 
 
 

@@ -139,9 +139,12 @@
 
             <div class="flex justify-end gap-2">
                 <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                <button id="deleteTaskForm" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Excluir</button>
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
             </div>
         </form>
+
+
     </div>
 </div>
 
