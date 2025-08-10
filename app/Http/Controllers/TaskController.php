@@ -14,8 +14,7 @@ class TaskController extends Controller
         $date = $date ? Carbon::parse($date)->startOfDay() : now()->startOfDay();
 
         // previous working day (for display)
-        $prev = $this->previousWorkingDay($date->copy());
-        $next = $this->nextWorkingDay($date->copy());
+        $prev = $this->getPreviousDate($date->copy());
 
         // $tasks = Task::all()->groupBy('status')->toArray();
 
@@ -30,7 +29,7 @@ class TaskController extends Controller
         // dd($tasks);
         $tags = Tag::all();
 
-        return view('home', compact('tasks', 'listas', 'tags', 'date'));
+        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev'));
     }
 
     /**
@@ -122,6 +121,17 @@ class TaskController extends Controller
         $d->subDay();
         while ($d->isWeekend()) $d->subDay();
         return $d;
+    }
+
+    private function getPreviousDate(Carbon $d){
+        // Busca a data máxima que seja menor que $d
+        $previousDate = Task::whereDate('date', '<', $d)
+            ->orderBy('date', 'desc')
+            ->value('date'); // pega apenas o campo
+
+        // Retorna como Carbon ou null se não encontrar
+        return $previousDate ? Carbon::parse($previousDate)->format('Y-m-d') : '';
+
     }
 
     private function nextWorkingDay(Carbon $d)

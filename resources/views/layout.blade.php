@@ -75,15 +75,30 @@
 </head>
 
 <body class="bg-gray-50 p-6 max-w-3xl mx-auto font-sans">
-    <header class="mb-6 text-center">
-        <h1 class="text-3xl font-bold mb-4">{{ $title ?? 'Daily Tracker' }} - {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</h1>
-        <nav class="mb-4">
-            <a href="{{ route('home') }}"
-               class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tarefas</a>
-            <a href="{{ route('tags.index') }}"
-               class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Tags</a>
-        </nav>
-    </header>
+    <header class="mb-6 flex items-center justify-center relative">
+    <!-- Seta à esquerda -->
+    <a href="/day/{{ $prev }}"
+       class="absolute left-0 flex items-center text-blue-600 hover:text-blue-800">
+        <!-- Ícone de seta -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="none" viewBox="0 0 24 24" stroke-width="2"
+             stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+    </a>
+
+    <!-- Título -->
+    <h1 class="text-3xl font-bold mb-4 text-center">
+        {{ $title ?? 'Daily Tracker' }} - {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+    </h1>
+</header>
+
+<nav class="mb-4 text-center">
+    <a href="{{ route('home') }}"
+       class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tarefas</a>
+    <a href="{{ route('tags.index') }}"
+       class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Tags</a>
+</nav>
 
     @yield('content')
 
