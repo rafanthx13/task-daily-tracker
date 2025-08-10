@@ -12,6 +12,34 @@
 
     <!-- Tailwind Utility Styles para listas e cards -->
     <style>
+
+        .ui-widget-overlay {
+    background: #000 !important; /* preto */
+    opacity: 0.3 !important;     /* transparência de 30% */
+}
+
+/* overlay translúcido (substitui bg-black/bg-opacity-50) */
+#editModal {
+  background-color: rgba(0, 0, 0, 0.35) !important; /* 35% de escurecimento */
+  display: flex;              /* já estava, mantemos */
+  align-items: center;
+  justify-content: center;
+  /* z-index baixo só para garantir que modal filho fique acima, se necessário */
+  z-index: 1000;
+  transition: background-color 150ms ease;
+}
+
+/* garante que o painel branco interno fique acima do overlay e não herde opacidade */
+#editModal > .bg-white,
+#editModal .bg-white {
+  position: relative;
+  z-index: 1001;
+}
+
+/* opcional: estilo para o caso de a lista usar "hidden" via Tailwind */
+#editModal.hidden {
+  display: none !important;
+}
         .lista {
             @apply bg-gray-100 rounded p-4 mb-6 min-h-[150px] border-2 border-gray-300;
         }
@@ -104,8 +132,56 @@
 
                 // Botão abre modal
                 $("#btnAddCard").click(function() {
-                    $("#modalAddCard").dialog("open");
+                    $("#modalEditCard").dialog({
+    autoOpen: false,
+    modal: true,   // mantém bloqueio
+    width: 400
+});
                 });
+
+                $(document).on('click', '.edit-task', function() {
+        let card = $(this).closest('.card');
+        let id = card.data('id');
+        let title = card.find('h3').text();
+        let notes = card.find('p').text();
+
+        $('#editTaskId').val(id);
+        $('#editTaskTitle').val(title);
+        $('#editTaskNotes').val(notes);
+
+        $('#editModal').removeClass('hidden');
+    });
+
+    // Fechar modal
+    $('#closeModal').click(function() {
+        $('#editModal').addClass('hidden');
+    });
+
+    // Salvar alterações
+    $('#editTaskForm').submit(function(e) {
+        e.preventDefault();
+
+        let id = $('#editTaskId').val();
+        let title = $('#editTaskTitle').val();
+        let notes = $('#editTaskNotes').val();
+
+        $.ajax({
+            url: '/tasks/' + id,
+            method: 'PUT',
+            data: {
+                title: title,
+                notes: notes,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function() {
+                location.reload(); // ou atualizar só o card editado
+            }
+        });
+    });
+
+
+
+
             });
         </script>
 </body>

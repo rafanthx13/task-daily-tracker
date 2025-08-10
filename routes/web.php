@@ -12,5 +12,6 @@ Route::get('/day/{date}', [taskController::class, 'index'])->name('tasks.day');
 Route::post('/tasks', [taskController::class, 'store'])->name('tasks.store');
 
 Route::put('/tasks/change-lane/{task}', [taskController::class, 'updateLane'])->name('tasks.change-lane');
+Route::put('/tasks/{id}', [TaskController::class, 'update']);
 
 Route::resource('tags', TagController::class);

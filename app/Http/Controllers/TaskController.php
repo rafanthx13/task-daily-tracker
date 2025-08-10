@@ -142,4 +142,14 @@ class TaskController extends Controller
 
         return response()->json(['success' => true, 'task' => $task]);
     }
+
+    public function update(Request $request, $id)
+{
+    $task = Task::findOrFail($id);
+    $task->title = $request->title;
+    $task->notes = $request->notes;
+    $task->save();
+
+    return response()->json(['success' => true]);
+}
 }

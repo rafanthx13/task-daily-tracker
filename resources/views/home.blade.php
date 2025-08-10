@@ -21,11 +21,11 @@
                         @php
                         @endphp
                         @foreach ($tasks[$lista] ?? [] as $task)
-                            @php
-                          //  <li class="card" >{{ $task['title'] }}</li>
-                            @endphp
 
                             <li class="card p-3 bg-white rounded shadow mb-2" data-id="{{ $task['id'] }}">
+                                <div class="flex justify-between items-start">
+        <div>
+
                                 <h3 class="font-bold text-gray-800">{{ $task['title'] }}</h3>
 
                                 @if (!empty($task['notes']))
@@ -41,6 +41,13 @@
                                         @endforeach
                                     </div>
                                 @endif
+        </div>
+
+                                 <!-- Botão de edição -->
+                                <button class="edit-task text-gray-500 hover:text-blue-600" title="Editar">
+                                    ✏️
+                                </button>
+                                </div>
                             </li>
                         @endforeach
 
@@ -110,6 +117,34 @@
         </div>
     </form>
 </div>
+
+
+<!-- Modal -->
+<div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <h2 class="text-lg font-bold mb-4">Editar Task</h2>
+
+        <form id="editTaskForm">
+            <input type="hidden" id="editTaskId">
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Título</label>
+                <input type="text" id="editTaskTitle" class="mt-1 w-full border rounded p-2">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Notas</label>
+                <textarea id="editTaskNotes" class="mt-1 w-full border rounded p-2"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
 
