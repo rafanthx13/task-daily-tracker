@@ -43,7 +43,7 @@
                                 @endif
         </div>
 
-                                 <!-- Botão de edição -->
+                                <!-- Botão de edição -->
                                 <button class="edit-task text-gray-500 hover:text-blue-600" title="Editar">
                                     ✏️
                                 </button>

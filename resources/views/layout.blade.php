@@ -76,6 +76,8 @@
 
 <body class="bg-gray-50 p-6 max-w-3xl mx-auto font-sans">
     <header class="mb-6 flex items-center justify-center relative">
+
+    @if (!empty($prev) )
     <!-- Seta à esquerda -->
     <a href="/day/{{ $prev }}"
        class="absolute left-0 flex items-center text-blue-600 hover:text-blue-800">
@@ -86,14 +88,33 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
     </a>
+    @endif
 
     <!-- Título -->
     <h1 class="text-3xl font-bold mb-4 text-center">
         {{ $title ?? 'Daily Tracker' }} - {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
     </h1>
+
+    @if (!empty($next) )
+    <!-- Seta à direita -->
+
+        <a href="/day/{{ $next }}"
+        class="absolute right-0 flex items-center text-blue-600 hover:text-blue-800">
+            <!-- Ícone de seta -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+        fill="none" viewBox="0 0 24 24" stroke-width="2"
+        stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+        </a>
+    @endif
+
 </header>
 
 <nav class="mb-4 text-center">
+    <button id="btnGetPreviousNextTask" data-old="{{ $prev }}" data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"  class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 ml-2">
+        Get Previous Next
+    </button>
     <a href="{{ route('home') }}"
        class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tarefas</a>
     <a href="{{ route('tags.index') }}"
@@ -210,6 +231,25 @@
                 location.reload(); // ou atualizar só o card editado
             }
         });
+    });
+
+    $('#btnGetPreviousNextTask').click(function(e) {
+            e.preventDefault();
+
+            let oldDate = $('#btnGetPreviousNextTask').data('old');
+            let todayDate = $('#btnGetPreviousNextTask').data('today');
+
+            $.ajax({
+            url: '/get-tasks-from-old-date/' + oldDate + '/' + todayDate,
+            method: 'get',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function() {
+                location.reload(); // ou atualizar só o card editado
+            }
+        });
+
     });
 
 

@@ -41,3 +41,10 @@ Next:
   + isSubTask: Eu quero que a primeira task tenh 'idOriginal' como null, e se eu pegar e repetir a de um outro dia, ela terá um id próprio mas esse seu 'idOriginal' deverá ser proveniente do outro, e se pegar de outra substask, deverá ser a mesma
 + Iniciar uma aprt de relatórios
 
+## 2025-08-10
+
+Time: 1h30min
++ Add notes no form (antes nâo funcionava)
++ Eitar Task, deletar task
++ Poder navegar par ao dia anteiror e para o dia seguinte
++ Pegar as tarefas 'next' do aultimo dia e colocar como 'todo' do dia atual

@@ -15,6 +15,7 @@ class TaskController extends Controller
 
         // previous working day (for display)
         $prev = $this->getPreviousDate($date->copy());
+        $next = $this->getNextDate($date->copy());
 
         // $tasks = Task::all()->groupBy('status')->toArray();
 
@@ -29,7 +30,7 @@ class TaskController extends Controller
         // dd($tasks);
         $tags = Tag::all();
 
-        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev'));
+        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next'));
     }
 
     /**
@@ -63,6 +64,23 @@ class TaskController extends Controller
             dump($request);
             dd($th->getMessage());
         }
+    }
+
+    public function getOldDate(Request $request, $dateOld, $dateToday){
+
+        $oldNextTasks = Task::whereDate('date', '=', $dateOld)->where('status', '=', 'next')->get();
+        foreach ($oldNextTasks as $task) {
+            $newTask = Task::create([
+                'title' => $task->title,
+                'notes' => $task->notes,
+                'status' => 'todo',
+                'date' => $dateToday,
+            ]);
+            $newTask->save();
+        }
+
+        return response()->json(['success' => true]);
+
     }
 
      // IMPORT logic: copia as tasks do último dia útil que tiver tasks (pulando sáb/dom)
@@ -133,6 +151,16 @@ class TaskController extends Controller
         return $previousDate ? Carbon::parse($previousDate)->format('Y-m-d') : '';
 
     }
+
+    private function getNextDate(Carbon $d){
+    // Busca a data mínima que seja maior que $d
+    $nextDate = Task::whereDate('date', '>', $d)
+        ->orderBy('date', 'asc')
+        ->value('date'); // Pega apenas o campo 'date' da primeira tarefa encontrada
+
+    // Retorna a data formatada ou uma string vazia se não encontrar
+    return $nextDate ? Carbon::parse($nextDate)->format('Y-m-d') : '';
+}
 
     private function nextWorkingDay(Carbon $d)
     {

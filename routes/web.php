@@ -15,4 +15,6 @@ Route::put('/tasks/change-lane/{task}', [taskController::class, 'updateLane'])->
 Route::put('/tasks/{id}', [TaskController::class, 'update']);
 Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
 
+Route::get('/get-tasks-from-old-date/{oldDate}/{todayDate}', [taskController::class, 'getOldDate'])->name('tasks.getOldDate');
+
 Route::resource('tags', TagController::class);
