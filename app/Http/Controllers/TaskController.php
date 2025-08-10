@@ -43,6 +43,7 @@ class TaskController extends Controller
             // dd($request);
             $data = $request->validate([
                 'title' => 'required|string',
+                'notes' => 'nullable|string',
                 'date'=>'required|date',
                 'status' => 'required|in:todo,next,extra,done',
                 'tag_ids'=>'nullable|array'
@@ -51,6 +52,7 @@ class TaskController extends Controller
 
             $task = Task::create([
                 'title'=>$data['title'],
+                'notes'=>$data['notes'] ?? null ,
                 'date'=>$data['date'],
                 'status'=>$data['status'] ?? 'todo',
             ]);
