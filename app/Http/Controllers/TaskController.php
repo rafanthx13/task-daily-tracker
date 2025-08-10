@@ -13,61 +13,47 @@ class TaskController extends Controller
     {
         $date = $date ? Carbon::parse($date)->startOfDay() : now()->startOfDay();
 
-        // previous working day (for display)
         $prev = $this->getPreviousDate($date->copy());
         $next = $this->getNextDate($date->copy());
 
-        // $tasks = Task::all()->groupBy('status')->toArray();
-
         $tasks = Task::with('tags')
-                        ->whereDate('date', $date->toDateString())
-                        ->orderBy('ordering')
-                        ->get()
-                        ->groupBy('status')->toArray();
-        // dd($tasks);
+            ->whereDate('date', $date->toDateString())
+            ->orderBy('ordering')
+            ->get()
+            ->groupBy('status')->toArray();
 
         $listas = ['todo', 'done', 'extra', 'next'];
-        // dd($tasks);
         $tags = Tag::all();
 
         return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next'));
     }
 
-    /**
-     * Salva Task
-     *
-     */
     public function store(Request $request)
     {
         try {
-            // dd($request);
             $data = $request->validate([
                 'title' => 'required|string',
                 'notes' => 'nullable|string',
-                'date'=>'required|date',
+                'date' => 'required|date',
                 'status' => 'required|in:todo,next,extra,done',
-                'tag_ids'=>'nullable|array'
+                'tag_ids' => 'nullable|array'
             ]);
-            // dd($data);
 
             $task = Task::create([
-                'title'=>$data['title'],
-                'notes'=>$data['notes'] ?? null ,
-                'date'=>$data['date'],
-                'status'=>$data['status'] ?? 'todo',
+                'title' => $data['title'],
+                'notes' => $data['notes'] ?? null,
+                'date' => $data['date'],
+                'status' => $data['status'] ?? 'todo',
             ]);
             if (!empty($data['tag_ids'])) $task->tags()->sync($data['tag_ids']);
             return redirect()->route('home');
-            //code...
         } catch (\Throwable $th) {
-            //throw $th;
-            dump($request);
             dd($th->getMessage());
         }
     }
 
-    public function getOldDate(Request $request, $dateOld, $dateToday){
-
+    public function getOldDate(Request $request, $dateOld, $dateToday)
+    {
         $oldNextTasks = Task::whereDate('date', '=', $dateOld)->where('status', '=', 'next')->get();
         foreach ($oldNextTasks as $task) {
             $newTask = Task::create([
@@ -78,95 +64,27 @@ class TaskController extends Controller
             ]);
             $newTask->save();
         }
-
         return response()->json(['success' => true]);
-
     }
 
-     // IMPORT logic: copia as tasks do último dia útil que tiver tasks (pulando sáb/dom)
-    public function importFromLastWorkingDay(Request $request)
+    private function getPreviousDate(Carbon $d)
     {
-        $targetDate = Carbon::parse($request->input('date'));
-        // find last day < targetDate that has tasks (skip weekends)
-        $search = $targetDate->copy()->subDay();
-        while ($search->isWeekend()) $search->subDay();
-
-        // keep looking back while no tasks
-        while (Task::whereDate('date', $search->toDateString())->count() == 0) {
-            $search->subDay();
-            // skip weekends
-            while ($search->isWeekend()) $search->subDay();
-            // safety: avoid infinite loop (stop after 60 days)
-            if ($search->diffInDays($targetDate) > 365) {
-                return response()->json(['message'=>'Nenhum dia anterior com tasks encontrado'], 404);
-            }
-        }
-
-        $fromTasks = Task::with('tags')->whereDate('date', $search->toDateString())->get();
-        $copied = [];
-        foreach ($fromTasks as $t) {
-            // regra: não importar tasks marcadas 'done' por padrão (configurável)
-            if ($t->status === 'done') continue;
-
-            $newRepeat = null;
-            if (!is_null($t->repeat_days_left) && $t->repeat_days_left > 0) {
-                $newRepeat = $t->repeat_days_left - 1;
-            }
-
-            $new = Task::create([
-                'title' => $t->title,
-                'notes' => $t->notes,
-                'status' => $t->status,
-                'date' => $targetDate->toDateString(),
-                'ordering' => $t->ordering,
-                'repeat_days_left' => $newRepeat
-            ]);
-            if ($t->tags->isNotEmpty()) {
-                $new->tags()->sync($t->tags->pluck('id')->toArray());
-            }
-            $copied[] = $new;
-        }
-
-        return response()->json([
-            'copied_count' => count($copied),
-            'from_date' => $search->toDateString(),
-            'target_date' => $targetDate->toDateString(),
-        ]);
-    }
-
-    private function previousWorkingDay(Carbon $d)
-    {
-        $d->subDay();
-        while ($d->isWeekend()) $d->subDay();
-        return $d;
-    }
-
-    private function getPreviousDate(Carbon $d){
         // Busca a data máxima que seja menor que $d
         $previousDate = Task::whereDate('date', '<', $d)
             ->orderBy('date', 'desc')
             ->value('date'); // pega apenas o campo
 
-        // Retorna como Carbon ou null se não encontrar
         return $previousDate ? Carbon::parse($previousDate)->format('Y-m-d') : '';
-
     }
 
-    private function getNextDate(Carbon $d){
-    // Busca a data mínima que seja maior que $d
-    $nextDate = Task::whereDate('date', '>', $d)
-        ->orderBy('date', 'asc')
-        ->value('date'); // Pega apenas o campo 'date' da primeira tarefa encontrada
-
-    // Retorna a data formatada ou uma string vazia se não encontrar
-    return $nextDate ? Carbon::parse($nextDate)->format('Y-m-d') : '';
-}
-
-    private function nextWorkingDay(Carbon $d)
+    private function getNextDate(Carbon $d)
     {
-        $d->addDay();
-        while ($d->isWeekend()) $d->addDay();
-        return $d;
+        // Busca a data mínima que seja maior que $d
+        $nextDate = Task::whereDate('date', '>', $d)
+            ->orderBy('date', 'asc')
+            ->value('date'); // Pega apenas o campo 'date' da primeira tarefa encontrada
+
+        return $nextDate ? Carbon::parse($nextDate)->format('Y-m-d') : '';
     }
 
     public function updateLane(Request $request, Task $task)
@@ -182,20 +100,20 @@ class TaskController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $task = Task::findOrFail($id);
-    $task->title = $request->title;
-    $task->notes = $request->notes;
-    $task->save();
+    {
+        $task = Task::findOrFail($id);
+        $task->title = $request->title;
+        $task->notes = $request->notes;
+        $task->save();
 
-    return response()->json(['success' => true]);
-}
+        return response()->json(['success' => true]);
+    }
 
- public function delete(Request $request, $id)
-{
-    $task = Task::findOrFail($id);
-    $task->delete();
+    public function delete(Request $request, $id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
 
-    return response()->json(['success' => true]);
-}
+        return response()->json(['success' => true]);
+    }
 }

@@ -2,17 +2,19 @@
 
 ## 2025-07-05
 
-+ Inicar projeto
-+ Incluit Tailwind, JQuery, raias
++ Iniciar projeto
++ Incluir Tailwind, JQuery e Lanes
 
 ## 2025-07-12
+
+Time: 1h
+
+DONE
 
 + Adicionar CRUD de Task
 + Criar layout para a aplicação
 
-## Next
-
-Time: 1h
+NEXT
 
 + Criar Task com Tags (criaar e recuperar do banco junto alem de incluir no front)
 + Habilitar a troca das tasks entre rais e um botao de salvar para salr o novo status delas (que está numa nova raia)
@@ -26,7 +28,8 @@ Time: 1h
 
 Time: 1h50min
 
-Atividades Feitas
+DONE
+
 + Pedir ao GPT5 para cria rum projeto comolpeo (nâo funcionu 100% mas criou uma boa base de banco)
 + Mehlorar Modal de Add Task
 + Arrasatar entre Lanes
@@ -34,17 +37,28 @@ Atividades Feitas
 + Alterar o card das task para ter> title, notes e tags
 + Visiar dias pasados com /day/yyyy-mm-dd
 
-Next:
+NEXT
+
 + Editar task após ser feita
 + Botâo para voltar a, ele deve levar ao último dia que teve task
 + Pegar task do último dia (que esteja em Next): Deve epgar asolutamente tudo
-  + isSubTask: Eu quero que a primeira task tenh 'idOriginal' como null, e se eu pegar e repetir a de um outro dia, ela terá um id próprio mas esse seu 'idOriginal' deverá ser proveniente do outro, e se pegar de outra substask, deverá ser a mesma
+    + isSubTask: Eu quero que a primeira task tenh 'idOriginal' como null, e se eu pegar e repetir a de um outro dia, ela terá um id próprio mas esse seu 'idOriginal' deverá ser proveniente do outro, e se pegar de outra substask, deverá ser a mesma
 + Iniciar uma aprt de relatórios
 
 ## 2025-08-10
 
-Time: 1h30min
+Time: 1h40min
+
+DONE
+
 + Add notes no form (antes nâo funcionava)
 + Eitar Task, deletar task
 + Poder navegar par ao dia anteiror e para o dia seguinte
 + Pegar as tarefas 'next' do aultimo dia e colocar como 'todo' do dia atual
++ Limpar Código
+
+NEXT
+
++ Limpar banco colunas inúteis
++ Report
++ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)

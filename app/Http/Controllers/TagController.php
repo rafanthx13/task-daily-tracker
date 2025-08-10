@@ -12,12 +12,11 @@ class TagController extends Controller
     {
         $date = $date ? Carbon::parse($date)->startOfDay() : now()->startOfDay();
 
-        // previous working day (for display)
-        $prev = $this->previousWorkingDay($date->copy());
-        $next = $this->nextWorkingDay($date->copy());
+        $prev = '';
+        $next = '';
 
         $tags = Tag::all();
-        return view('tags.index', compact('tags', 'date'));
+        return view('tags', compact('tags', 'date', 'prev', 'next'));
     }
 
     public function store(Request $request)
@@ -40,17 +39,4 @@ class TagController extends Controller
         return back()->with('success', 'Tag excluída com sucesso!');
     }
 
-    private function previousWorkingDay(Carbon $d)
-    {
-        $d->subDay();
-        while ($d->isWeekend()) $d->subDay();
-        return $d;
-    }
-
-    private function nextWorkingDay(Carbon $d)
-    {
-        $d->addDay();
-        while ($d->isWeekend()) $d->addDay();
-        return $d;
-    }
 }
