@@ -62,3 +62,24 @@ NEXT
 + Limpar banco colunas inúteis
 + Report
 + Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
+
+## 2025-08-11
+
+DONE
+
++ Por Lane Waiting
++ Centralizar Lanes em um arquivo só
++ Sperar css/js/partilas-blades em arquivos separados
++ Corrigir jquery
++ Melhorar Docs
++ Limpar e formatar código
++ Melhorar UX de style: Hover e espaçamento
+
+NEXT
+
++ Limpar banco colunas inúteis
++ Report
++ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
++ Task gerada em um dia anterior
+    + Testar mais gerar do dia antetior
+    + A data não pega do dia
