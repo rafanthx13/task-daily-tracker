@@ -1,0 +1,58 @@
+.ui-widget-overlay {
+    background: #000 !important;
+    opacity: 0.3 !important;
+}
+
+#editModal {
+    background-color: rgba(0, 0, 0, 0.35) !important;
+    /* 35% de escurecimento */
+    display: flex;
+    /* já estava, mantemos */
+    align-items: center;
+    justify-content: center;
+    /* z-index baixo só para garantir que modal filho fique acima, se necessário */
+    z-index: 1000;
+    transition: background-color 150ms ease;
+}
+
+/* garante que o painel branco interno fique acima do overlay e não herde opacidade */
+#editModal > .bg-white,
+#editModal .bg-white {
+    position: relative;
+    z-index: 1001;
+}
+
+/* opcional: estilo para o caso de a lista usar "hidden" via Tailwind */
+#editModal.hidden {
+    display: none !important;
+}
+
+.lista {
+    @apply bg-gray-100 rounded p-4 mb-6 min-h-[150px] border-2 border-gray-300;
+}
+
+.card {
+    @apply bg-white p-3 mb-2 rounded shadow cursor-move border border-gray-400;
+}
+
+.ui-dialog-titlebar {
+    @apply bg-blue-600 text-white text-lg font-semibold rounded-t px-4 py-2;
+}
+
+.ui-dialog-content {
+    @apply p-4;
+}
+
+.ui-dialog-buttonpane {
+    @apply px-4 pb-4;
+}
+
+.ui-dialog-buttonset button {
+    @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded;
+}
+
+.lista {
+    min-height: 50px;
+    border: 2px dashed #cbd5e0;
+    padding: 0.5rem;
+}

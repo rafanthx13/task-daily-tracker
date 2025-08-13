@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Tag;
 use App\Models\Task;
 use Carbon\Carbon;
+use App\Constants\Lanes;
 
 class TaskController extends Controller
 {
@@ -22,7 +23,7 @@ class TaskController extends Controller
             ->get()
             ->groupBy('status')->toArray();
 
-        $listas = ['todo', 'done', 'extra', 'next'];
+        $listas = Lanes::getAllAsArray();
         $tags = Tag::all();
 
         return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next'));
@@ -35,7 +36,7 @@ class TaskController extends Controller
                 'title' => 'required|string',
                 'notes' => 'nullable|string',
                 'date' => 'required|date',
-                'status' => 'required|in:todo,next,extra,done',
+                'status' => 'required|in:' . Lanes::getAllAsString(),
                 'tag_ids' => 'nullable|array'
             ]);
 
@@ -43,7 +44,7 @@ class TaskController extends Controller
                 'title' => $data['title'],
                 'notes' => $data['notes'] ?? null,
                 'date' => $data['date'],
-                'status' => $data['status'] ?? 'todo',
+                'status' => $data['status'] ?? Lanes::TODO,
             ]);
             if (!empty($data['tag_ids'])) $task->tags()->sync($data['tag_ids']);
             return redirect()->route('home');
@@ -54,12 +55,12 @@ class TaskController extends Controller
 
     public function getOldDate(Request $request, $dateOld, $dateToday)
     {
-        $oldNextTasks = Task::whereDate('date', '=', $dateOld)->where('status', '=', 'next')->get();
+        $oldNextTasks = Task::whereDate('date', '=', $dateOld)->where('status', '=', Lanes::NEXT)->get();
         foreach ($oldNextTasks as $task) {
             $newTask = Task::create([
                 'title' => $task->title,
                 'notes' => $task->notes,
-                'status' => 'todo',
+                'status' => Lanes::TODO,
                 'date' => $dateToday,
             ]);
             $newTask->save();

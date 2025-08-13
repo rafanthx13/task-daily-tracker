@@ -4,260 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Meu Projeto Laravel' }}</title>
+    <title>Daily Task Tracker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
-
-    <!-- Tailwind Utility Styles para listas e cards -->
-    <style>
-        .ui-widget-overlay {
-            background: #000 !important;
-            opacity: 0.3 !important;
-        }
-
-        #editModal {
-            background-color: rgba(0, 0, 0, 0.35) !important;
-            /* 35% de escurecimento */
-            display: flex;
-            /* já estava, mantemos */
-            align-items: center;
-            justify-content: center;
-            /* z-index baixo só para garantir que modal filho fique acima, se necessário */
-            z-index: 1000;
-            transition: background-color 150ms ease;
-        }
-
-        /* garante que o painel branco interno fique acima do overlay e não herde opacidade */
-        #editModal>.bg-white,
-        #editModal .bg-white {
-            position: relative;
-            z-index: 1001;
-        }
-
-        /* opcional: estilo para o caso de a lista usar "hidden" via Tailwind */
-        #editModal.hidden {
-            display: none !important;
-        }
-
-        .lista {
-            @apply bg-gray-100 rounded p-4 mb-6 min-h-[150px] border-2 border-gray-300;
-        }
-
-        .card {
-            @apply bg-white p-3 mb-2 rounded shadow cursor-move border border-gray-400;
-        }
-
-        .ui-dialog-titlebar {
-            @apply bg-blue-600 text-white text-lg font-semibold rounded-t px-4 py-2;
-        }
-
-        .ui-dialog-content {
-            @apply p-4;
-        }
-
-        .ui-dialog-buttonpane {
-            @apply px-4 pb-4;
-        }
-
-        .ui-dialog-buttonset button {
-            @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded;
-        }
-
-        .lista {
-            min-height: 50px;
-            border: 2px dashed #cbd5e0;
-            padding: 0.5rem;
-        }
-    </style>
-
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('head') <!-- Para adicionar coisas específicas por página -->
 </head>
 
 <body class="bg-gray-50 p-6 max-w-3xl mx-auto font-sans">
-    <header class="mb-6 flex items-center justify-center relative">
 
-        @if (!empty($prev))
-            <!-- Seta à esquerda -->
-            <a href="/day/{{ $prev }}"
-                class="absolute left-0 flex items-center text-blue-600 hover:text-blue-800">
-                <!-- Ícone de seta -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-            </a>
-        @endif
+    @include('partials.header', compact('prev', 'next', 'date'))
 
-        <!-- Título -->
-        <h1 class="text-3xl font-bold mb-4 text-center">
-            {{ $title ?? 'Daily Tracker' }} - {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
-        </h1>
-
-        @if (!empty($next))
-            <!-- Seta à direita -->
-            <a href="/day/{{ $next }}"
-                class="absolute right-0 flex items-center text-blue-600 hover:text-blue-800">
-                <!-- Ícone de seta -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-            </a>
-        @endif
-
-    </header>
-
-    <nav class="mb-4 text-center">
-        @if (!empty($prev))
-            <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
-                data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
-                class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 ml-2">
-                Get Previous Next
-            </button>
-        @endif
-        <a href="{{ route('home') }}"
-            class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Tarefas</a>
-        <a href="{{ route('tags.index') }}"
-            class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Tags</a>
-    </nav>
+    @include('partials.nav', compact('prev', 'next', 'date'))
 
     @yield('content')
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
+    <script src="{{ asset('js/script.js') }}"></script>
     @stack('scripts') <!-- Para scripts específicos -->
 
-    <script>
-        $(function() {
-            $(".lista").sortable({
-                connectWith: ".lista",
-                placeholder: "bg-blue-200 border-2 border-blue-400 h-12 rounded mb-2",
-                forcePlaceholderSize: true,
-                tolerance: "pointer",
-                cursor: "move",
-                receive: function(event, ui) {
-                    let taskId = ui.item.data('id'); // ID da task
-                    let newStatus = $(this).attr('id').replace('lista-', '')
-                        .toUpperCase(); // pega parte final do ID e converte
-
-                    // Faz o update via AJAX
-                    $.ajax({
-                        url: `/tasks/change-lane/${taskId}`,
-                        method: 'PUT',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            status: newStatus.toLowerCase()
-                        },
-                        success: function(response) {
-                            console.log("Status atualizado:", response);
-                        },
-                        error: function(xhr) {
-                            console.error("Erro ao atualizar status:", xhr.responseText);
-                        }
-                    });
-                }
-            }).disableSelection();
-
-            // Configura modal
-            $("#modalAddCard").dialog({
-                autoOpen: false,
-                modal: true,
-                width: 400,
-            });
-
-            // Botão abre modal
-            $("#btnAddCard").click(function() {
-                $("#modalEditCard").dialog({
-                    autoOpen: false,
-                    modal: true, // mantém bloqueio
-                    width: 400
-                });
-            });
-
-            // Abrir modal de Editar Task
-            $(document).on('click', '.edit-task', function() {
-                let card = $(this).closest('.card');
-                let id = card.data('id');
-                let title = card.find('h3').text();
-                let notes = card.find('p').text();
-
-                $('#editTaskId').val(id);
-                $('#editTaskTitle').val(title);
-                $('#editTaskNotes').val(notes);
-
-                $('#editModal').removeClass('hidden');
-            });
-
-            // Fechar modal de Editar Task
-            $('#closeModal').click(function() {
-                $('#editModal').addClass('hidden');
-            });
-
-            // Ação de Editar Task
-            $('#editTaskForm').submit(function(e) {
-                e.preventDefault();
-
-                let id = $('#editTaskId').val();
-                let title = $('#editTaskTitle').val();
-                let notes = $('#editTaskNotes').val();
-
-                $.ajax({
-                    url: '/tasks/' + id,
-                    method: 'PUT',
-                    data: {
-                        title: title,
-                        notes: notes,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        location.reload(); // ou atualizar só o card editado
-                    }
-                });
-            });
-
-            // Deletar Task
-            $('#deleteTaskForm').click(function(e) {
-                e.preventDefault();
-
-                let id = $('#editTaskId').val();
-
-                $.ajax({
-                    url: '/tasks/' + id,
-                    method: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        location.reload(); // ou atualizar só o card editado
-                    }
-                });
-            });
-
-            // Pegar tasks 'next' do último dia e colocar no dia a atual como 'todo'
-            $('#btnGetPreviousNextTask').click(function(e) {
-                e.preventDefault();
-
-                let oldDate = $('#btnGetPreviousNextTask').data('old');
-                let todayDate = $('#btnGetPreviousNextTask').data('today');
-
-                $.ajax({
-                    url: '/get-tasks-from-old-date/' + oldDate + '/' + todayDate,
-                    method: 'get',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        location.reload(); // ou atualizar só o card editado
-                    }
-                });
-
-            });
-
-        });
-    </script>
 </body>
 
 </html>

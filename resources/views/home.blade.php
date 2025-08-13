@@ -1,4 +1,4 @@
-@extends('layout') <!-- Se tiver um layout padrão -->
+@extends('layout')
 
 @section('content')
 
@@ -6,8 +6,8 @@
 
         <!-- Botão que abre modal para adicionar card -->
         <div class="mb-6 text-center">
-            <button id="btnAddCard" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-                Adicionar Card na TODO
+            <button id="btnAddCard" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer">
+                Adicionar Task
             </button>
         </div>
 
@@ -40,7 +40,7 @@
                                     </div>
 
                                     <!-- Botão de edição -->
-                                    <button class="edit-task text-gray-500 hover:text-blue-600" title="Editar">
+                                    <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer" title="Editar">
                                         ✏️
                                     </button>
                                 </div>
@@ -107,7 +107,7 @@
                 {{-- Botão --}}
                 <div class="flex justify-end">
                     <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition">
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition cursor-pointer">
                         Adicionar
                     </button>
                 </div>
@@ -115,7 +115,7 @@
         </div>
 
         <!-- Modal  de Editar Task-->
-        <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                 <h2 class="text-lg font-bold mb-4">Editar Task</h2>
 
@@ -133,10 +133,10 @@
                     </div>
 
                     <div class="flex justify-end gap-2">
-                        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancelar</button>
                         <button id="deleteTaskForm"
-                            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Excluir</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
+                            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">Excluir</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer">Salvar</button>
                     </div>
                 </form>
 

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\Lanes;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('notes')->nullable();
-            $table->enum('status', ['todo','next','extra','done'])->default('todo');
+            $table->enum('status', Lanes::getAllAsArray())->default(Lanes::TODO);
             $table->date('date'); // a data do dia a que a task pertence
             $table->integer('ordering')->default(0);
             $table->integer('repeat_days_left')->nullable(); // se >0, será copiada nos próximos imports e decrementada
