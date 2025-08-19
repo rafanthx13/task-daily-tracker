@@ -2,54 +2,64 @@
 
 @section('content')
 
-    <div class="max-w-xl mx-auto p-6 bg-white shadow rounded">
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow rounded">
 
         <!-- Botão que abre modal para adicionar card -->
         <div class="mb-6 text-center">
             <button id="btnAddCard" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer">
                 Adicionar Task
             </button>
+            <button id="btnSeePreviousDay" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
+                Ver dia Anterior
+            </button>
         </div>
 
-        <div class="space-y-6">
-            @foreach ($listas as $lista)
-                <section>
-                    <h2 class="text-xl font-semibold mb-3">{{ strtoupper($lista) }}</h2>
-                    <ul class="lista" id="lista-{{ strtolower(str_replace(' ', '-', $lista)) }}">
-                        @foreach ($tasks[$lista] ?? [] as $task)
-                            <li class="card p-3 bg-white rounded shadow mb-2" data-id="{{ $task['id'] }}">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="font-bold text-gray-800">{{ $task['title'] }}</h3>
+        <div class="flex space-x-6" id="kanban-container">
 
-                                        @if (!empty($task['notes']))
-                                            <p class="text-gray-600 text-sm mt-1">{{ $task['notes'] }}</p>
-                                        @endif
+            <div id="previous-day-kanban-column" class="flex-1 hidden"></div>
 
-                                        @if (!empty($task['tags']))
-                                            <div class="flex flex-wrap gap-1 mt-2">
-                                                @foreach ($task['tags'] as $tag)
-                                                    <span
-                                                        class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">
-                                                        {{ $tag['name'] }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @endif
+            <div id="today-kanban-column" class="flex-1 space-y-6">
 
+                @foreach ($listas as $lista)
+                    <section>
+                        <h2 class="text-xl font-semibold mb-3">{{ strtoupper($lista) }}</h2>
+                        <ul class="lista" id="lista-{{ strtolower(str_replace(' ', '-', $lista)) }}">
+                            @foreach ($tasks[$lista] ?? [] as $task)
+                                <li class="card p-3 bg-white rounded shadow mb-2" data-id="{{ $task['id'] }}">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="font-bold text-gray-800">{{ $task['title'] }}</h3>
+
+                                            @if (!empty($task['notes']))
+                                                <p class="text-gray-600 text-sm mt-1">{{ $task['notes'] }}</p>
+                                            @endif
+
+                                            @if (!empty($task['tags']))
+                                                <div class="flex flex-wrap gap-1 mt-2">
+                                                    @foreach ($task['tags'] as $tag)
+                                                        <span
+                                                            class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">
+                                                            {{ $tag['name'] }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                        </div>
+
+                                        <!-- Botão de edição -->
+                                        <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer"
+                                            title="Editar">
+                                            ✏️
+                                        </button>
                                     </div>
+                                </li>
+                            @endforeach
 
-                                    <!-- Botão de edição -->
-                                    <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer" title="Editar">
-                                        ✏️
-                                    </button>
-                                </div>
-                            </li>
-                        @endforeach
-
-                    </ul>
-                </section>
-            @endforeach
+                        </ul>
+                    </section>
+                @endforeach
+            </div>
 
         </div>
 
@@ -133,10 +143,12 @@
                     </div>
 
                     <div class="flex justify-end gap-2">
-                        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancelar</button>
+                        <button type="button" id="closeModal"
+                            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancelar</button>
                         <button id="deleteTaskForm"
                             class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">Excluir</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer">Salvar</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer">Salvar</button>
                     </div>
                 </form>
 

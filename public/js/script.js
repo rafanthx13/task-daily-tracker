@@ -128,4 +128,95 @@ $(function () {
             },
         });
     });
+
+    // Botão para pegar dados do dia anterior e aparecer ao lado das task de hoje
+    $('#btnSeePreviousDay').on('click', function() {
+        const previousDayColumn = $('#previous-day-kanban-column');
+
+        // Alterna a visibilidade da coluna (adiciona/remove a classe 'hidden')
+        previousDayColumn.toggleClass('hidden');
+
+        // Verifica se a coluna já foi carregada para evitar requisições duplicadas
+        if (previousDayColumn.data('loaded')) {
+            return;
+        }
+
+        let oldDate = $("#btnGetPreviousNextTask").data("old");
+
+        // Requisição AJAX para obter as tarefas do dia anterior
+        $.ajax({
+            url: '/previous-day-tasks', // Substitua pela sua rota real
+            method: 'GET',
+            data: {
+                _token: csrfToken,
+                oldDate: oldDate
+            },
+            success: function(response) {
+
+                // Variável para armazenar o HTML que será gerado
+                let previousDayHtml = '';
+
+                // Verifica se a resposta contém os dados das listas e tarefas
+                if (response && response.listas && response.tasks) {
+
+                    const listasArray = Object.values(response.listas);
+
+                    // Loop através das listas (ex: 'NEXT', 'PROGRESS', 'DONE')
+                    listasArray.forEach(lista => {
+                        previousDayHtml += `
+                            <section>
+                                <h2 class="text-xl font-semibold mb-3">${lista.toUpperCase()}</h2>
+                                <ul class="lista" id="lista-anterior-${lista.toLowerCase().replace(' ', '-')}}">
+                        `;
+
+                        // Loop através das tarefas de cada lista
+                        const tasksForList = response.tasks[lista] || [];
+                        tasksForList.forEach(task => {
+                            let tagsHtml = '';
+                            if (task.tags && task.tags.length > 0) {
+                                tagsHtml = `
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        ${task.tags.map(tag => `<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">${tag.name}</span>`).join('')}
+                                    </div>
+                                `;
+                            }
+
+                            previousDayHtml += `
+                                <li class="card p-3 bg-white rounded shadow mb-2" data-id="${task.id}">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="font-bold text-gray-800">${task.title}</h3>
+                                            ${task.notes ? `<p class="text-gray-600 text-sm mt-1">${task.notes}</p>` : ''}
+                                            ${tagsHtml}
+                                        </div>
+                                        <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer" title="Editar">
+                                            ✏️
+                                        </button>
+                                    </div>
+                                </li>
+                            `;
+                        });
+
+                        previousDayHtml += `
+                                </ul>
+                            </section>
+                        `;
+                    });
+                }
+
+                // Insere o HTML gerado na div de "previous-day-kanban-column"
+                console.log(previousDayHtml);
+                previousDayColumn.html(previousDayHtml);
+
+                // Marca a coluna como carregada
+                previousDayColumn.data('loaded', true);
+            },
+            error: function(xhr, status, error) {
+                console.error('Erro ao buscar as tarefas do dia anterior:', error);
+                // Opcional: mostrar uma mensagem de erro para o usuário
+                previousDayColumn.html('<p class="text-red-500">Não foi possível carregar as tarefas do dia anterior.</p>');
+            }
+        });
+    });
+
 });

@@ -55,12 +55,13 @@ class TaskController extends Controller
 
     public function getOldDate(Request $request, $dateOld, $dateToday)
     {
-        $oldNextTasks = Task::whereDate('date', '=', $dateOld)->where('status', '=', Lanes::NEXT)->get();
+        $oldNextTasks = Task::whereDate('date', '=', $dateOld)->whereIn('status', '=', [Lanes::NEXT, Lanes::WAITING])->get();
         foreach ($oldNextTasks as $task) {
+            $tomorrowStatus = $task->status == Lanes::NEXT ? Lanes::TODO : Lanes::WAITING;
             $newTask = Task::create([
                 'title' => $task->title,
                 'notes' => $task->notes,
-                'status' => Lanes::TODO,
+                'status' => $tomorrowStatus,
                 'date' => $dateToday,
             ]);
             $newTask->save();
@@ -116,5 +117,28 @@ class TaskController extends Controller
         $task->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function previousDayTasks(Request $request){
+
+        $request->validate([
+            'oldDate' => 'required|string'
+        ]);
+        $oldDate = $request->oldDate;
+
+        $tasks = Task::with('tags')
+            ->whereDate('date', $oldDate)
+            ->orderBy('ordering')
+            ->get()
+            ->groupBy('status')->toArray();
+
+        $listas = Lanes::getAllAsArray();
+        $tags = Tag::all();
+        return response()->json([
+            'listas' => $listas,
+            'tasks' => $tasks,
+            'tags' => $tags,
+        ]);
+
     }
 }

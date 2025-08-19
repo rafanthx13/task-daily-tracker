@@ -8,7 +8,7 @@ use App\Http\Controllers\TagController;
 Route::get('/', [taskController::class, 'index'])->name('home');
 Route::get('/day/{date}', [taskController::class, 'index'])->name('tasks.day');
 
-
+Route::get('/previous-day-tasks', [taskController::class, 'previousDayTasks'])->name('previousDayTasks');
 Route::post('/tasks', [taskController::class, 'store'])->name('tasks.store');
 
 Route::put('/tasks/change-lane/{task}', [taskController::class, 'updateLane'])->name('tasks.change-lane');

@@ -3,7 +3,7 @@
         <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
             data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
             class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 ml-2 cursor-pointer">
-            Get Previous Next
+            Carregar dia anterior
         </button>
     @endif
     <a href="{{ route('home') }}"

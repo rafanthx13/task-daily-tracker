@@ -51,7 +51,7 @@ Time: 1h40min
 
 DONE
 
-+ Add notes no form (antes nâo funcionava)
++ Add notes no form (antes não funcionava)
 + Eitar Task, deletar task
 + Poder navegar par ao dia anteiror e para o dia seguinte
 + Pegar as tarefas 'next' do aultimo dia e colocar como 'todo' do dia atual
@@ -65,11 +65,13 @@ NEXT
 
 ## 2025-08-11
 
+Time: 1h05min
+
 DONE
 
 + Por Lane Waiting
-+ Centralizar Lanes em um arquivo só
-+ Sperar css/js/partilas-blades em arquivos separados
++ Centralizar Lanes em um arquivo só de Constants
++ Seperar css/js/partials-blades em arquivos separados
 + Corrigir jquery
 + Melhorar Docs
 + Limpar e formatar código
@@ -79,6 +81,22 @@ NEXT
 
 + Limpar banco colunas inúteis
 + Report
++ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
++ Task gerada em um dia anterior
+    + Testar mais gerar do dia antetior
+    + A data não pega do dia
+
+## 2025-08-18
+
+Time: 55min
+
+DONE
+
++ Quando for next, vai para '/' ao invez de '/day/today'
++ Aumentei Width das tasks e agora mostra em conjunto de hoje a do dia anterior, para poder comparar
+
+NEXT
+
 + Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
 + Task gerada em um dia anterior
     + Testar mais gerar do dia antetior

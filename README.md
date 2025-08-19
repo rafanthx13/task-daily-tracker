@@ -1,13 +1,20 @@
-Aqui está o README revisado e reorganizado para ficar mais claro, sem perder as informações originais e corrigindo erros de digitação e estrutura. Também adicionei formatação e separei as instruções por etapas para que fique mais fácil de seguir.
-
----
-
 # Daily Task Tracker
+
+![Diagrama de fluxo de trabalho](docs/daily-task-tracker-home.png)
 
 **Objetivo:**
 Aplicação para anotar tarefas diárias, registrá-las em banco de dados para análises futuras, reaproveitar tasks antigas e contar com uma interface prática e organizada.
 
----
+## Stack
+
++ PHP/Laravel/Jquery/SQLite
+
+## 💻 Uso
+
+* Adicione tarefas no dia atual.
+* Durante o dia, mude o status das tarefas conforme avança.
+* No dia seguinte, você pode **reaproveitar** as tarefas marcadas como `"Next"` do dia anterior, movendo-as para `"Todo"` no dia atual.
+* É possível navegar entre diferentes dias para revisar ou consultar histórico.
 
 ## 📦 Instalação
 
@@ -25,6 +32,7 @@ Aplicação para anotar tarefas diárias, registrá-las em banco de dados para a
      ```bash
      npm run build
      ```
+
    * **Observação:**
 
      * Não é necessário deixar `npm run dev` rodando se fizer o build final.
@@ -41,6 +49,7 @@ Aplicação para anotar tarefas diárias, registrá-las em banco de dados para a
      ```bash
      php artisan serve
      ```
+
    * Em outro terminal (para Tailwind no modo otimizado):
 
      ```bash
@@ -54,6 +63,7 @@ Aplicação para anotar tarefas diárias, registrá-las em banco de dados para a
      ```bash
      touch database/database.sqlite
      ```
+
    * Habilitar no `php.ini` as extensões:
 
      ```ini
@@ -81,14 +91,4 @@ Aplicação para anotar tarefas diárias, registrá-las em banco de dados para a
 
 ---
 
-## 💻 Uso
 
-* Adicione tarefas no dia atual.
-* Durante o dia, mude o status das tarefas conforme avança.
-* No dia seguinte, você pode **reaproveitar** as tarefas marcadas como `"Next"` do dia anterior, movendo-as para `"Todo"` no dia atual.
-* É possível navegar entre diferentes dias para revisar ou consultar histórico.
-
----
-
-Se quiser, posso também **acrescentar um diagrama simples de fluxo** ou um **quadro com os status possíveis ("Todo", "Next", "Done", etc.)** para deixar o README mais autoexplicativo para qualquer novo desenvolvedor.
-Quer que eu faça essa versão expandida?
