@@ -6,7 +6,7 @@ use ReflectionClass;
 class Lanes
 {
     public const TODO = 'todo';
-    public const WAITING = 'waiting';
+    public const WAITING = 'wating';
     public const DONE = 'done';
     public const EXTRA = 'extra';
     public const NEXT = 'next';

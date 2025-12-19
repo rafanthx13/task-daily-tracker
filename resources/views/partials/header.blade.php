@@ -36,6 +36,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
         </a>
+    @else
+        @if (\Carbon\Carbon::parse($date)->format('Y-m-d') != \Carbon\Carbon::now()->format('Y-m-d'))
+            <a href="/" class="absolute right-0 flex items-center text-blue-600 hover:text-blue-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        @endif
+
     @endif
 
 </header>

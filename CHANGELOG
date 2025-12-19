@@ -61,7 +61,7 @@ NEXT
 
 + Limpar banco colunas inúteis
 + Report
-+ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
++ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplicada)
 
 ## 2025-08-11
 
@@ -81,7 +81,7 @@ NEXT
 
 + Limpar banco colunas inúteis
 + Report
-+ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
++ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplicada)
 + Task gerada em um dia anterior
     + Testar mais gerar do dia antetior
     + A data não pega do dia
@@ -97,7 +97,8 @@ DONE
 
 NEXT
 
-+ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplciada)
++ Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplicada)
 + Task gerada em um dia anterior
     + Testar mais gerar do dia antetior
     + A data não pega do dia
+  + Caso der algum eror ao mduar a lnane, deve aparecer melhor o erro
