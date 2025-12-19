@@ -26,7 +26,9 @@ class TaskController extends Controller
         $listas = Lanes::getAllAsArray();
         $tags = Tag::all();
 
-        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next'));
+        $dateStr = Carbon::parse($date)->format('Y-m-d');
+
+        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next', 'dateStr'));
     }
 
     public function store(Request $request)

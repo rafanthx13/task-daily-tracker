@@ -80,7 +80,7 @@
                 {{-- Campo data --}}
                 <div>
                     <label for="date" class="block font-semibold mb-1 text-gray-700">Data</label>
-                    <input type="date" name="date" id="date" value="{{ date('Y-m-d') }}"
+                    <input type="date" name="date" id="date" value="{{ $dateStr }}"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required />
                 </div>
