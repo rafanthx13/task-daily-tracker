@@ -7,6 +7,9 @@ use App\Models\Tag;
 use App\Models\Task;
 use Carbon\Carbon;
 use App\Constants\Lanes;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 class TaskController extends Controller
 {
@@ -55,21 +58,78 @@ class TaskController extends Controller
         }
     }
 
-    public function getOldDate(Request $request, $dateOld, $dateToday)
-    {
-        $oldNextTasks = Task::whereDate('date', '=', $dateOld)->whereIn('status', '=', [Lanes::NEXT, Lanes::WAITING])->get();
-        foreach ($oldNextTasks as $task) {
-            $tomorrowStatus = $task->status == Lanes::NEXT ? Lanes::TODO : Lanes::WAITING;
-            $newTask = Task::create([
-                'title' => $task->title,
-                'notes' => $task->notes,
-                'status' => $tomorrowStatus,
-                'date' => $dateToday,
-            ]);
-            $newTask->save();
+    public function copyTasksFromDate(string $dateOld, string $dateToday)
+{
+    try {
+        $oldNextTasks = Task::whereDate('date', $dateOld)
+            ->whereIn('status', [Lanes::NEXT, Lanes::WAITING])
+            ->get();
+
+        if ($oldNextTasks->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Não há tarefas em Waiting ou Next para adicionar.'
+            ], 400);
         }
+        // dd($oldNextTasks);
+
+        DB::transaction(function () use ($oldNextTasks, $dateToday) {
+            foreach ($oldNextTasks as $task) {
+                $status = $task->status === Lanes::NEXT
+                    ? Lanes::TODO
+                    : Lanes::WAITING;
+
+                Task::create([
+                    'title' => $task->title,
+                    'notes' => $task->notes,
+                    'status' => $status,
+                    'date' => $dateToday,
+                ]);
+            }
+        });
+
         return response()->json(['success' => true]);
+
+    } catch (\Throwable $e) {
+        Log::error('Erro ao copiar tarefas', [
+            'exception' => $e
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Erro ao copiar tarefas do dia anterior.'
+        ], 500);
     }
+}
+
+    // public function copyTasksFromDate(Request $request, $dateOld, $dateToday)
+    // {
+    //     try {
+    //         // throw new \Exception("Erro ao copiar tarefas do dia anterior.");
+    //         $oldNextTasks = Task::whereDate('date', '=', $dateOld)
+    //             ->whereIn('status', [Lanes::NEXT, Lanes::WAITING])
+    //             ->get();
+
+    //         foreach ($oldNextTasks as $task) {
+    //             $tomorrowStatus = $task->status == Lanes::NEXT ? Lanes::TODO : Lanes::WAITING;
+    //             $newTask = Task::create([
+    //                 'title' => $task->title,
+    //                 'notes' => $task->notes,
+    //                 'status' => $tomorrowStatus,
+    //                 'date' => $dateToday,
+    //             ]);
+    //             $newTask->save();
+    //         }
+
+    //         return response()->json(['success' => true]);
+    //     } catch (\Exception $e) {
+    //         Log::error("Erro ao copiar tarefas: " . $e->getMessage());
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Erro ao copiar tarefas do dia anterior.'
+    //         ], 500);
+    //     }
+    // }
 
     private function getPreviousDate(Carbon $d)
     {

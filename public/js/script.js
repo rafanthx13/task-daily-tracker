@@ -2,6 +2,38 @@ $(function () {
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    function showNotification(message, type = 'success') {
+        const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+        const notification = $(`
+            <div class="pointer-events-auto ${bgColor} text-white px-6 py-3 rounded-lg shadow-xl mb-3 flex justify-between items-center transition-all duration-500 transform translate-x-full opacity-0">
+                <span>${message}</span>
+                <button class="ml-4 font-bold text-white hover:text-gray-200 cursor-pointer">&times;</button>
+            </div>
+        `);
+
+        $('#notification-container').append(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.removeClass('translate-x-full opacity-0');
+        }, 10);
+
+        // Remove on click
+        notification.find('button').on('click', function() {
+            notification.addClass('translate-x-full opacity-0');
+            setTimeout(() => notification.remove(), 500);
+        });
+
+        // Auto remove
+        setTimeout(() => {
+            if (notification.parent().length) {
+                notification.addClass('translate-x-full opacity-0');
+                setTimeout(() => notification.remove(), 500);
+            }
+        }, 5000);
+    }
+
+
     $(".lista")
         .sortable({
             connectWith: ".lista",
@@ -125,10 +157,19 @@ $(function () {
             data: {
                 _token: csrfToken,
             },
-            success: function () {
-                location.reload(); // ou atualizar só o card editado
+            success: function (response) {
+                // console.log(response);
+                location.reload();
             },
+            error: function (xhr) {
+                let errorMessage = "Erro ao copiar tarefas.";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                showNotification(errorMessage, 'error');
+            }
         });
+
     });
 
     // Botão para pegar dados do dia anterior e aparecer ao lado das task de hoje
