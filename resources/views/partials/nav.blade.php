@@ -6,8 +6,12 @@
             Carregar dia anterior
         </button>
     @endif
-    <a href="{{ route('home') }}"
-        class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-2">Tarefas</a>
-    <a href="{{ route('tags.index') }}"
-        class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Tags</a>
+    @if(request()->routeIs('tags.index') || request()->is('tags/*'))
+        <a href="{{ route('home') }}"
+            class="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-2">Tarefas</a>
+    @endif
+    @if(request()->routeIs('home') || request()->is('day/*') || request()->is('') )
+        <a href="{{ route('tags.index') }}"
+            class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Tags</a>
+    @endif
 </nav>
