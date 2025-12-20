@@ -155,6 +155,34 @@ class TaskController extends Controller
         return $previousDate ? Carbon::parse($previousDate)->format('Y-m-d') : '';
     }
 
+    public function show($id)
+    {
+        $task = Task::with('tags')->findOrFail($id);
+        $originalId = $task->id_original ?? $task->id;
+
+        $family = Task::with('tags')
+            ->where('id', $originalId)
+            ->orWhere('id_original', $originalId)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $firstTask = $family->first();
+        $lastTask = $family->last();
+
+        $startDate = \Carbon\Carbon::parse($firstTask->date);
+        $endDate = null;
+        $duration = 0;
+
+        if ($lastTask->status === Lanes::DONE) {
+            $endDate = \Carbon\Carbon::parse($lastTask->date);
+        }
+
+        $endForDuration = $endDate ?: now();
+        $duration = floor($startDate->diffInDays($endForDuration)) + 1;
+
+        return view('tasks.show', compact('task', 'family', 'startDate', 'endDate', 'duration'));
+    }
+
     private function getNextDate(Carbon $d)
     {
         // Busca a data mínima que seja maior que $d

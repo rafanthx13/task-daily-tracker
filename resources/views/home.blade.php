@@ -29,7 +29,9 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap">
-                                    <h3 class="font-bold text-gray-800">{{ $task['title'] }}</h3>
+                                    <a href="{{ route('tasks.show', $task['id']) }}" class="hover:underline">
+                                        <h3 class="font-bold text-gray-800">{{ $task['title'] }}</h3>
+                                    </a>
                                     @if (!empty($task['tags']))
                                     <div class="flex flex-wrap gap-1">
                                         @foreach ($task['tags'] as $tag)

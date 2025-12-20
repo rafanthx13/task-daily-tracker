@@ -19,9 +19,11 @@
     <div id="notification-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
 
+    @if(request()->routeIs('home') || request()->is('day/*') || request()->is(''))
     @include('partials.header', compact('prev', 'next', 'date'))
 
     @include('partials.nav', compact('prev', 'next', 'date'))
+    @endif
 
     @yield('content')
 

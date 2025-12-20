@@ -15,6 +15,7 @@ Route::post('/tasks', [taskController::class, 'store'])->name('tasks.store');
 
 Route::put('/tasks/change-lane/{task}', [taskController::class, 'updateLane'])->name('tasks.change-lane');
 Route::put('/tasks/{id}', [TaskController::class, 'update']);
+Route::get('/tasks/view/{id}', [TaskController::class, 'show'])->name('tasks.show');
 Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
 
 Route::get('/get-tasks-from-old-date/{oldDate}/{todayDate}', [taskController::class, 'copyTasksFromDate'])->name('tasks.copyTasksFromDate');
