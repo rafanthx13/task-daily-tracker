@@ -169,12 +169,12 @@ class TaskController extends Controller
         $firstTask = $family->first();
         $lastTask = $family->last();
 
-        $startDate = \Carbon\Carbon::parse($firstTask->date);
+        $startDate = Carbon::parse($firstTask->date);
         $endDate = null;
         $duration = 0;
 
         if ($lastTask->status === Lanes::DONE) {
-            $endDate = \Carbon\Carbon::parse($lastTask->date);
+            $endDate = Carbon::parse($lastTask->date);
         }
 
         $endForDuration = $endDate ?: now();
