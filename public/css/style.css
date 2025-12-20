@@ -56,3 +56,15 @@
     border: 2px dashed #cbd5e0;
     padding: 0.5rem;
 }
+
+.ui-widget-header {
+    border: 0 !important;
+    background: white !important;
+    color: #333333;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ui-dialog .ui-dialog-title {
+    width: auto !important;
+}

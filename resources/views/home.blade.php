@@ -65,8 +65,9 @@
 
         <!-- Modal Adicionar Task -->
         <div id="modalAddCard" title="Adicionar Card" style="display:none;">
+            <hr style="color: lightgray;">
             <form id="formAddCard" method="POST" action="{{ route('tasks.store') }}"
-                class="space-y-4 p-4 bg-white rounded-lg shadow-md">
+                class="space-y-4 p-4 bg-white rounded-lg">
                 @csrf
 
                 {{-- Campo título --}}

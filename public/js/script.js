@@ -42,7 +42,9 @@ $(function () {
     $("#modalAddCard").dialog({
         autoOpen: false,
         modal: true,
-        width: 400,
+        width: "400",
+        draggable: false,
+        position: { my: "center", at: "center", of: window },
     });
 
     // Botão abre modal
