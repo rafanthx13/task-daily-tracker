@@ -148,7 +148,7 @@ class TaskController extends Controller
     private function getPreviousDate(Carbon $d)
     {
         // Busca a data máxima que seja menor que $d
-        $previousDate = Task::whereDate('date', '<', $d)
+        $previousDate = Task::where('date', '<', $d->copy()->startOfDay())
             ->orderBy('date', 'desc')
             ->value('date'); // pega apenas o campo
 
@@ -158,7 +158,7 @@ class TaskController extends Controller
     private function getNextDate(Carbon $d)
     {
         // Busca a data mínima que seja maior que $d
-        $nextDate = Task::whereDate('date', '>', $d)
+        $nextDate = Task::where('date', '>', $d->copy()->startOfDay())
             ->orderBy('date', 'asc')
             ->value('date'); // Pega apenas o campo 'date' da primeira tarefa encontrada
 
