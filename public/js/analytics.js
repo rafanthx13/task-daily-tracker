@@ -41,14 +41,25 @@ $(function () {
                         ).join('');
                     }
 
+                    let statusClasses = 'bg-gray-50 text-gray-600 border-gray-100'; // Default
+                    if (task.status === 'todo') {
+                        statusClasses = 'bg-blue-50 text-blue-600 border-blue-100';
+                    } else if (task.status === 'wating') { // Note: misspelled in constants
+                        statusClasses = 'bg-amber-50 text-amber-600 border-amber-100';
+                    } else if (task.status === 'done') {
+                        statusClasses = 'bg-emerald-50 text-emerald-600 border-emerald-100';
+                    }
+
                     const row = `
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3 border-b font-medium text-gray-800">
-                                ${task.title}
+                                <a href="/tasks/view/${task.id}" class="hover:text-blue-600 hover:underline transition-colors">
+                                    ${task.title}
+                                </a>
                             </td>
                             <td class="px-4 py-3 border-b text-sm text-gray-600">${dateFormatted}</td>
                             <td class="px-4 py-3 border-b text-sm">
-                                <span class="uppercase font-semibold text-xs px-2 py-1 rounded bg-blue-50 text-blue-600 border border-blue-100">
+                                <span class="uppercase font-semibold text-[10px] px-2 py-0.5 rounded border ${statusClasses}">
                                     ${task.status}
                                 </span>
                             </td>
