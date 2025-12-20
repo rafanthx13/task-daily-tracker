@@ -1,94 +1,88 @@
-# Daily Task Tracker
+# 📋 Daily Task Tracker
 
-![Diagrama de fluxo de trabalho](docs/daily-task-tracker-home.png)
+![Daily Task Tracker](docs/daily-task-tracker-home.png)
 
-**Objetivo:**
-Aplicação para anotar tarefas diárias, registrá-las em banco de dados para análises futuras, reaproveitar tasks antigas e contar com uma interface prática e organizada.
+Uma aplicação robusta e elegante para gerenciamento de tarefas diárias, focada em produtividade operacional, rastreabilidade e análise de performance.
 
-## Stack
+## 🚀 Principais Funcionalidades
 
-+ PHP/Laravel/Jquery/SQLite
+### 🧩 Kanban & Workflow
 
-## 💻 Uso
+- **Raia Dinâmica**: Gerencie suas tarefas entre `TODO`, `WAITING`, `DONE` e `EXTRA`.
+- **Drag & Drop**: Interface intuitiva para mover tarefas entre estados com persistência automática.
+- **Continuidade de Fluxo**: Recupere tarefas pendentes (Next/Waiting) de dias anteriores para o dia atual com um clique.
 
-* Adicione tarefas no dia atual.
-* Durante o dia, mude o status das tarefas conforme avança.
-* No dia seguinte, você pode **reaproveitar** as tarefas marcadas como `"Next"` do dia anterior, movendo-as para `"Todo"` no dia atual.
-* É possível navegar entre diferentes dias para revisar ou consultar histórico.
+### 📜 Rastreabilidade & Linhagem
 
-## 📦 Instalação
+- **Linhagem de Tarefas**: Sistema inteligente que rastreia a origem de cada tarefa copiada, criando um histórico evolutivo.
+- **Performance Metrics**: Acompanhe o ciclo de vida de cada tarefa com data de início, conclusão e duração total.
+- **Histórico Completo**: Visualize instâncias passadas e futuras de uma mesma tarefa através de sua linhagem.
 
-1. **Instalar dependências do PHP e Node**
+### 🏷️ Tags & Organização
 
-   ```bash
-   composer install
-   npm install
-   ```
+- **Multi-Tags**: Atribua múltiplas categorias a uma única tarefa.
+- **Sistema de Cores**: Identificação visual rápida através de tags coloridas customizáveis.
+- **Filtragem Avançada**: Organize seu dia por prioridades ou tipos de atividade.
 
-2. **Gerar arquivos front-end (Tailwind + JS)**
+### 📊 Analytics & Relatórios
 
-   * Para gerar a versão final:
+- **Dashboard Mensal**: Visão macro das suas atividades iniciadas e concluídas no mês.
+- **Indicadores de Eficiência**: Veja quantas tarefas originais foram criadas vs. quantas foram concluídas.
+- **Navegação Temporal**: Explore o histórico de qualquer dia passado através de um calendário integrado.
 
-     ```bash
-     npm run build
-     ```
+## 🛠️ Tech Stack
 
-   * **Observação:**
+- **Core**: PHP 8.2+ & Laravel 12
+- **Database**: SQLite (Leve, portátil e eficiente)
+- **Frontend**: Blade, Tailwind CSS, JQuery & JQuery UI
+- **AI Accelerated**: Desenvolvimento otimizado com **AntiGravity AI**
 
-     * Não é necessário deixar `npm run dev` rodando se fizer o build final.
-     * Caso adicione uma nova classe do Tailwind, será necessário rodar novamente:
+## 📦 Instalação e Configuração
 
-       ```bash
-       npm run build
-       ```
+### 1. Preparar o Ambiente
 
-3. **Rodar servidor Laravel**
+```bash
+composer install
+npm install
+```
 
-   * Em um terminal:
+### 2. Configurar Banco de Dados (SQLite)
 
-     ```bash
-     php artisan serve
-     ```
-
-   * Em outro terminal (para Tailwind no modo otimizado):
-
-     ```bash
-     npm run dev
-     ```
-
-4. **Configurar banco de dados SQLite**
-
-   * Criar o arquivo vazio:
-
-     ```bash
-     touch database/database.sqlite
-     ```
-
-   * Habilitar no `php.ini` as extensões:
-
-     ```ini
-     extension=pdo_sqlite
-     extension=sqlite3
-     ```
-
-5. **Gerar as tabelas**
+1. Crie o arquivo do banco:
 
    ```bash
-   php artisan migrate
+   touch database/database.sqlite
    ```
 
-6. **Para limpar e recriar todo o banco**
+2. Certifique-se de que as extensões `pdo_sqlite` e `sqlite3` estão habilitadas no seu `php.ini`.
 
-   ```bash
-   php artisan migrate:fresh
-   ```
+### 3. Migrações e Chaves
 
-7. **Gerar chave de aplicação (primeira instalação)**
+```bash
+php artisan key:generate
+php artisan migrate
+```
 
-   ```bash
-   php artisan key:generate
-   ```
+### 4. Compilação de Assets
+
+```bash
+npm run build
+# Ou para desenvolvimento:
+npm run dev
+```
+
+### 5. Executar
+
+```bash
+php artisan serve
+```
+
+## 💡 Como Usar
+
+1. **Planeje seu dia**: Comece adicionando as tarefas que pretende realizar.
+2. **Execute e Movimente**: Conforme avança, arraste as tarefas para as raias correspondentes.
+3. **Revise o Passado**: Use a navegabilidade para ver o que foi feito ontem e copie tarefas "Next" para hoje.
+4. **Analise Gráficos**: Use a aba de Analytics para entender sua produtividade mensal.
 
 ---
-
-
+Desenvolvido com foco em simplicidade e poder de análise. 🚀

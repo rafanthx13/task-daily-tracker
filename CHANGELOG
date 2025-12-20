@@ -1,109 +1,105 @@
 # CHANGELOG
 
-## 2025-07-05
+Todas as alterações notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
-- Iniciar projeto
-- Incluir Tailwind, JQuery e Lanes
+## [2025-12-19] - AntiGravity Integration & Major UX Overhaul
 
-## 2025-07-12
+**Horário:** 20:05 - 22:55 (2h 50min)
 
-Time: 1h
+### Adicionado
 
-DONE
+- **AntiGravity AI**: Integração do assistente AI para acelerar o desenvolvimento.
+- **Visualização Detalhada (Show Task)**: Nova tela para ver detalhes da tarefa, notas e linhagem histórica.
+- **Linhagem Histórica**: Rastreamento de tarefas através de `id_original`, permitindo ver a evolução de uma tarefa copiada de dias anteriores.
+- **Métricas de Task**: Cálculo automático de data de início, conclusão e duração total em dias.
+- **Analytics Mensal**: Novo painel de relatórios com visualização de tarefas únicas iniciadas no mês e filtros por data.
 
-- Adicionar CRUD de Task
-- Criar layout para a aplicação
+### Melhorado
 
-NEXT
+- **Gerenciamento de Tags**: Refatoração completa para suportar múltiplas tags por tarefa, com cores customizadas e melhor visualização no Kanban.
+- **Navegação**: Sistema de setas melhorado para navegar entre dias, mesmo quando não há tarefas registradas.
+- **Layout Kanban**: Ajustes finos de UX/UI, com efeitos hover, melhores espaçamentos e organização visual premium.
+- **Responsividade**: Melhorias no layout mobile e tabelas de analytics.
+- **Arquitetura**: Separação mais clara entre CSS, JS e Partials Blade.
 
-- Criar Task com Tags (criaar e recuperar do banco junto alem de incluir no front)
-- Habilitar a troca das tasks entre rais e um botao de salvar para salr o novo status delas (que está numa nova raia)
-  - Melhrorar Layout das raias
-  - Bordas nas tasks e serem text-area
-- Calendário!
-  - Reaproveitar do dia anterior
-  - Navegar pelos dias (soment edias em que relamente houve algo)
+### Corrigido
 
-## 2025-08-09
+- **Filtro de Data**: Correção do erro no método `whereDate` que impedia filtros avançados no controller.
+- **Sincronização de Tags**: Correção de bugs ao salvar e editar tags em massa.
 
-Time: 1h50min
+---
 
-DONE
+## [2025-08-18]
 
-- Pedir ao GPT5 para cria rum projeto comolpeo (nâo funcionu 100% mas criou uma boa base de banco)
-- Mehlorar Modal de Add Task
-- Arrasatar entre Lanes
-- Mudar status quando arrasta entre lanes
-- Alterar o card das task para ter> title, notes e tags
-- Visiar dias pasados com /day/yyyy-mm-dd
+**Tempo:** 55min
 
-NEXT
+### Melhorado
 
-- Editar task após ser feita
-- Botâo para voltar a, ele deve levar ao último dia que teve task
-- Pegar task do último dia (que esteja em Next): Deve epgar asolutamente tudo
-  - isSubTask: Eu quero que a primeira task tenh 'idOriginal' como null, e se eu pegar e repetir a de um outro dia, ela terá um id próprio mas esse seu 'idOriginal' deverá ser proveniente do outro, e se pegar de outra substask, deverá ser a mesma
-- Iniciar uma aprt de relatórios
+- Fluxo de redirecionamento: tarefas 'next' agora redirecionam corretamente para a home.
+- Comparativo Visual: Aumento da largura das tasks e visualização simultânea do dia atual e anterior para comparação rápida.
 
-## 2025-08-10
+---
 
-Time: 1h40min
+## [2025-08-11]
 
-DONE
+**Tempo:** 1h 05min
 
-- Add notes no form (antes não funcionava)
-- Eitar Task, deletar task
-- Poder navegar par ao dia anteiror e para o dia seguinte
-- Pegar as tarefas 'next' do aultimo dia e colocar como 'todo' do dia atual
-- Limpar Código
+### Adicionado
 
-NEXT
+- Nova raia (Lane) **Waiting**.
+- Centralização de estados das raias em `App\Constants\Lanes`.
 
-- Limpar banco colunas inúteis
-- Report
-- Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplicada)
+### Melhorado
 
-## 2025-08-11
+- Organização de arquivos: separação de CSS/JS e Partials de templates.
+- Estilo e UX: Melhorias em hover, espaçamentos e design dos cards.
+- Refatoração de código e limpeza de arquivos temporários.
 
-Time: 1h05min
+---
 
-DONE
+## [2025-08-10]
 
-- Por Lane Waiting
-- Centralizar Lanes em um arquivo só de Constants
-- Seperar css/js/partials-blades em arquivos separados
-- Corrigir jquery
-- Melhorar Docs
-- Limpar e formatar código
-- Melhorar UX de style: Hover e espaçamento
+**Tempo:** 1h 40min
 
-NEXT
+### Adicionado
 
-- Limpar banco colunas inúteis
-- Report
-- Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplicada)
-- Task gerada em um dia anterior
-  - Testar mais gerar do dia antetior
-  - A data não pega do dia
+- Funcionalidade de **Editar** e **Deletar** tarefas.
+- Navegação entre dia anterior e posterior.
+- Sistema de cópia de tarefas 'next' para o dia seguinte como 'todo'.
 
-## 2025-08-18
+### Corrigido
 
-Time: 55min
+- Campo de notas no formulário de inclusão.
 
-DONE
+---
 
-- Quando for next, vai para '/' ao invez de '/day/today'
-- Aumentei Width das tasks e agora mostra em conjunto de hoje a do dia anterior, para poder comparar
+## [2025-08-09]
 
-NEXT
+**Tempo:** 1h 50min
 
-- Tasks geradas de dias anteriores deve ter link pra original (indicando que é duplicada)
-- Task gerada em um dia anterior
-  - Testar mais gerar do dia antetior
-  - A data não pega do dia
-  - Caso der algum eror ao mduar a lnane, deve aparecer melhor o erro
+### Adicionado
 
-## 2025-12-19
+- Estrutura base de banco de dados (Laravel Migrations).
+- Modal para adição de tarefas com suporte a notas e tags.
+- Sistema de Drag & Drop entre raias do Kanban com atualização de status.
+- Visualização histórica de dias individuais via `/day/yyyy-mm-dd`.
 
-- start: 20:05 - 22:25 (2h20min)
-- Done: Usar AntiGravity; Colcoar para mostrar a seta até odia de hoje mesmoq ue hoje não tenha tarefa; Melhorar muita coisa usando AntiGravity
+---
+
+## [2025-07-12]
+
+**Tempo:** 1h
+
+### Adicionado
+
+- CRUD básico de Tarefas.
+- Layout inicial da aplicação (Bootstrap/Custom).
+
+---
+
+## [2025-07-05]
+
+### Adicionado
+
+- Início do projeto Daily Tracker.
+- Configuração de Tailwind CSS, JQuery e estrutura de raias (Lanes).
