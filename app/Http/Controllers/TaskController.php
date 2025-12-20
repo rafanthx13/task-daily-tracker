@@ -70,7 +70,8 @@ class TaskController extends Controller
         try {
 
             // PEGA TODO E NEXT
-            $oldNextTasks = Task::whereDate('date', $dateOld)
+            $oldNextTasks = Task::with('tags')
+                ->whereDate('date', $dateOld)
                 ->whereIn('status', [Lanes::TODO, Lanes::WAITING])
                 ->get();
 
@@ -89,13 +90,16 @@ class TaskController extends Controller
                         ? Lanes::TODO
                         : Lanes::WAITING;
 
-                    Task::create([
+                    $newTask = Task::create([
                         'title' => $task->title,
                         'notes' => $task->notes,
                         'status' => $status,
                         'date' => $dateToday,
                         'id_original' => $task->id_original ?? $task->id,
                     ]);
+
+                    // Copia as tags
+                    $newTask->tags()->sync($task->tags->pluck('id'));
                 }
             });
 
@@ -175,10 +179,22 @@ class TaskController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            'title' => 'required|string',
+            'notes' => 'nullable|string',
+            'tag_ids' => 'nullable|array'
+        ]);
+
         $task = Task::findOrFail($id);
-        $task->title = $request->title;
-        $task->notes = $request->notes;
+        $task->title = $data['title'];
+        $task->notes = $data['notes'];
         $task->save();
+
+        if (isset($data['tag_ids'])) {
+            $task->tags()->sync($data['tag_ids']);
+        } else {
+            $task->tags()->detach();
+        }
 
         return response()->json(['success' => true]);
     }

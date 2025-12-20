@@ -90,10 +90,12 @@ $(function () {
         let id = card.data("id");
         let title = card.find("h3").text();
         let notes = card.find("p").text();
+        let tags = card.data("tags"); // Array de IDs
 
         $("#editTaskId").val(id);
         $("#editTaskTitle").val(title);
         $("#editTaskNotes").val(notes);
+        $("#editTaskTags").val(tags);
 
         $("#editModal").removeClass("hidden");
     });
@@ -110,6 +112,7 @@ $(function () {
         let id = $("#editTaskId").val();
         let title = $("#editTaskTitle").val();
         let notes = $("#editTaskNotes").val();
+        let tag_ids = $("#editTaskTags").val();
 
         $.ajax({
             url: "/tasks/" + id,
@@ -117,6 +120,7 @@ $(function () {
             data: {
                 title: title,
                 notes: notes,
+                tag_ids: tag_ids,
                 _token: csrfToken,
             },
             success: function () {
@@ -209,28 +213,32 @@ $(function () {
                         previousDayHtml += `
                             <section>
                                 <h2 class="text-xl font-semibold mb-3">${lista.toUpperCase()}</h2>
-                                <ul class="lista" id="lista-anterior-${lista.toLowerCase().replace(' ', '-')}}">
+                                <ul class="lista" id="lista-anterior-${lista.toLowerCase().replace(' ', '-')}">
                         `;
 
                         // Loop através das tarefas de cada lista
                         const tasksForList = response.tasks[lista] || [];
                         tasksForList.forEach(task => {
                             let tagsHtml = '';
+                            let tagIds = [];
                             if (task.tags && task.tags.length > 0) {
+                                tagIds = task.tags.map(t => t.id);
                                 tagsHtml = `
-                                    <div class="flex flex-wrap gap-1 mt-2">
+                                    <div class="flex flex-wrap gap-1">
                                         ${task.tags.map(tag => `<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">${tag.name}</span>`).join('')}
                                     </div>
                                 `;
                             }
 
                             previousDayHtml += `
-                                <li class="card p-3 bg-white rounded shadow mb-2" data-id="${task.id}">
+                                <li class="card p-3 bg-white rounded shadow mb-2" data-id="${task.id}" data-tags='${JSON.stringify(tagIds)}'>
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <h3 class="font-bold text-gray-800">${task.title}</h3>
+                                            <div class="flex items-center gap-2 flex-wrap">
+                                                <h3 class="font-bold text-gray-800">${task.title}</h3>
+                                                ${tagsHtml}
+                                            </div>
                                             ${task.notes ? `<p class="text-gray-600 text-sm mt-1">${task.notes}</p>` : ''}
-                                            ${tagsHtml}
                                         </div>
                                         <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer" title="Editar">
                                             ✏️
