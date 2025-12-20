@@ -225,7 +225,7 @@ $(function () {
                                 tagIds = task.tags.map(t => t.id);
                                 tagsHtml = `
                                     <div class="flex flex-wrap gap-1">
-                                        ${task.tags.map(tag => `<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">${tag.name}</span>`).join('')}
+                                        ${task.tags.map(tag => `<span class="px-2 py-0.5 rounded-full text-xs font-medium border" style="background-color: ${tag.color || '#E0E7FF'}20; color: ${tag.color || '#3730A3'}; border-color: ${tag.color || '#E0E7FF'}40;">${tag.name}</span>`).join('')}
                                     </div>
                                 `;
                             }

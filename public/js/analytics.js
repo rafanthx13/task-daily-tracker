@@ -37,7 +37,7 @@ $(function () {
                     let tagsHtml = '';
                     if (task.tags && task.tags.length > 0) {
                         tagsHtml = task.tags.map(tag =>
-                            `<span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs mr-1">${tag.name}</span>`
+                            `<span class="px-2 py-0.5 rounded-full text-xs font-medium border mr-1" style="background-color: ${tag.color || '#E0E7FF'}20; color: ${tag.color || '#3730A3'}; border-color: ${tag.color || '#E0E7FF'}40;">${tag.name}</span>`
                         ).join('');
                     }
 

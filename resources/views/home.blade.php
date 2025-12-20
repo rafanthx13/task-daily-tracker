@@ -33,8 +33,20 @@
                                     @if (!empty($task['tags']))
                                     <div class="flex flex-wrap gap-1">
                                         @foreach ($task['tags'] as $tag)
+                                        @php
+                                        $tagBaseColor = $tag['color'] ?? '#E0E7FF';
+                                        $tagTextColor = $tag['color'] ?? '#3730A3';
+                                        $tagBgColor = $tagBaseColor . '20';
+                                        $tagBorderColor = $tagBaseColor . '40';
+                                        $styleTag = "background-color: {$tagBgColor}; color: {$tagTextColor}; border-color: {$tagBorderColor};";
+                                        $htmlPropriety = 'style="' . $styleTag . '"';
+                                        // dd($htmlPropriety);
+                                        @endphp
                                         <span
-                                            class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">
+                                            @php
+                                            echo $htmlPropriety;
+                                            @endphp
+                                            class="px-2 py-0.5 rounded-full text-xs font-medium border">
                                             {{ $tag['name'] }}
                                         </span>
                                         @endforeach
