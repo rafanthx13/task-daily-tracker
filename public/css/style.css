@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
 .ui-widget-overlay {
     background: #000 !important;
     opacity: 0.3 !important;

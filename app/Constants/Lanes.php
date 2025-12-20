@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Constants;
+
 use ReflectionClass;
 
 class Lanes
@@ -9,7 +10,7 @@ class Lanes
     public const WAITING = 'wating';
     public const DONE = 'done';
     public const EXTRA = 'extra';
-    public const NEXT = 'next';
+    // public const NEXT = 'next';
 
     /**
      * Retorna uma string com todas as constantes da classe, separadas por vírgula.
@@ -26,7 +27,8 @@ class Lanes
     /**
      *  @return array<string>
      */
-    public static function getAllAsArray(){
+    public static function getAllAsArray()
+    {
         // Pega todas as constantes definidas na classe
         return (new ReflectionClass(__CLASS__))->getConstants();
     }
