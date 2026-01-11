@@ -24,3 +24,14 @@ Route::resource('tags', TagController::class);
 
 Route::get('/analytics', [TaskAnalyticsController::class, 'indexView'])->name('analytics.index');
 Route::get('/api/analytics/month', [TaskAnalyticsController::class, 'monthReportData'])->name('api.analytics.month');
+
+use App\Http\Controllers\ReminderController;
+
+Route::prefix('reminders')->name('reminders.')->group(function () {
+    Route::get('/', [ReminderController::class, 'index'])->name('index');
+    Route::get('/sporadic', [ReminderController::class, 'sporadicIndex'])->name('sporadic.index');
+    Route::get('/recurring', [ReminderController::class, 'recurringIndex'])->name('recurring.index');
+    Route::post('/', [ReminderController::class, 'store'])->name('store');
+    Route::delete('/{id}', [ReminderController::class, 'destroy'])->name('destroy');
+    Route::post('/{id}/complete', [ReminderController::class, 'complete'])->name('complete');
+});

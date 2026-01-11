@@ -33,6 +33,16 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+    <script>
+        $(function() {
+            @if(session('success'))
+                showNotification("{{ session('success') }}");
+            @endif
+            @if(session('error'))
+                showNotification("{{ session('error') }}", 'error');
+            @endif
+        });
+    </script>
     @stack('scripts') <!-- Para scripts específicos -->
 
 </body>

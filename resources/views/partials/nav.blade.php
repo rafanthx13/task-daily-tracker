@@ -21,4 +21,9 @@
     <a href="{{ route('analytics.index') }}"
         class="inline-block px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 ml-2">Analytics</a>
     @endif
+
+    @if(!request()->routeIs('reminders.*'))
+    <a href="{{ route('reminders.index') }}"
+        class="inline-block px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 ml-2 shadow-sm transition">Lembretes</a>
+    @endif
 </nav>

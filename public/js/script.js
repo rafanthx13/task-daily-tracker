@@ -33,6 +33,8 @@ $(function () {
         }, 5000);
     }
 
+    window.showNotification = showNotification;
+
 
     $(".lista")
         .sortable({
@@ -275,6 +277,32 @@ $(function () {
                 console.error('Erro ao buscar as tarefas do dia anterior:', error);
                 // Opcional: mostrar uma mensagem de erro para o usuário
                 previousDayColumn.html('<p class="text-red-500">Não foi possível carregar as tarefas do dia anterior.</p>');
+            }
+        });
+    });
+    // Concluir lembrete recorrente
+    $(document).on('click', '.complete-recurring-tag', function() {
+        const id = $(this).data('id');
+        const btn = $(this);
+
+        btn.prop('disabled', true).addClass('opacity-50');
+
+        $.ajax({
+            url: `${window.APP_URL}/reminders/${id}/complete`,
+            method: 'POST',
+            data: {
+                _token: csrfToken
+            },
+            success: function() {
+                // Remove o botão com animação
+                btn.fadeOut(300, function() {
+                    $(this).remove();
+                });
+                showNotification("Lembrete concluído!");
+            },
+            error: function() {
+                btn.prop('disabled', false).removeClass('opacity-50');
+                showNotification("Erro ao concluir lembrete.", "error");
             }
         });
     });

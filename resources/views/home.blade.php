@@ -20,6 +20,39 @@
 
         <div id="today-kanban-column" class="flex-1 space-y-6">
 
+            {{-- Seção de Lembretes --}}
+            @if($sporadicReminders->isNotEmpty() || $recurringReminders->isNotEmpty())
+            <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+                @if($recurringReminders->isNotEmpty())
+                <div class="mb-4">
+                    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Hábitos Diários</h3>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach($recurringReminders as $reminder)
+                        <button class="complete-recurring-tag px-3 py-1 bg-white text-blue-600 rounded-full text-xs font-semibold border border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition duration-200 cursor-pointer shadow-sm"
+                                data-id="{{ $reminder->id }}" title="Clique para concluir hoje">
+                            # {{ $reminder->title }}
+                        </button>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                @if($sporadicReminders->isNotEmpty())
+                <div>
+                    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lembretes</h3>
+                    <ul class="grid grid-cols-1 gap-1">
+                        @foreach($sporadicReminders as $reminder)
+                        <li class="text-sm text-gray-600 flex items-start gap-2 bg-white p-2 rounded border border-gray-50">
+                            <span class="text-emerald-500 mt-0.5">📌</span>
+                            <span class="leading-tight">{{ $reminder->title }}</span>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            </div>
+            @endif
+
             @foreach ($listas as $lista)
             <section>
                 <h2 class="text-xl font-semibold mb-3">{{ strtoupper($lista) }}</h2>
