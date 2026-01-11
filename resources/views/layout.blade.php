@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        window.APP_URL = "{{ url('/') }}";
+    </script>
     @stack('head') <!-- Para adicionar coisas específicas por página -->
 </head>
 

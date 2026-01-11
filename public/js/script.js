@@ -50,7 +50,7 @@ $(function () {
 
                 // Faz o update via AJAX
                 $.ajax({
-                    url: `/tasks/change-lane/${taskId}`,
+                    url: `${window.APP_URL}/tasks/change-lane/${taskId}`,
                     method: "PUT",
                     data: {
                         _token: csrfToken,
@@ -115,7 +115,7 @@ $(function () {
         let tag_ids = $("#editTaskTags").val();
 
         $.ajax({
-            url: "/tasks/" + id,
+            url: window.APP_URL + "/tasks/" + id,
             method: "PUT",
             data: {
                 title: title,
@@ -137,7 +137,7 @@ $(function () {
         let id = $("#editTaskId").val();
 
         $.ajax({
-            url: "/tasks/" + id,
+            url: window.APP_URL + "/tasks/" + id,
             method: "DELETE",
             data: {
                 _token: csrfToken,
@@ -156,7 +156,7 @@ $(function () {
         let todayDate = $("#btnGetPreviousNextTask").data("today");
 
         $.ajax({
-            url: "/get-tasks-from-old-date/" + oldDate + "/" + todayDate,
+            url: window.APP_URL + "/get-tasks-from-old-date/" + oldDate + "/" + todayDate,
             method: "get",
             data: {
                 _token: csrfToken,
@@ -192,7 +192,7 @@ $(function () {
 
         // Requisição AJAX para obter as tarefas do dia anterior
         $.ajax({
-            url: '/previous-day-tasks', // Substitua pela sua rota real
+            url: window.APP_URL + '/previous-day-tasks', // Substitua pela sua rota real
             method: 'GET',
             data: {
                 _token: csrfToken,

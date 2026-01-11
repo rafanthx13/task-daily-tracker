@@ -10,7 +10,7 @@ $(function () {
         $('#analytics-loading').removeClass('hidden');
 
         $.ajax({
-            url: '/api/analytics/month',
+            url: window.APP_URL + '/api/analytics/month',
             method: 'GET',
             data: { month: month },
             success: function (response) {
@@ -53,7 +53,7 @@ $(function () {
                     const row = `
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-4 py-3 border-b font-medium text-gray-800">
-                                <a href="/tasks/view/${task.id}" class="hover:text-blue-600 hover:underline transition-colors">
+                                <a href="${window.APP_URL}/tasks/view/${task.id}" class="hover:text-blue-600 hover:underline transition-colors">
                                     ${task.title}
                                 </a>
                             </td>
