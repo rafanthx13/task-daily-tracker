@@ -38,3 +38,5 @@ Route::prefix('reminders')->name('reminders.')->group(function () {
     Route::post('/{id}/complete', [ReminderController::class, 'complete'])->name('complete');
     Route::post('/{id}/finish-sporadic', [ReminderController::class, 'finishSporadic'])->name('finish-sporadic');
 });
+
+Route::post('/day-summary', [\App\Http\Controllers\DaySummaryController::class, 'storeOrUpdate'])->name('day-summary.store');

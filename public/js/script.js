@@ -350,4 +350,44 @@ $(function () {
         });
     });
 
+    // Toggle da seção de resumo do dia
+    $('#btnToggleSummary').on('click', function() {
+        const section = $('#day-summary-section');
+        section.toggleClass('hidden');
+
+        if (section.hasClass('hidden')) {
+            $(this).removeClass('bg-emerald-700').addClass('bg-emerald-500');
+        } else {
+            $(this).removeClass('bg-emerald-500').addClass('bg-emerald-700');
+        }
+    });
+
+    // Salvar resumo do dia
+    $('#btnSaveSummary').on('click', function() {
+        const textarea = $('#daySummaryText');
+        const content = textarea.val();
+        const date = textarea.data('date');
+        const btn = $(this);
+
+        btn.prop('disabled', true).addClass('opacity-50').text('Salvando...');
+
+        $.ajax({
+            url: `${window.APP_URL}/day-summary`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                date: date,
+                content: content
+            },
+            success: function(response) {
+                btn.prop('disabled', false).removeClass('opacity-50').text('Salvar Resumo');
+                showNotification(response.message);
+            },
+            error: function() {
+                btn.prop('disabled', false).removeClass('opacity-50').text('Salvar Resumo');
+                showNotification("Erro ao salvar resumo.", "error");
+            }
+        });
+    });
+
 });

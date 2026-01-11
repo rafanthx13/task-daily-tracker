@@ -15,6 +15,24 @@
         <button id="btnToggleReminders" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Mostrar Lembretes
         </button>
+        <button id="btnToggleSummary" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
+            Resumo do Dia
+        </button>
+    </div>
+
+    {{-- Seção de Resumo do Dia --}}
+    <div id="day-summary-section" class="hidden mb-6 p-6 bg-emerald-50 rounded-xl border border-emerald-100 shadow-sm transition-all duration-300">
+        <h2 class="text-xl font-bold text-emerald-800 mb-3 flex items-center gap-2">
+            <span>📝</span> Resumo do Dia
+        </h2>
+        <textarea id="daySummaryText" rows="5" placeholder="Como foi o seu dia? Escreva aqui suas reflexões..."
+            data-date="{{ $dateStr }}"
+            class="w-full p-4 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white transition">{{ $daySummary->content ?? '' }}</textarea>
+        <div class="mt-3 flex justify-end">
+            <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95">
+                Salvar Resumo
+            </button>
+        </div>
     </div>
 
     <div class="flex space-x-6" id="kanban-container">
@@ -28,7 +46,7 @@
             <div id="reminders-section" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm transition-all duration-300">
                 @if($recurringReminders->isNotEmpty())
                 <div class="mb-4">
-                    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Hábitos Diários</h3>
+                    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lembretes Diários</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($recurringReminders as $reminder)
                         @php
