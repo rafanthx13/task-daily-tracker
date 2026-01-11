@@ -58,12 +58,21 @@ $(function () {
                     },
                     success: function (response) {
                         console.log("Status atualizado:", response);
+                        // showNotification("Status atualizado com sucesso!"); // Optional
                     },
                     error: function (xhr) {
                         console.error(
                             "Erro ao atualizar status:",
                             xhr.responseText
                         );
+                        let errorMessage = "Erro ao atualizar o status da tarefa.";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        showNotification(errorMessage, 'error');
+
+                        // Opcional: Reverter o movimento do item se der erro?
+                        // Por simplicidade apenas avisamos o erro por enquanto.
                     },
                 });
             },
