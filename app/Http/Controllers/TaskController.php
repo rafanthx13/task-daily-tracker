@@ -33,13 +33,7 @@ class TaskController extends Controller
 
         // Lembretes
         $sporadicReminders = \App\Models\Reminder::where('type', 'sporadic')->get();
-
-        // Recurring reminders only show if they haven't been completed TODAY
-        $recurringReminders = \App\Models\Reminder::where('type', 'recurring')
-            ->where(function($query) {
-                $query->whereNull('last_completed_at')
-                      ->orWhereDate('last_completed_at', '<', now()->toDateString());
-            })->get();
+        $recurringReminders = \App\Models\Reminder::where('type', 'recurring')->get();
 
         return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next', 'dateStr', 'sporadicReminders', 'recurringReminders'));
     }

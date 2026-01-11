@@ -12,6 +12,9 @@
         <button id="btnSeePreviousDay" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
             Ver dia Anterior
         </button>
+        <button id="btnToggleReminders" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
+            Mostrar Lembretes
+        </button>
     </div>
 
     <div class="flex space-x-6" id="kanban-container">
@@ -22,15 +25,20 @@
 
             {{-- Seção de Lembretes --}}
             @if($sporadicReminders->isNotEmpty() || $recurringReminders->isNotEmpty())
-            <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+            <div id="reminders-section" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm transition-all duration-300">
                 @if($recurringReminders->isNotEmpty())
                 <div class="mb-4">
                     <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Hábitos Diários</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($recurringReminders as $reminder)
-                        <button class="complete-recurring-tag px-3 py-1 bg-white text-blue-600 rounded-full text-xs font-semibold border border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition duration-200 cursor-pointer shadow-sm"
-                                data-id="{{ $reminder->id }}" title="Clique para concluir hoje">
-                            # {{ $reminder->title }}
+                        @php
+                            $isCompletedToday = $reminder->last_completed_at && $reminder->last_completed_at->isToday();
+                        @endphp
+                        <button class="complete-recurring-tag px-3 py-1 rounded-full text-xs font-semibold border transition duration-200 cursor-pointer shadow-sm {{ $isCompletedToday ? 'bg-gray-200 text-gray-500 border-gray-300 line-through cursor-default' : 'bg-white text-blue-600 border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600' }}"
+                                data-id="{{ $reminder->id }}"
+                                {{ $isCompletedToday ? 'disabled' : '' }}
+                                title="{{ $isCompletedToday ? 'Concluído hoje' : 'Clique para concluir hoje' }}">
+                            {{ $reminder->title }}
                         </button>
                         @endforeach
                     </div>

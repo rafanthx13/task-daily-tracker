@@ -280,10 +280,24 @@ $(function () {
             }
         });
     });
+    // Toggle da seção de lembretes
+    $('#btnToggleReminders').on('click', function() {
+        const section = $('#reminders-section');
+        section.toggleClass('hidden');
+
+        if (section.hasClass('hidden')) {
+            $(this).text('Mostrar Lembretes').removeClass('bg-pink-700').addClass('bg-pink-500');
+        } else {
+            $(this).text('Ocultar Lembretes').removeClass('bg-pink-500').addClass('bg-pink-700');
+        }
+    });
+
     // Concluir lembrete recorrente
     $(document).on('click', '.complete-recurring-tag', function() {
         const id = $(this).data('id');
         const btn = $(this);
+
+        if (btn.prop('disabled')) return;
 
         btn.prop('disabled', true).addClass('opacity-50');
 
@@ -294,10 +308,12 @@ $(function () {
                 _token: csrfToken
             },
             success: function() {
-                // Remove o botão com animação
-                btn.fadeOut(300, function() {
-                    $(this).remove();
-                });
+                // Aplica o estilo de concluído em vez de remover
+                btn.removeClass('bg-white text-blue-600 border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-50')
+                   .addClass('bg-gray-200 text-gray-500 border-gray-300 line-through cursor-default')
+                   .prop('disabled', true)
+                   .attr('title', 'Concluído hoje');
+
                 showNotification("Lembrete concluído!");
             },
             error: function() {

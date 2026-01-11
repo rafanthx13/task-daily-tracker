@@ -38,6 +38,18 @@ class ReminderController extends Controller
         return back()->with('success', 'Lembrete criado com sucesso!');
     }
 
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'title' => 'required|string',
+        ]);
+
+        $reminder = Reminder::findOrFail($id);
+        $reminder->update($data);
+
+        return back()->with('success', 'Lembrete atualizado!');
+    }
+
     public function destroy($id)
     {
         $reminder = Reminder::findOrFail($id);

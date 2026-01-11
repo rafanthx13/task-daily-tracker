@@ -32,6 +32,7 @@ Route::prefix('reminders')->name('reminders.')->group(function () {
     Route::get('/sporadic', [ReminderController::class, 'sporadicIndex'])->name('sporadic.index');
     Route::get('/recurring', [ReminderController::class, 'recurringIndex'])->name('recurring.index');
     Route::post('/', [ReminderController::class, 'store'])->name('store');
+    Route::put('/{id}', [ReminderController::class, 'update'])->name('update');
     Route::delete('/{id}', [ReminderController::class, 'destroy'])->name('destroy');
     Route::post('/{id}/complete', [ReminderController::class, 'complete'])->name('complete');
 });
