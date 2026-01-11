@@ -323,4 +323,31 @@ $(function () {
         });
     });
 
+    // Finalizar lembrete esporádico
+    $(document).on('click', '.finish-sporadic-btn', function() {
+        const id = $(this).data('id');
+        const btn = $(this);
+        const item = btn.closest('li');
+
+        btn.prop('disabled', true).addClass('opacity-50');
+
+        $.ajax({
+            url: `${window.APP_URL}/reminders/${id}/finish-sporadic`,
+            method: 'POST',
+            data: {
+                _token: csrfToken
+            },
+            success: function() {
+                item.fadeOut(300, function() {
+                    $(this).remove();
+                });
+                showNotification("Lembrete finalizado!");
+            },
+            error: function() {
+                btn.prop('disabled', false).removeClass('opacity-50');
+                showNotification("Erro ao finalizar lembrete.", "error");
+            }
+        });
+    });
+
 });

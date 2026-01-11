@@ -25,6 +25,12 @@
             <h2 class="text-xl font-bold text-emerald-800 mb-2">Esporádicos</h2>
             <p class="text-emerald-600 text-sm">Lista de pendências que ficam na home até serem removidas.</p>
         </a>
+
+        <a href="{{ route('reminders.finished') }}" class="block p-8 bg-purple-50 border-2 border-purple-200 rounded-xl hover:border-purple-500 hover:bg-purple-100 transition duration-300 text-center group">
+            <div class="text-4xl mb-4 group-hover:scale-110 transition duration-300">📜</div>
+            <h2 class="text-xl font-bold text-purple-800 mb-2">Histórico</h2>
+            <p class="text-purple-600 text-sm">Veja todos os lembretes esporádicos que você já finalizou.</p>
+        </a>
     </div>
 </div>
 @endsection

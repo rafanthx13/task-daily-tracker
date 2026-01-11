@@ -32,7 +32,7 @@ class TaskController extends Controller
         $dateStr = Carbon::parse($date)->format('Y-m-d');
 
         // Lembretes
-        $sporadicReminders = \App\Models\Reminder::where('type', 'sporadic')->get();
+        $sporadicReminders = \App\Models\Reminder::where('type', 'sporadic')->whereNull('last_completed_at')->get();
         $recurringReminders = \App\Models\Reminder::where('type', 'recurring')->get();
 
         return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next', 'dateStr', 'sporadicReminders', 'recurringReminders'));

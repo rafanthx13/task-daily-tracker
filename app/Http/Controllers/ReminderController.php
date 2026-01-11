@@ -16,7 +16,7 @@ class ReminderController extends Controller
 
     public function sporadicIndex()
     {
-        $reminders = Reminder::where('type', 'sporadic')->get();
+        $reminders = Reminder::where('type', 'sporadic')->whereNull('last_completed_at')->get();
         return view('reminders.sporadic', compact('reminders'));
     }
 
@@ -24,6 +24,16 @@ class ReminderController extends Controller
     {
         $reminders = Reminder::where('type', 'recurring')->get();
         return view('reminders.recurring', compact('reminders'));
+    }
+
+    public function finishedIndex()
+    {
+        $reminders = Reminder::where('type', 'sporadic')
+            ->whereNotNull('last_completed_at')
+            ->orderBy('last_completed_at', 'desc')
+            ->get();
+
+        return view('reminders.finished', compact('reminders'));
     }
 
     public function store(Request $request)
@@ -61,6 +71,14 @@ class ReminderController extends Controller
     public function complete($id)
     {
         $reminder = Reminder::where('id', $id)->where('type', 'recurring')->firstOrFail();
+        $reminder->update(['last_completed_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function finishSporadic($id)
+    {
+        $reminder = Reminder::where('id', $id)->where('type', 'sporadic')->firstOrFail();
         $reminder->update(['last_completed_at' => now()]);
 
         return response()->json(['success' => true]);

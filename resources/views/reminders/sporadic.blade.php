@@ -10,6 +10,12 @@
             <span class="font-medium">Voltar</span>
         </a>
         <h1 class="text-3xl font-bold text-gray-800 flex-1 text-center">Lembretes Esporádicos</h1>
+        <a href="{{ route('reminders.finished') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1 bg-blue-50 px-3 py-1 rounded-full transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Histórico
+        </a>
         <div class="w-16"></div>
     </div>
 
@@ -28,6 +34,12 @@
             <div class="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition group">
                 <span class="text-gray-800 font-medium reminder-title">{{ $reminder->title }}</span>
                 <div class="flex items-center gap-2">
+                    <button class="finish-sporadic-btn text-gray-400 hover:text-emerald-600 p-2 transition cursor-pointer"
+                            data-id="{{ $reminder->id }}" title="Finalizar">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </button>
                     <button class="edit-reminder-btn text-gray-400 hover:text-blue-600 p-2 transition"
                             data-id="{{ $reminder->id }}"
                             data-title="{{ $reminder->title }}">

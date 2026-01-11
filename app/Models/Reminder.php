@@ -11,4 +11,10 @@ class Reminder extends Model
     protected $casts = [
         'last_completed_at' => 'datetime',
     ];
+
+    public function getDurationAttribute()
+    {
+        if (!$this->last_completed_at) return null;
+        return $this->created_at->diffForHumans($this->last_completed_at, true);
+    }
 }

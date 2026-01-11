@@ -50,9 +50,17 @@
                     <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lembretes</h3>
                     <ul class="grid grid-cols-1 gap-1">
                         @foreach($sporadicReminders as $reminder)
-                        <li class="text-sm text-gray-600 flex items-start gap-2 bg-white p-2 rounded border border-gray-50">
-                            <span class="text-emerald-500 mt-0.5">📌</span>
-                            <span class="leading-tight">{{ $reminder->title }}</span>
+                        <li class="text-sm text-gray-600 flex items-center justify-between bg-white p-2 rounded border border-gray-50 group">
+                            <div class="flex items-start gap-2">
+                                <span class="text-emerald-500 mt-0.5">📌</span>
+                                <span class="leading-tight">{{ $reminder->title }}</span>
+                            </div>
+                            <button class="finish-sporadic-btn text-gray-300 hover:text-emerald-600 transition p-1 cursor-pointer"
+                                    data-id="{{ $reminder->id }}" title="Marcar como finalizado">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
                         </li>
                         @endforeach
                     </ul>
