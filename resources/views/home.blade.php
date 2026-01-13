@@ -18,6 +18,9 @@
         <button id="btnToggleSummary" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Resumo do Dia
         </button>
+        <button id="btnToggleTimeManagement" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
+            Gerenciar Tempo
+        </button>
     </div>
 
     {{-- Seção de Resumo do Dia --}}
@@ -31,6 +34,57 @@
         <div class="mt-3 flex justify-end">
             <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95">
                 Salvar Resumo
+            </button>
+        </div>
+    </div>
+
+    {{-- Seção de Gerenciar Tempo --}}
+    <div id="time-management-section" class="hidden mb-6 p-6 bg-purple-50 rounded-xl border border-purple-100 shadow-sm transition-all duration-300">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-purple-800 flex items-center gap-2">
+                <span>⏱️</span> Gerenciar Tempo
+            </h2>
+            <div class="flex gap-2">
+                <a href="{{ route('time-management.tags.index') }}" class="text-xs bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded transition flex items-center">
+                    Gerenciar Tags
+                </a>
+                <button id="btnViewAsExcel" class="text-xs bg-purple-200 hover:bg-purple-300 text-purple-700 px-3 py-1 rounded transition">
+                    Ver como Tabela (Excel)
+                </button>
+            </div>
+        </div>
+
+        <div id="time-entries-table-container">
+            <table class="w-full text-sm text-left text-gray-700 border-collapse">
+                <thead>
+                    <tr class="bg-purple-100 text-purple-900">
+                        <th class="p-2 border border-purple-200">Task</th>
+                        <th class="p-2 border border-purple-200 w-20">Start</th>
+                        <th class="p-2 border border-purple-200 w-20">End</th>
+                        <th class="p-2 border border-purple-200 w-20">Time</th>
+                        <th class="p-2 border border-purple-200 w-32">Tag</th>
+                        <th class="p-2 border border-purple-200 w-10"></th>
+                    </tr>
+                </thead>
+                <tbody id="time-entries-body">
+                    <!-- Rows will be added here via JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="excel-view-container" class="hidden mt-4">
+            <div class="p-2 bg-white border border-gray-200 rounded mb-2 overflow-auto" id="excel-html-table">
+                <!-- Flat HTML table for copying -->
+            </div>
+            <p class="text-[10px] text-gray-500">Dica: Selecione a tabela acima, copie e cole diretamente no Excel.</p>
+        </div>
+
+        <div class="mt-4 flex justify-between items-center">
+            <button id="btnAddTimeRow" class="bg-purple-200 hover:bg-purple-300 text-purple-800 p-2 rounded-full transition shadow-sm w-8 h-8 flex items-center justify-center font-bold">
+                +
+            </button>
+            <button id="btnSaveTimeEntries" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95">
+                Salvar Tempo
             </button>
         </div>
     </div>

@@ -390,4 +390,164 @@ $(function () {
         });
     });
 
+    // --- TIME MANAGEMENT LOGIC ---
+    let timeManagementTags = [];
+    const currentDate = $('#daySummaryText').data('date');
+
+    function calculateTimeDiff(start, end) {
+        if (!start || !end) return '';
+        const [h1, m1] = start.split(':').map(Number);
+        const [h2, m2] = end.split(':').map(Number);
+        let diffMinutes = (h2 * 60 + m2) - (h1 * 60 + m1);
+        if (diffMinutes < 0) diffMinutes += 1440; // overnight support
+        const h = Math.floor(diffMinutes / 60);
+        const m = diffMinutes % 60;
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
+    function addTimeRow(data = {}) {
+        const rowId = Date.now() + Math.random().toString(36).substr(2, 5);
+        const options = timeManagementTags.map(tag => `<option value="${tag.id}" ${tag.id == data.tag_id ? 'selected' : ''} style="color: ${tag.color}">${tag.name}</option>`).join('');
+
+        const timeDiff = calculateTimeDiff(data.start_time, data.end_time);
+
+        const row = $(`
+            <tr id="row-${rowId}" class="group">
+                <td class="p-1 border border-purple-200">
+                    <input type="text" class="task-name w-full bg-transparent outline-none" value="${data.task_name || ''}" placeholder="Task name">
+                </td>
+                <td class="p-1 border border-purple-200">
+                    <input type="time" class="start-time w-full bg-transparent outline-none" value="${data.start_time || ''}">
+                </td>
+                <td class="p-1 border border-purple-200">
+                    <input type="time" class="end-time w-full bg-transparent outline-none" value="${data.end_time || ''}">
+                </td>
+                <td class="p-1 border border-purple-200 text-center font-mono text-purple-600 time-diff">
+                    ${timeDiff}
+                </td>
+                <td class="p-1 border border-purple-200">
+                    <select class="tag-id w-full bg-transparent outline-none">
+                        <option value="">None</option>
+                        ${options}
+                    </select>
+                </td>
+                <td class="p-1 border border-purple-200 text-center">
+                    <button class="btnRemoveRow text-red-300 hover:text-red-500 transition cursor-pointer">&times;</button>
+                </td>
+            </tr>
+        `);
+        $('#time-entries-body').append(row);
+    }
+
+    $('#btnToggleTimeManagement').on('click', function() {
+        const section = $('#time-management-section');
+        section.toggleClass('hidden');
+
+        if (!section.hasClass('hidden') && !section.data('loaded')) {
+            loadTimeEntries();
+        }
+
+        if (section.hasClass('hidden')) {
+            $(this).removeClass('bg-purple-700').addClass('bg-purple-500');
+        } else {
+            $(this).removeClass('bg-purple-500').addClass('bg-purple-700');
+        }
+    });
+
+    function loadTimeEntries() {
+        $.ajax({
+            url: `${window.APP_URL}/time-management/entries/${currentDate}`,
+            method: 'GET',
+            success: function(response) {
+                timeManagementTags = response.tags;
+                $('#time-entries-body').empty();
+                if (response.entries.length > 0) {
+                    response.entries.forEach(entry => addTimeRow(entry));
+                } else {
+                    addTimeRow(); // start with one empty row
+                }
+                $('#time-management-section').data('loaded', true);
+            }
+        });
+    }
+
+    $('#btnAddTimeRow').on('click', function() {
+        addTimeRow();
+    });
+
+    $(document).on('click', '.btnRemoveRow', function() {
+        $(this).closest('tr').remove();
+    });
+
+    $(document).on('input', '.start-time, .end-time', function() {
+        const row = $(this).closest('tr');
+        const start = row.find('.start-time').val();
+        const end = row.find('.end-time').val();
+        row.find('.time-diff').text(calculateTimeDiff(start, end));
+    });
+
+    $('#btnSaveTimeEntries').on('click', function() {
+        const entries = [];
+        $('#time-entries-body tr').each(function() {
+            const task_name = $(this).find('.task-name').val();
+            if (task_name) {
+                entries.push({
+                    task_name: task_name,
+                    start_time: $(this).find('.start-time').val(),
+                    end_time: $(this).find('.end-time').val(),
+                    tag_id: $(this).find('.tag-id').val()
+                });
+            }
+        });
+
+        const btn = $(this);
+        btn.prop('disabled', true).text('Salvando...');
+
+        $.ajax({
+            url: `${window.APP_URL}/time-management/sync`,
+            method: 'POST',
+            data: {
+                _token: csrfToken,
+                date: currentDate,
+                entries: entries
+            },
+            success: function(response) {
+                showNotification(response.message);
+                btn.prop('disabled', false).text('Salvar Tempo');
+            },
+            error: function() {
+                showNotification("Erro ao salvar registros de tempo.", "error");
+                btn.prop('disabled', false).text('Salvar Tempo');
+            }
+        });
+    });
+
+    $('#btnViewAsExcel').on('click', function() {
+        const container = $('#excel-view-container');
+        container.toggleClass('hidden');
+
+        if (!container.hasClass('hidden')) {
+            $(this).text('Esconder Tabela');
+            let html = '<table border="1" style="border-collapse: collapse; width: 100%;">';
+            html += '<thead><tr><th>Task</th><th>Start</th><th>End</th><th>Time</th><th>Tag</th></tr></thead><tbody>';
+
+            $('#time-entries-body tr').each(function() {
+                const task = $(this).find('.task-name').val();
+                const start = $(this).find('.start-time').val();
+                const end = $(this).find('.end-time').val();
+                const time = $(this).find('.time-diff').text().trim();
+                const tag = $(this).find('.tag-id option:selected').text();
+
+                if (task) {
+                    html += `<tr><td>${task}</td><td>${start}</td><td>${end}</td><td>${time}</td><td>${tag === 'None' ? '' : tag}</td></tr>`;
+                }
+            });
+
+            html += '</tbody></table>';
+            $('#excel-html-table').html(html);
+        } else {
+            $(this).text('Ver como Tabela (Excel)');
+        }
+    });
+
 });

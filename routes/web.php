@@ -40,3 +40,16 @@ Route::prefix('reminders')->name('reminders.')->group(function () {
 });
 
 Route::post('/day-summary', [\App\Http\Controllers\DaySummaryController::class, 'storeOrUpdate'])->name('day-summary.store');
+
+use App\Http\Controllers\TimeManagementController;
+
+Route::prefix('time-management')->name('time-management.')->group(function () {
+    Route::get('/entries/{date}', [TimeManagementController::class, 'getEntriesByDate'])->name('entries');
+    Route::post('/sync', [TimeManagementController::class, 'syncEntries'])->name('sync');
+
+    // Tag management
+    Route::get('/tags', [TimeManagementController::class, 'indexTags'])->name('tags.index');
+    Route::post('/tags', [TimeManagementController::class, 'storeTag'])->name('tags.store');
+    Route::put('/tags/{tag}', [TimeManagementController::class, 'updateTag'])->name('tags.update');
+    Route::delete('/tags/{tag}', [TimeManagementController::class, 'destroyTag'])->name('tags.destroy');
+});
