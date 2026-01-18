@@ -9,6 +9,14 @@
         <button id="btnAddCard" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer">
             Adicionar Task
         </button>
+
+        @if (!empty($prev))
+        <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
+            data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
+            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 ml-2 cursor-pointer">
+            Carregar dia anterior
+        </button>
+        @endif
         <button id="btnSeePreviousDay" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
             Ver dia Anterior
         </button>
@@ -18,7 +26,7 @@
         <button id="btnToggleSummary" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Resumo do Dia
         </button>
-        <button id="btnToggleTimeManagement" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
+        <button id="btnToggleTimeManagement" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition mt-2">
             Gerenciar Tempo
         </button>
     </div>
@@ -32,7 +40,7 @@
             data-date="{{ $dateStr }}"
             class="w-full p-4 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white transition">{{ $daySummary->content ?? '' }}</textarea>
         <div class="mt-3 flex justify-end">
-            <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95">
+            <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
                 Salvar Resumo
             </button>
         </div>
@@ -48,7 +56,7 @@
                 <a href="{{ route('time-management.tags.index') }}" class="text-xs bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded transition flex items-center">
                     Gerenciar Tags
                 </a>
-                <button id="btnViewAsExcel" class="text-xs bg-purple-200 hover:bg-purple-300 text-purple-700 px-3 py-1 rounded transition">
+                <button id="btnViewAsExcel" class="text-xs bg-purple-200 hover:bg-purple-300 text-purple-700 px-3 py-1 rounded transition cursor-pointer">
                     Ver como Tabela (Excel)
                 </button>
             </div>
@@ -83,7 +91,7 @@
             <button id="btnAddTimeRow" class="bg-purple-200 hover:bg-purple-300 text-purple-800 p-2 rounded-full transition shadow-sm w-8 h-8 flex items-center justify-center font-bold">
                 +
             </button>
-            <button id="btnSaveTimeEntries" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95">
+            <button id="btnSaveTimeEntries" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
                 Salvar Tempo
             </button>
         </div>

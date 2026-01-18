@@ -13,7 +13,7 @@
 
     <!-- Título -->
     <h1 class="text-3xl font-bold mb-4 text-center">
-        {{ 'Daily Task Tracker' }} - {{ ucfirst(\Carbon\Carbon::parse($date)->locale('pt_BR')->translatedFormat('l')) }}, {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+        {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}, {{ ucfirst(\Carbon\Carbon::parse($date)->locale('pt_BR')->translatedFormat('l')) }}
     </h1>
 
     @if (!empty($next))
