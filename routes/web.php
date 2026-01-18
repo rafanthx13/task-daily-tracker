@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\taskController;
 
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\TaskAnalyticsController;
 
 
@@ -21,6 +22,7 @@ Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
 Route::get('/get-tasks-from-old-date/{oldDate}/{todayDate}', [taskController::class, 'copyTasksFromDate'])->name('tasks.copyTasksFromDate');
 
 Route::resource('tags', TagController::class);
+Route::resource('achievements', AchievementController::class);
 
 Route::get('/analytics', [TaskAnalyticsController::class, 'indexView'])->name('analytics.index');
 Route::get('/api/analytics/month', [TaskAnalyticsController::class, 'monthReportData'])->name('api.analytics.month');
