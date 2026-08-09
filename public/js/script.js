@@ -35,6 +35,26 @@ $(function () {
 
     window.showNotification = showNotification;
 
+    function updateThemeToggle(isDark) {
+        $('#themeToggle')
+            .attr('aria-pressed', String(isDark))
+            .attr('title', isDark ? 'Ativar modo claro' : 'Ativar modo escuro');
+    }
+
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        // Remove any property handler left by a hot reload before binding jQuery.
+        themeToggle.onclick = null;
+    }
+
+    updateThemeToggle(document.documentElement.classList.contains('dark'));
+
+    // This is the only listener responsible for switching the theme.
+    $('#themeToggle').off('click.darkMode').on('click.darkMode', function () {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeToggle(isDark);
+    });
 
     $(".lista")
         .sortable({

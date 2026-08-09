@@ -97,3 +97,106 @@ button,
 .ui-dialog .ui-dialog-title {
     width: auto !important;
 }
+
+/* Dark Mode Overrides */
+.dark .lista {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+
+.dark .card {
+    background-color: #111827 !important;
+    border-color: #374151 !important;
+    color: #f3f4f6 !important;
+}
+
+.dark .card h3 {
+    color: #f9fafb !important;
+}
+
+.dark .card p {
+    color: #9ca3af !important;
+}
+
+.dark .ui-widget-content {
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+    border-color: #374151 !important;
+}
+
+.dark .ui-widget-header {
+    background: #111827 !important;
+    color: #f3f4f6 !important;
+}
+
+.dark .ui-dialog {
+    background-color: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    color: #f3f4f6 !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .ui-dialog-titlebar {
+    background-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+.dark select, 
+.dark input[type="text"], 
+.dark input[type="date"], 
+.dark input[type="month"], 
+.dark textarea {
+    background-color: #111827;
+    color: #f3f4f6;
+    border-color: #374151;
+}
+
+.dark select option {
+    background-color: #1f2937;
+    color: #f3f4f6;
+}
+
+/* Explicit icon visibility rules */
+#themeToggleSun {
+    display: none;
+}
+#themeToggleMoon {
+    display: block;
+}
+html.dark #themeToggleSun,
+.dark #themeToggleSun {
+    display: block !important;
+}
+html.dark #themeToggleMoon,
+.dark #themeToggleMoon {
+    display: none !important;
+}
+
+html.dark body,
+.dark body {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+html.dark .bg-white,
+.dark .bg-white {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: #334155 !important;
+}
+
+html.dark .text-gray-800,
+.dark .text-gray-800,
+html.dark .text-gray-900,
+.dark .text-gray-900 {
+    color: #f8fafc !important;
+}
+
+html.dark .text-gray-700,
+.dark .text-gray-700,
+html.dark .text-gray-600,
+.dark .text-gray-600 {
+    color: #cbd5e1 !important;
+}
+
+

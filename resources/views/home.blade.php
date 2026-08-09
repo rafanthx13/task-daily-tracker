@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="max-w-3xl mx-auto p-6 bg-white shadow rounded">
+<div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 border border-transparent dark:border-gray-700 shadow-xl rounded">
 
     <!-- Botão que abre modal para adicionar card -->
     <div class="mb-6 text-center">
@@ -32,13 +32,13 @@
     </div>
 
     {{-- Seção de Resumo do Dia --}}
-    <div id="day-summary-section" class="hidden mb-6 p-6 bg-emerald-50 rounded-xl border border-emerald-100 shadow-sm transition-all duration-300">
-        <h2 class="text-xl font-bold text-emerald-800 mb-3 flex items-center gap-2">
+    <div id="day-summary-section" class="hidden mb-6 p-6 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-100 dark:border-emerald-800/50 shadow-sm transition-all duration-300">
+        <h2 class="text-xl font-bold text-emerald-800 dark:text-emerald-300 mb-3 flex items-center gap-2">
             <span>📝</span> Resumo do Dia
         </h2>
         <textarea id="daySummaryText" rows="5" placeholder="Como foi o seu dia? Escreva aqui suas reflexões..."
             data-date="{{ $dateStr }}"
-            class="w-full p-4 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white transition">{{ $daySummary->content ?? '' }}</textarea>
+            class="w-full p-4 border border-emerald-200 dark:border-emerald-700/60 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">{{ $daySummary->content ?? '' }}</textarea>
         <div class="mt-3 flex justify-end">
             <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
                 Salvar Resumo
@@ -47,31 +47,31 @@
     </div>
 
     {{-- Seção de Gerenciar Tempo --}}
-    <div id="time-management-section" class="hidden mb-6 p-6 bg-purple-50 rounded-xl border border-purple-100 shadow-sm transition-all duration-300">
+    <div id="time-management-section" class="hidden mb-6 p-6 bg-purple-50 dark:bg-purple-950/40 rounded-xl border border-purple-100 dark:border-purple-800/50 shadow-sm transition-all duration-300">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-purple-800 flex items-center gap-2">
+            <h2 class="text-xl font-bold text-purple-800 dark:text-purple-300 flex items-center gap-2">
                 <span>⏱️</span> Gerenciar Tempo
             </h2>
             <div class="flex gap-2">
                 <a href="{{ route('time-management.tags.index') }}" class="text-xs bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded transition flex items-center">
                     Gerenciar Tags
                 </a>
-                <button id="btnViewAsExcel" class="text-xs bg-purple-200 hover:bg-purple-300 text-purple-700 px-3 py-1 rounded transition cursor-pointer">
+                <button id="btnViewAsExcel" class="text-xs bg-purple-200 dark:bg-purple-900 hover:bg-purple-300 dark:hover:bg-purple-800 text-purple-700 dark:text-purple-200 px-3 py-1 rounded transition cursor-pointer">
                     Ver como Tabela (Excel)
                 </button>
             </div>
         </div>
 
         <div id="time-entries-table-container">
-            <table class="w-full text-sm text-left text-gray-700 border-collapse">
+            <table class="w-full text-sm text-left text-gray-700 dark:text-gray-200 border-collapse">
                 <thead>
-                    <tr class="bg-purple-100 text-purple-900">
-                        <th class="p-2 border border-purple-200">Task</th>
-                        <th class="p-2 border border-purple-200 w-20">Start</th>
-                        <th class="p-2 border border-purple-200 w-20">End</th>
-                        <th class="p-2 border border-purple-200 w-20">Time</th>
-                        <th class="p-2 border border-purple-200 w-32">Tag</th>
-                        <th class="p-2 border border-purple-200 w-10"></th>
+                    <tr class="bg-purple-100 dark:bg-purple-900/60 text-purple-900 dark:text-purple-200">
+                        <th class="p-2 border border-purple-200 dark:border-purple-800">Task</th>
+                        <th class="p-2 border border-purple-200 dark:border-purple-800 w-20">Start</th>
+                        <th class="p-2 border border-purple-200 dark:border-purple-800 w-20">End</th>
+                        <th class="p-2 border border-purple-200 dark:border-purple-800 w-20">Time</th>
+                        <th class="p-2 border border-purple-200 dark:border-purple-800 w-32">Tag</th>
+                        <th class="p-2 border border-purple-200 dark:border-purple-800 w-10"></th>
                     </tr>
                 </thead>
                 <tbody id="time-entries-body">
@@ -81,14 +81,14 @@
         </div>
 
         <div id="excel-view-container" class="hidden mt-4">
-            <div class="p-2 bg-white border border-gray-200 rounded mb-2 overflow-auto" id="excel-html-table">
+            <div class="p-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded mb-2 overflow-auto text-gray-900 dark:text-gray-100" id="excel-html-table">
                 <!-- Flat HTML table for copying -->
             </div>
-            <p class="text-[10px] text-gray-500">Dica: Selecione a tabela acima, copie e cole diretamente no Excel.</p>
+            <p class="text-[10px] text-gray-500 dark:text-gray-400">Dica: Selecione a tabela acima, copie e cole diretamente no Excel.</p>
         </div>
 
         <div class="mt-4 flex justify-between items-center">
-            <button id="btnAddTimeRow" class="bg-purple-200 hover:bg-purple-300 text-purple-800 p-2 rounded-full transition shadow-sm w-8 h-8 flex items-center justify-center font-bold">
+            <button id="btnAddTimeRow" class="bg-purple-200 dark:bg-purple-900 hover:bg-purple-300 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-200 p-2 rounded-full transition shadow-sm w-8 h-8 flex items-center justify-center font-bold">
                 +
             </button>
             <button id="btnSaveTimeEntries" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
@@ -105,16 +105,16 @@
 
             {{-- Seção de Lembretes --}}
             @if($sporadicReminders->isNotEmpty() || $recurringReminders->isNotEmpty())
-            <div id="reminders-section" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm transition-all duration-300">
+            <div id="reminders-section" class="hidden p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm transition-all duration-300">
                 @if($recurringReminders->isNotEmpty())
                 <div class="mb-4">
-                    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lembretes Diários</h3>
+                    <h3 class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lembretes Diários</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($recurringReminders as $reminder)
                         @php
                             $isCompletedToday = $reminder->last_completed_at && $reminder->last_completed_at->isToday();
                         @endphp
-                        <button class="complete-recurring-tag px-3 py-1 rounded-full text-xs font-semibold border transition duration-200 cursor-pointer shadow-sm {{ $isCompletedToday ? 'bg-gray-200 text-gray-500 border-gray-300 line-through cursor-default' : 'bg-white text-blue-600 border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600' }}"
+                        <button class="complete-recurring-tag px-3 py-1 rounded-full text-xs font-semibold border transition duration-200 cursor-pointer shadow-sm {{ $isCompletedToday ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-700 line-through cursor-default' : 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white hover:border-blue-600' }}"
                                 data-id="{{ $reminder->id }}"
                                 {{ $isCompletedToday ? 'disabled' : '' }}
                                 title="{{ $isCompletedToday ? 'Concluído hoje' : 'Clique para concluir hoje' }}">
@@ -127,15 +127,15 @@
 
                 @if($sporadicReminders->isNotEmpty())
                 <div>
-                    <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Lembretes</h3>
+                    <h3 class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lembretes</h3>
                     <ul class="grid grid-cols-1 gap-1">
                         @foreach($sporadicReminders as $reminder)
-                        <li class="text-sm text-gray-600 flex items-center justify-between bg-white p-2 rounded border border-gray-50 group">
+                        <li class="text-sm text-gray-600 dark:text-gray-300 flex items-center justify-between bg-white dark:bg-gray-800 p-2 rounded border border-gray-50 dark:border-gray-700 group">
                             <div class="flex items-start gap-2">
                                 <span class="text-emerald-500 mt-0.5">📌</span>
                                 <span class="leading-tight">{{ $reminder->title }}</span>
                             </div>
-                            <button class="finish-sporadic-btn text-gray-300 hover:text-emerald-600 transition p-1 cursor-pointer"
+                            <button class="finish-sporadic-btn text-gray-300 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition p-1 cursor-pointer"
                                     data-id="{{ $reminder->id }}" title="Marcar como finalizado">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -151,15 +151,15 @@
 
             @foreach ($listas as $lista)
             <section>
-                <h2 class="text-xl font-semibold mb-3">{{ strtoupper($lista) }}</h2>
+                <h2 class="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">{{ strtoupper($lista) }}</h2>
                 <ul class="lista" id="lista-{{ strtolower(str_replace(' ', '-', $lista)) }}">
                     @foreach ($tasks[$lista] ?? [] as $task)
-                    <li class="card p-3 bg-white rounded shadow mb-2" data-id="{{ $task['id'] }}" data-tags="{{ json_encode(collect($task['tags'])->pluck('id')) }}">
+                    <li class="card p-3 bg-white dark:bg-gray-800 rounded shadow mb-2" data-id="{{ $task['id'] }}" data-tags="{{ json_encode(collect($task['tags'])->pluck('id')) }}">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap">
                                     <a href="{{ route('tasks.show', $task['id']) }}" class="hover:underline">
-                                        <h3 class="font-bold text-gray-800">{{ $task['title'] }}</h3>
+                                        <h3 class="font-bold text-gray-800 dark:text-gray-100">{{ $task['title'] }}</h3>
                                     </a>
                                     @if (!empty($task['tags']))
                                     <div class="flex flex-wrap gap-1">
@@ -186,12 +186,12 @@
                                 </div>
 
                                 @if (!empty($task['notes']))
-                                <p class="text-gray-600 text-sm mt-1">{{ $task['notes'] }}</p>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">{{ $task['notes'] }}</p>
                                 @endif
                             </div>
 
                             <!-- Botão de edição -->
-                            <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer"
+                            <button class="edit-task text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
                                 title="Editar">
                                 ✏️
                             </button>
@@ -208,32 +208,32 @@
 
     <!-- Modal Adicionar Task -->
     <div id="modalAddCard" title="Adicionar Card" style="display:none;">
-        <hr style="color: lightgray;">
+        <hr class="border-gray-200 dark:border-gray-700 mb-4">
         <form id="formAddCard" method="POST" action="{{ route('tasks.store') }}"
-            class="space-y-4 p-4 bg-white rounded-lg">
+            class="space-y-4 p-4 bg-white dark:bg-gray-800 rounded-lg text-gray-900 dark:text-gray-100">
             @csrf
 
             {{-- Campo título --}}
             <div>
-                <label for="title" class="block font-semibold mb-1 text-gray-700">Título do Card</label>
+                <label for="title" class="block font-semibold mb-1 text-gray-700 dark:text-gray-300">Título do Card</label>
                 <input type="text" name="title" id="title"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Digite o título" required />
             </div>
 
             {{-- Campo data --}}
             <div>
-                <label for="date" class="block font-semibold mb-1 text-gray-700">Data</label>
+                <label for="date" class="block font-semibold mb-1 text-gray-700 dark:text-gray-300">Data</label>
                 <input type="date" name="date" id="date" value="{{ $dateStr }}"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required />
             </div>
 
             {{-- Campo notas --}}
             <div>
-                <label for="notes" class="block font-semibold mb-1 text-gray-700">Notas</label>
+                <label for="notes" class="block font-semibold mb-1 text-gray-700 dark:text-gray-300">Notas</label>
                 <textarea name="notes" id="notes" rows="3"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Escreva observações opcionais..."></textarea>
             </div>
 
@@ -242,14 +242,14 @@
 
             {{-- Campo tags --}}
             <div>
-                <label for="tag_ids" class="block font-semibold mb-1 text-gray-700">Tags</label>
+                <label for="tag_ids" class="block font-semibold mb-1 text-gray-700 dark:text-gray-300">Tags</label>
                 <select name="tag_ids[]" id="tag_ids" multiple
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 h-24">
+                    class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 h-24">
                     @foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                     @endforeach
                 </select>
-                <p class="text-xs text-gray-500 mt-1">Pressione Ctrl (ou Cmd) para selecionar várias.</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Pressione Ctrl (ou Cmd) para selecionar várias.</p>
             </div>
 
             {{-- Botão --}}
@@ -262,41 +262,41 @@
         </form>
     </div>
 
-    <!-- Modal  de Editar Task-->
-    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-            <h2 class="text-lg font-bold mb-4">Editar Task</h2>
+    <!-- Modal de Editar Task -->
+    <div id="editModal" class="hidden fixed inset-0 bg-black/60 items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 text-gray-900 dark:text-gray-100 border border-transparent dark:border-gray-700">
+            <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Editar Task</h2>
 
             <form id="editTaskForm">
                 <input type="hidden" id="editTaskId">
 
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Título</label>
-                    <input type="text" id="editTaskTitle" class="mt-1 w-full border rounded p-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título</label>
+                    <input type="text" id="editTaskTitle" class="mt-1 w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded p-2">
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Notas</label>
-                    <textarea id="editTaskNotes" class="mt-1 w-full border rounded p-2"></textarea>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Notas</label>
+                    <textarea id="editTaskNotes" class="mt-1 w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded p-2"></textarea>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Tags</label>
-                    <select id="editTaskTags" multiple class="mt-1 w-full border rounded p-2 h-24">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tags</label>
+                    <select id="editTaskTags" multiple class="mt-1 w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded p-2 h-24">
                         @foreach ($tags as $tag)
                         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                         @endforeach
                     </select>
-                    <p class="text-xs text-gray-500 mt-1">Pressione Ctrl (ou Cmd) para selecionar várias.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Pressione Ctrl (ou Cmd) para selecionar várias.</p>
                 </div>
 
                 <div class="flex justify-end gap-2">
                     <button type="button" id="closeModal"
-                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded cursor-pointer">Cancelar</button>
+                        class="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-600 rounded cursor-pointer transition">Cancelar</button>
                     <button id="deleteTaskForm"
-                        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">Excluir</button>
+                        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer transition">Excluir</button>
                     <button type="submit"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer">Salvar</button>
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer transition">Salvar</button>
                 </div>
             </form>
 

@@ -41,29 +41,29 @@ $(function () {
                         ).join('');
                     }
 
-                    let statusClasses = 'bg-gray-50 text-gray-600 border-gray-100'; // Default
+                    let statusClasses = 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-100 dark:border-gray-700'; // Default
                     if (task.status === 'todo') {
-                        statusClasses = 'bg-blue-50 text-blue-600 border-blue-100';
+                        statusClasses = 'bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900';
                     } else if (task.status === 'wating') { // Note: misspelled in constants
-                        statusClasses = 'bg-amber-50 text-amber-600 border-amber-100';
+                        statusClasses = 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900';
                     } else if (task.status === 'done') {
-                        statusClasses = 'bg-emerald-50 text-emerald-600 border-emerald-100';
+                        statusClasses = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900';
                     }
 
                     const row = `
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-4 py-3 border-b font-medium text-gray-800">
-                                <a href="${window.APP_URL}/tasks/view/${task.id}" class="hover:text-blue-600 hover:underline transition-colors">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                            <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 font-medium text-gray-800 dark:text-gray-200">
+                                <a href="${window.APP_URL}/tasks/view/${task.id}" class="hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors">
                                     ${task.title}
                                 </a>
                             </td>
-                            <td class="px-4 py-3 border-b text-sm text-gray-600">${dateFormatted}</td>
-                            <td class="px-4 py-3 border-b text-sm">
+                            <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400">${dateFormatted}</td>
+                            <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-sm">
                                 <span class="uppercase font-semibold text-[10px] px-2 py-0.5 rounded border ${statusClasses}">
                                     ${task.status}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 border-b text-sm">${tagsHtml}</td>
+                            <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-sm">${tagsHtml}</td>
                         </tr>
                     `;
                     tbody.append(row);
