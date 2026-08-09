@@ -11,6 +11,11 @@ use App\Http\Controllers\TaskAnalyticsController;
 Route::get('/', [taskController::class, 'index'])->name('home');
 Route::get('/day/{date}', [taskController::class, 'index'])->name('tasks.day');
 
+// Renova a sessão e fornece um token válido para páginas mantidas abertas.
+Route::get('/csrf-token', function () {
+    return response()->json(['token' => csrf_token()]);
+})->name('csrf-token');
+
 Route::get('/previous-day-tasks', [taskController::class, 'previousDayTasks'])->name('previousDayTasks');
 Route::post('/tasks', [taskController::class, 'store'])->name('tasks.store');
 

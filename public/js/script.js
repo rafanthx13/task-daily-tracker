@@ -1,6 +1,19 @@
 $(function () {
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    function refreshCsrfToken() {
+        return $.ajax({
+            url: `${window.APP_URL}/csrf-token`,
+            method: 'GET',
+            cache: false
+        }).then(function(response) {
+            csrfToken = response.token;
+            document.querySelector('meta[name="csrf-token"]').setAttribute('content', csrfToken);
+
+            return csrfToken;
+        });
+    }
 
     function showNotification(message, type = 'success') {
         const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
@@ -398,23 +411,33 @@ $(function () {
 
         btn.prop('disabled', true).addClass('opacity-50').text('Salvando...');
 
-        $.ajax({
-            url: `${window.APP_URL}/day-summary`,
-            method: 'POST',
-            data: {
-                _token: csrfToken,
-                date: date,
-                content: content
-            },
-            success: function(response) {
-                btn.prop('disabled', false).removeClass('opacity-50').text('Salvar Resumo');
+        // Obtém um token novo antes de salvar. Isso também renova a sessão caso
+        // a página tenha permanecido aberta além do SESSION_LIFETIME.
+        refreshCsrfToken()
+            .then(function(freshToken) {
+                return $.ajax({
+                    url: `${window.APP_URL}/day-summary`,
+                    method: 'POST',
+                    data: {
+                        _token: freshToken,
+                        date: date,
+                        content: content
+                    }
+                });
+            })
+            .done(function(response) {
                 showNotification(response.message);
-            },
-            error: function() {
+            })
+            .fail(function(xhr) {
+                const message = xhr.status === 419
+                    ? 'Sua sessão expirou. Recarregue a página e tente novamente.'
+                    : 'Erro ao salvar resumo.';
+
+                showNotification(message, 'error');
+            })
+            .always(function() {
                 btn.prop('disabled', false).removeClass('opacity-50').text('Salvar Resumo');
-                showNotification("Erro ao salvar resumo.", "error");
-            }
-        });
+            });
     });
 
     // --- TIME MANAGEMENT LOGIC ---
