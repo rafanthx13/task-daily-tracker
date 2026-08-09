@@ -209,10 +209,17 @@ $(function () {
 
     // Botão para pegar dados do dia anterior e aparecer ao lado das task de hoje
     $('#btnSeePreviousDay').on('click', function() {
+        const button = $(this);
         const previousDayColumn = $('#previous-day-kanban-column');
 
         // Alterna a visibilidade da coluna (adiciona/remove a classe 'hidden')
         previousDayColumn.toggleClass('hidden');
+
+        // Mantém o estado visual do botão sincronizado com a coluna.
+        const isPreviousDayVisible = !previousDayColumn.hasClass('hidden');
+        button
+            .attr('data-active', String(isPreviousDayVisible))
+            .attr('aria-pressed', String(isPreviousDayVisible));
 
         // Verifica se a coluna já foi carregada para evitar requisições duplicadas
         if (previousDayColumn.data('loaded')) {

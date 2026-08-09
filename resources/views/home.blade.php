@@ -17,7 +17,8 @@
             Carregar dia anterior
         </button>
         @endif
-        <button id="btnSeePreviousDay" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
+        <button id="btnSeePreviousDay" type="button" aria-pressed="false" data-active="false"
+            class="bg-blue-400 hover:bg-blue-500 data-[active=true]:bg-blue-700 data-[active=true]:hover:bg-blue-800 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
             Ver dia Anterior
         </button>
         <button id="btnToggleReminders" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">

@@ -116,24 +116,6 @@
         </form>
     </div>
 </div>
-                    <input type="text" name="title" id="editTitle" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition">
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Período (Não editável)</label>
-                    <input type="text" id="editPeriod" disabled class="w-full px-4 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 italic">
-                </div>
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Descrição</label>
-                <textarea name="description" id="editDescription" rows="4" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition"></textarea>
-            </div>
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeEditModal()" class="px-6 py-2 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer">Cancelar</button>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-lg transition shadow-md cursor-pointer">Salvar Alterações</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <script>
 // Mask for MM/YYYY
