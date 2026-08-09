@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: app
+    image: my-daily-tracker:local
+    container_name: my-daily-tracker
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: "http://localhost:${APP_PORT:-8000}"
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+    volumes:
+      - ./database:/var/www/html/database
+      - laravel-storage:/var/www/html/storage
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: nginx
+    image: my-daily-tracker-nginx:local
+    container_name: my-daily-tracker-nginx
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "${APP_PORT:-8000}:80"
+
+volumes:
+  laravel-storage:
