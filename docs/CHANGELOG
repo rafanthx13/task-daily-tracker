@@ -1,10 +1,13 @@
 # CHANGELOG
 
-Todas as alterações notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
+## [2026-08-09]
+
++ Dark Mode
++ Iniciar preparação para dockerização
++ Corrigir erro 419 do botão de salvar resumo (csrf)
++ Melhorar botao de ver dia anterior
 
 ## [2025-12-19] - AntiGravity Integration & Major UX Overhaul
-
-**Horário:** 20:05 - 22:55 (2h 50min)
 
 ### Adicionado
 
@@ -31,8 +34,6 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ## [2025-08-18]
 
-**Tempo:** 55min
-
 ### Melhorado
 
 - Fluxo de redirecionamento: tarefas 'next' agora redirecionam corretamente para a home.
@@ -41,8 +42,6 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 ---
 
 ## [2025-08-11]
-
-**Tempo:** 1h 05min
 
 ### Adicionado
 
@@ -59,8 +58,6 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ## [2025-08-10]
 
-**Tempo:** 1h 40min
-
 ### Adicionado
 
 - Funcionalidade de **Editar** e **Deletar** tarefas.
@@ -74,8 +71,6 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 ---
 
 ## [2025-08-09]
-
-**Tempo:** 1h 50min
 
 ### Adicionado
 
