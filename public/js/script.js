@@ -399,7 +399,65 @@ $(function () {
             $(this).removeClass('bg-emerald-700').addClass('bg-emerald-500');
         } else {
             $(this).removeClass('bg-emerald-500').addClass('bg-emerald-700');
+            resizeDaySummaryTextarea();
         }
+    });
+
+    function resizeDaySummaryTextarea() {
+        const textarea = document.getElementById('daySummaryText');
+        if (!textarea) return;
+
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+
+    $('#daySummaryText').on('input', resizeDaySummaryTextarea);
+    resizeDaySummaryTextarea();
+
+    // Alterna entre a edição do Markdown e sua visualização renderizada.
+    $('#btnPreviewSummary').on('click', function() {
+        const textarea = $('#daySummaryText');
+        const preview = $('#daySummaryPreview');
+        const btn = $(this);
+
+        if (!preview.hasClass('hidden')) {
+            preview.addClass('hidden').empty();
+            textarea.removeClass('hidden');
+            btn.prop('disabled', false)
+                .removeClass('opacity-50')
+                .attr('aria-pressed', 'false')
+                .text('Visualizar Markdown');
+            resizeDaySummaryTextarea();
+            textarea.trigger('focus');
+            return;
+        }
+
+        btn.prop('disabled', true).addClass('opacity-50').text('Renderizando...');
+
+        refreshCsrfToken()
+            .then(function(freshToken) {
+                return $.ajax({
+                    url: `${window.APP_URL}/day-summary/preview`,
+                    method: 'POST',
+                    data: {
+                        _token: freshToken,
+                        content: textarea.val()
+                    }
+                });
+            })
+            .done(function(response) {
+                preview.html(response.html || '<p class="text-gray-500 dark:text-gray-400">Nenhum conteúdo para visualizar.</p>');
+                textarea.addClass('hidden');
+                preview.removeClass('hidden');
+                btn.attr('aria-pressed', 'true').text('Editar Markdown');
+            })
+            .fail(function() {
+                showNotification('Erro ao renderizar o resumo.', 'error');
+                btn.attr('aria-pressed', 'false').text('Visualizar Markdown');
+            })
+            .always(function() {
+                btn.prop('disabled', false).removeClass('opacity-50');
+            });
     });
 
     // Salvar resumo do dia
