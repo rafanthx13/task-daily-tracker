@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [2026-08-13]
+
++ Ver md as anotaçoes de reumo do dia
++ feat de anotaçoes globais: editar e ver md
++ fix problema de urls js sem windwos.App, sem isos dá eror n IIS
+
 ## [2026-08-09]
 
 + Dark Mode
