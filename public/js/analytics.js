@@ -10,7 +10,7 @@ $(function () {
         $('#analytics-loading').removeClass('hidden');
 
         $.ajax({
-            url: window.APP_URL + '/api/analytics/month',
+            url: `${window.APP_URL}/api/analytics/month`,
             method: 'GET',
             data: { month: month },
             success: function (response) {

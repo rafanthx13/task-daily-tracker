@@ -135,7 +135,7 @@ function editAchievement(achievement) {
     const modal = document.getElementById('editModal');
     const form = document.getElementById('editForm');
 
-    form.action = `/achievements/${achievement.id}`;
+    form.action = `${window.APP_URL}/achievements/${achievement.id}`;
     document.getElementById('editTitle').value = achievement.title;
     document.getElementById('editPeriod').value = achievement.period;
     document.getElementById('editDescription').value = achievement.description || '';
