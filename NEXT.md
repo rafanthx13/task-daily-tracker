@@ -297,3 +297,149 @@ Uma sequência segura para as próximas etapas seria:
 10. correção migrada de `wating` para `waiting`.
 
 Este roadmap deve ser atualizado quando uma melhoria for implementada, removida ou substituída por outra decisão arquitetural.
+
+## Novas sugestões de funcionalidades
+
+### 29. Revisão diária guiada
+
+Criar um fluxo de encerramento do dia que reúna, em uma única tela:
+
+- tarefas concluídas, pendentes e extras;
+- tempo registrado por categoria;
+- lembretes concluídos;
+- resumo do dia;
+- campo opcional para humor, energia ou nota do dia.
+
+Ao finalizar, o sistema pode marcar a data como revisada e gerar automaticamente uma versão Markdown do relatório diário. Isso transforma dados já existentes em um ritual útil, sem exigir preenchimento duplicado.
+
+### 30. Revisão semanal
+
+Consolidar os últimos sete dias em uma página com:
+
+- principais entregas;
+- tarefas carregadas repetidamente entre dias;
+- horas por categoria;
+- conquistas registradas;
+- resumos diários;
+- espaço para definir o foco da próxima semana.
+
+O relatório pode ser salvo como uma anotação especial, permitindo edição posterior e criação de um histórico semanal.
+
+### 31. Captura rápida global
+
+Adicionar um botão ou atalho sempre disponível para registrar rapidamente uma ideia, tarefa ou lembrete sem sair da tela atual.
+
+O item entraria inicialmente em uma caixa de entrada e depois poderia ser convertido em:
+
+- tarefa de uma data;
+- lembrete;
+- anotação;
+- conquista.
+
+Isso reduz a interrupção do fluxo de trabalho e evita que ideias sejam perdidas por exigir navegação até o módulo correto.
+
+### 32. Modelos reutilizáveis
+
+Permitir criar modelos para tarefas, resumos e anotações. Exemplos:
+
+- planejamento diário;
+- retrospectiva semanal;
+- registro de reunião;
+- diário de aprendizado;
+- checklist de publicação ou entrega.
+
+Os modelos armazenariam título, descrição e conteúdo Markdown inicial. Ao utilizá-los, o sistema criaria uma cópia independente, preservando o modelo original.
+
+### 33. Anotações conectadas
+
+Evoluir Anotações para funcionar como uma pequena base de conhecimento pessoal:
+
+- adicionar tags próprias às anotações;
+- relacionar uma anotação a tarefas e conquistas;
+- criar links internos usando uma sintaxe como `[[Título da anotação]]`;
+- mostrar quais outras anotações apontam para a atual;
+- fixar anotações importantes no início da listagem.
+
+Essa funcionalidade deve manter as tags de anotações separadas das tags de tarefas, salvo se houver uma decisão explícita de unificar os domínios.
+
+### 34. Blocos de conteúdo no resumo diário
+
+Permitir inserir referências dinâmicas no Markdown, como:
+
+```text
+{{tarefas_concluidas}}
+{{tempo_por_categoria}}
+{{lembretes_concluidos}}
+```
+
+Na visualização, os blocos seriam substituídos pelos dados correspondentes daquele dia. O texto original continuaria armazenado como Markdown, e a expansão aconteceria somente durante a renderização.
+
+### 35. Planejamento por capacidade
+
+Permitir definir a quantidade de horas disponíveis para cada dia e comparar essa capacidade com o tempo estimado das tarefas planejadas.
+
+Possíveis indicadores:
+
+- capacidade livre;
+- dia próximo do limite;
+- planejamento acima da capacidade;
+- diferença entre tempo estimado e tempo realmente registrado.
+
+Para isso, tarefas poderiam receber uma estimativa opcional, sem tornar o campo obrigatório para o fluxo atual.
+
+### 36. Modo foco e cronômetro
+
+Adicionar uma ação “Iniciar foco” em uma tarefa. O cronômetro poderia:
+
+- permanecer visível durante a navegação;
+- pausar e retomar;
+- registrar automaticamente uma entrada na gestão de tempo;
+- sugerir a conclusão da tarefa ao encerrar;
+- impedir dois cronômetros ativos simultaneamente.
+
+O backend deve ser a fonte do horário inicial para evitar perda ou divergência caso a aba seja atualizada.
+
+### 37. Detecção de tarefas estagnadas
+
+Usar a linhagem já existente para identificar tarefas copiadas por vários dias sem conclusão. O sistema poderia destacar visualmente itens estagnados e sugerir ações como:
+
+- dividir a tarefa;
+- alterar sua prioridade;
+- agendar para uma data específica;
+- arquivar ou cancelar;
+- transformar observações acumuladas em uma anotação.
+
+O limite de dias deve ser configurável para não gerar alertas excessivos.
+
+### 38. Linha do tempo de atividades
+
+Criar uma visão cronológica que combine eventos relevantes do sistema:
+
+- criação, movimentação e conclusão de tarefas;
+- conclusão de lembretes;
+- registros de tempo;
+- criação de conquistas;
+- criação e atualização de anotações;
+- fechamento da revisão diária.
+
+Para manter um histórico confiável, essa funcionalidade exigiria uma tabela de eventos própria. Ela também serviria como base para auditoria e para futuros gráficos de atividade.
+
+### 39. Preferências do usuário
+
+Centralizar configurações atualmente implícitas ou fixas, incluindo:
+
+- primeiro dia da semana;
+- horário padrão da revisão diária;
+- limite para considerar uma tarefa estagnada;
+- formato de data e hora;
+- página inicial preferida;
+- seções abertas por padrão;
+- comportamento de cópia entre dias.
+
+Mesmo enquanto a aplicação for single-user, uma tabela de preferências evita espalhar configurações pelo código e facilita uma futura autenticação.
+
+### 40. Lixeira com restauração
+
+Aplicar exclusão reversível às entidades mais importantes, especialmente tarefas, anotações, conquistas e lembretes. Uma tela de lixeira permitiria restaurar registros removidos por engano ou excluí-los definitivamente.
+
+Antes de adotar `SoftDeletes`, é necessário revisar analytics, linhagem de tarefas, relacionamentos e consultas existentes para garantir que registros apagados não sejam contabilizados indevidamente.
