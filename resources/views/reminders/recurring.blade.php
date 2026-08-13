@@ -84,7 +84,7 @@
             const title = $(this).data('title');
 
             $('#editReminderTitle').val(title);
-            $('#editReminderForm').attr('action', `/reminders/${id}`);
+            $('#editReminderForm').attr('action', `${window.APP_URL}/reminders/${id}`);
             $('#editReminderModal').removeClass('hidden').addClass('flex');
         });
 
