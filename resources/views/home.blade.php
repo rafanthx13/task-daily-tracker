@@ -37,10 +37,16 @@
         <h2 class="text-xl font-bold text-emerald-800 dark:text-emerald-300 mb-3 flex items-center gap-2">
             <span>📝</span> Resumo do Dia
         </h2>
-        <textarea id="daySummaryText" rows="5" placeholder="Como foi o seu dia? Escreva aqui suas reflexões..."
+        <textarea id="daySummaryText" rows="5" placeholder="Como foi o seu dia? Escreva aqui suas reflexões em Markdown..."
             data-date="{{ $dateStr }}"
-            class="w-full p-4 border border-emerald-200 dark:border-emerald-700/60 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">{{ $daySummary->content ?? '' }}</textarea>
-        <div class="mt-3 flex justify-end">
+            class="w-full p-4 border border-emerald-200 dark:border-emerald-700/60 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none overflow-hidden">{{ $daySummary->content ?? '' }}</textarea>
+        <div id="daySummaryPreview" aria-live="polite"
+            class="day-summary-markdown hidden min-h-32 w-full p-4 border border-emerald-200 dark:border-emerald-700/60 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg"></div>
+        <div class="mt-3 flex flex-wrap justify-end gap-2">
+            <button id="btnPreviewSummary" type="button" aria-pressed="false"
+                class="bg-white dark:bg-gray-800 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 px-6 py-2 rounded-lg font-bold shadow-sm transition cursor-pointer">
+                Visualizar Markdown
+            </button>
             <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
                 Salvar Resumo
             </button>

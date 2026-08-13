@@ -46,6 +46,7 @@ Route::prefix('reminders')->name('reminders.')->group(function () {
     Route::post('/{id}/finish-sporadic', [ReminderController::class, 'finishSporadic'])->name('finish-sporadic');
 });
 
+Route::post('/day-summary/preview', [\App\Http\Controllers\DaySummaryController::class, 'preview'])->name('day-summary.preview');
 Route::post('/day-summary', [\App\Http\Controllers\DaySummaryController::class, 'storeOrUpdate'])->name('day-summary.store');
 
 use App\Http\Controllers\TimeManagementController;

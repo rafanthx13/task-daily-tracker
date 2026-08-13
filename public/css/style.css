@@ -199,4 +199,43 @@ html.dark .text-gray-600,
     color: #cbd5e1 !important;
 }
 
+.day-summary-markdown {
+    overflow-wrap: anywhere;
+}
+
+.day-summary-markdown > :first-child {
+    margin-top: 0;
+}
+
+.day-summary-markdown > :last-child {
+    margin-bottom: 0;
+}
+
+.day-summary-markdown h1,
+.day-summary-markdown h2,
+.day-summary-markdown h3 {
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1rem 0 0.5rem;
+}
+
+.day-summary-markdown h1 { font-size: 1.5rem; }
+.day-summary-markdown h2 { font-size: 1.25rem; }
+.day-summary-markdown h3 { font-size: 1.125rem; }
+
+.day-summary-markdown p,
+.day-summary-markdown ul,
+.day-summary-markdown ol,
+.day-summary-markdown blockquote,
+.day-summary-markdown pre {
+    margin: 0.75rem 0;
+}
+
+.day-summary-markdown ul { list-style: disc; padding-left: 1.5rem; }
+.day-summary-markdown ol { list-style: decimal; padding-left: 1.5rem; }
+.day-summary-markdown a { color: #059669; text-decoration: underline; }
+.day-summary-markdown blockquote { border-left: 4px solid #6ee7b7; padding-left: 1rem; color: #6b7280; }
+.day-summary-markdown code { background: rgba(107, 114, 128, 0.15); border-radius: 0.25rem; padding: 0.1rem 0.3rem; }
+.day-summary-markdown pre { overflow-x: auto; border-radius: 0.5rem; padding: 0.75rem; background: rgba(17, 24, 39, 0.08); }
+.day-summary-markdown pre code { background: transparent; padding: 0; }
 
