@@ -6,6 +6,7 @@ use App\Http\Controllers\taskController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\TaskAnalyticsController;
+use App\Http\Controllers\NoteController;
 
 
 Route::get('/', [taskController::class, 'index'])->name('home');
@@ -28,6 +29,7 @@ Route::get('/get-tasks-from-old-date/{oldDate}/{todayDate}', [taskController::cl
 
 Route::resource('tags', TagController::class);
 Route::resource('achievements', AchievementController::class);
+Route::resource('notes', NoteController::class);
 
 Route::get('/analytics', [TaskAnalyticsController::class, 'indexView'])->name('analytics.index');
 Route::get('/api/analytics/month', [TaskAnalyticsController::class, 'monthReportData'])->name('api.analytics.month');

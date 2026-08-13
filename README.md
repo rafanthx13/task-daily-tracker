@@ -2,7 +2,7 @@
 
 ![Tela inicial do Daily Task Tracker](docs/daily-task-tracker-home.png)
 
-Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre dias e registrar informações de produtividade. O projeto combina um Kanban diário com tags, lembretes, resumo do dia, controle de tempo, analytics e conquistas.
+Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre dias e registrar informações de produtividade. O projeto combina um Kanban diário com tags, lembretes, resumo do dia, controle de tempo, analytics, conquistas e anotações globais.
 
 ## Funcionalidades
 
@@ -16,6 +16,7 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 - **Gestão de tempo:** registros de atividade com início, fim, duração calculada e categorias próprias.
 - **Analytics mensal:** relatório de tarefas originais e o estado mais recente de cada linhagem.
 - **Conquistas:** registros agrupados por período no formato `MM/AAAA`.
+- **Anotações:** CRUD de textos globais com título, descrição e conteúdo renderizado como Markdown seguro.
 - **Dark mode:** alternância manual com preferência armazenada no navegador.
 
 > **Nota sobre `wating`:** esse valor está escrito dessa forma no código e no banco. Ele representa a raia “Waiting”. Corrigi-lo exige uma migration de dados e alterações coordenadas; não troque apenas a string no frontend.
@@ -161,6 +162,7 @@ docker compose up --build
 - `time_management_entries`: registros de tempo de uma data.
 - `time_management_tags`: categorias exclusivas da gestão de tempo.
 - `achievements`: conquistas agrupadas por período.
+- `notes`: anotações globais com título, descrição e conteúdo Markdown.
 - `sessions`, `cache` e tabelas de fila: infraestrutura padrão do Laravel configurada no SQLite.
 
 ## Rotas e telas principais
@@ -174,6 +176,7 @@ docker compose up --build
 | `/reminders` | Central de lembretes |
 | `/time-management/tags` | Categorias da gestão de tempo |
 | `/achievements` | Registro de conquistas |
+| `/notes` | Listagem e gerenciamento de anotações em Markdown |
 
 Para visualizar todas as rotas:
 

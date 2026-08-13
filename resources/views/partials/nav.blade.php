@@ -23,4 +23,9 @@
     <a href="{{ route('achievements.index') }}"
         class="inline-block px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 ml-2 shadow-sm transition cursor-pointer">Conquistas</a>
     @endif
+
+    @if(!request()->routeIs('notes.*'))
+    <a href="{{ route('notes.index') }}"
+        class="inline-block px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700 ml-2 mt-2 shadow-sm transition cursor-pointer">Anotações</a>
+    @endif
 </nav>
