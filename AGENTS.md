@@ -4,7 +4,7 @@ Este arquivo orienta agentes de IA que trabalham neste repositório. Leia-o ante
 
 ## Objetivo do produto
 
-O Daily Task Tracker é uma aplicação pessoal, sem autenticação ativa, voltada ao planejamento e acompanhamento diário. A home é um Kanban por data e concentra tarefas, lembretes, resumo diário e gestão de tempo. Há telas separadas para tags, analytics, lembretes, categorias de tempo, histórico de tarefas e conquistas.
+O Daily Task Tracker é uma aplicação pessoal, sem autenticação ativa, voltada ao planejamento e acompanhamento diário. A home é um Kanban por data e concentra tarefas, lembretes, resumo diário e gestão de tempo. Há telas separadas para tags, analytics, lembretes, categorias de tempo, histórico de tarefas, conquistas e anotações globais.
 
 ## Stack e execução
 
@@ -37,6 +37,7 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 - `TaskAnalyticsController`: considera apenas tarefas originais do mês e substitui seu status pelo membro mais recente da linhagem.
 - `ReminderController`: separa lembretes `recurring` e `sporadic`; `last_completed_at` indica conclusão.
 - `DaySummaryController`: mantém um único resumo por data com `updateOrCreate`.
+- `NoteController`: CRUD de anotações globais; renderiza o conteúdo Markdown com HTML bruto removido e links inseguros bloqueados.
 - `TimeManagementController`: sincroniza todas as entradas de uma data por substituição (delete + create).
 - `AchievementController`: agrupa conquistas pelo campo textual `period` (`MM/AAAA`).
 - `routes/web.php`: todas as rotas web e endpoints AJAX; não há `routes/api.php` em uso.
@@ -94,6 +95,7 @@ Principais tabelas de produto:
 - `day_summaries`
 - `time_management_entries`, `time_management_tags`
 - `achievements`
+- `notes`
 
 ## Docker
 
