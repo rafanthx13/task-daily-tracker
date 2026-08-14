@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use Illuminate\Http\Request;
+use App\Http\Requests\NoteRequest;
 use Illuminate\Support\Str;
 
 class NoteController extends Controller
@@ -20,9 +20,9 @@ class NoteController extends Controller
         return view('notes.create');
     }
 
-    public function store(Request $request)
+    public function store(NoteRequest $request)
     {
-        $note = Note::create($this->validateNote($request));
+        $note = Note::create($request->validated());
 
         return redirect()
             ->route('notes.show', $note)
@@ -44,9 +44,9 @@ class NoteController extends Controller
         return view('notes.edit', compact('note'));
     }
 
-    public function update(Request $request, Note $note)
+    public function update(NoteRequest $request, Note $note)
     {
-        $note->update($this->validateNote($request));
+        $note->update($request->validated());
 
         return redirect()
             ->route('notes.show', $note)
@@ -62,12 +62,4 @@ class NoteController extends Controller
             ->with('success', 'Anotação excluída com sucesso!');
     }
 
-    private function validateNote(Request $request): array
-    {
-        return $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:500'],
-            'content' => ['nullable', 'string'],
-        ]);
-    }
 }

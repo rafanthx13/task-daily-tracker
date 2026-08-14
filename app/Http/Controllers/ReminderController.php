@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use App\Http\Requests\StoreReminderRequest;
+use App\Http\Requests\UpdateReminderRequest;
 use App\Models\Reminder;
 use Carbon\Carbon;
 
@@ -38,23 +38,18 @@ class ReminderController extends Controller
         return view('reminders.finished', compact('reminders'));
     }
 
-    public function store(Request $request)
+    public function store(StoreReminderRequest $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string',
-            'type' => 'required|in:sporadic,recurring',
-        ]);
+        $data = $request->validated();
 
         Reminder::create($data);
 
         return back()->with('success', 'Lembrete criado com sucesso!');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateReminderRequest $request, $id)
     {
-        $data = $request->validate([
-            'title' => 'required|string',
-        ]);
+        $data = $request->validated();
 
         $reminder = Reminder::findOrFail($id);
         $reminder->update($data);

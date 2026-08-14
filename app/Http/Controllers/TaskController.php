@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PreviousDayTasksRequest;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskLaneRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Tag;
 use App\Models\Task;
 use Carbon\Carbon;
 use App\Constants\Lanes;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 
 class TaskController extends Controller
@@ -59,15 +61,9 @@ class TaskController extends Controller
         return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next', 'dateStr', 'sporadicReminders', 'recurringReminders', 'daySummary'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string',
-            'notes' => 'nullable|string',
-            'date' => 'required|date',
-            'status' => 'required|in:' . Lanes::getAllAsString(),
-            'tag_ids' => 'nullable|array'
-        ]);
+        $data = $request->validated();
 
         try {
             $task = Task::create([
@@ -220,25 +216,17 @@ class TaskController extends Controller
         return $nextDate ? Carbon::parse($nextDate)->format('Y-m-d') : '';
     }
 
-    public function updateLane(Request $request, Task $task)
+    public function updateLane(UpdateTaskLaneRequest $request, Task $task)
     {
-        $request->validate([
-            'status' => ['required', 'string', Rule::in(Lanes::getAllAsArray())],
-        ]);
-
-        $task->status = $request->status;
+        $task->status = $request->validated('status');
         $task->save();
 
         return $this->jsonSuccess(['task' => $task], 'Raia da tarefa atualizada.');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
-        $data = $request->validate([
-            'title' => 'required|string',
-            'notes' => 'nullable|string',
-            'tag_ids' => 'nullable|array'
-        ]);
+        $data = $request->validated();
 
         $task = Task::findOrFail($id);
         $task->title = $data['title'];
@@ -254,7 +242,7 @@ class TaskController extends Controller
         return $this->jsonSuccess(['task' => $task->load('tags')], 'Tarefa atualizada.');
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         $task = Task::findOrFail($id);
         $task->delete();
@@ -262,13 +250,9 @@ class TaskController extends Controller
         return $this->jsonSuccess(null, 'Tarefa excluída.');
     }
 
-    public function previousDayTasks(Request $request)
+    public function previousDayTasks(PreviousDayTasksRequest $request)
     {
-
-        $request->validate([
-            'oldDate' => 'required|date'
-        ]);
-        $oldDate = $request->oldDate;
+        $oldDate = $request->validated('oldDate');
 
         $tasks = Task::with('tags')
             ->whereDate('date', $oldDate)

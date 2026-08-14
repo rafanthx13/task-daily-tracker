@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
+use App\Http\Requests\MonthReportRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -23,13 +23,9 @@ class TaskAnalyticsController extends Controller
     /**
      * Retorna os dados para o relatório mensal via AJAX
      */
-    public function monthReportData(Request $request)
+    public function monthReportData(MonthReportRequest $request)
     {
-        $monthYear = $request->get('month'); // Ex: '2025-12'
-
-        if (!$monthYear) {
-            return $this->jsonError('Mês não informado.', 422);
-        }
+        $monthYear = $request->validated('month'); // Ex: '2025-12'
 
         $date = Carbon::parse($monthYear . '-01');
         $year = $date->year;

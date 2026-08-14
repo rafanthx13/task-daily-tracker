@@ -120,6 +120,7 @@ Principais tabelas de produto:
 
 - Preserve o padrão Blade + jQuery existente, salvo pedido explícito de migração tecnológica.
 - Controllers retornam views para páginas e JSON para operações AJAX.
+- Validações de entrada ficam em `app/Http/Requests/`; reutilize ou crie um Form Request específico em vez de adicionar regras diretamente ao controller.
 - Respostas AJAX seguem o contrato `success`, `message`, `data` e `errors`; preserve-o em novos endpoints e nas falhas JSON.
 - Reutilize `showNotification()` para feedback na home.
 - Mantenha suporte a dark mode em novos componentes com variantes `dark:`.

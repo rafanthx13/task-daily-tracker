@@ -68,7 +68,7 @@ Etapas sugeridas:
 4. testar cópia entre dias, analytics e drag and drop;
 5. manter compatibilidade temporária se houver clientes antigos.
 
-### 8. Criar Form Requests
+### 8. Criar Form Requests — concluído
 
 As validações estão espalhadas nos controllers.
 

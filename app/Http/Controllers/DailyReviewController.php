@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Constants\Lanes;
+use App\Http\Requests\StoreDailyReviewRequest;
 use App\Models\DailyReview;
 use App\Models\DaySummary;
 use App\Models\Reminder;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -32,14 +32,10 @@ class DailyReviewController extends Controller
         ]);
     }
 
-    public function store(Request $request, string $date): RedirectResponse
+    public function store(StoreDailyReviewRequest $request, string $date): RedirectResponse
     {
         $day = $this->reviewableDay($date);
-        $validated = $request->validate([
-            'content' => 'nullable|string',
-            'mood' => 'nullable|integer|between:1,5',
-            'energy' => 'nullable|integer|between:1,5',
-        ]);
+        $validated = $request->validated();
 
         DB::transaction(function () use ($day, $validated): void {
             $summary = DaySummary::updateOrCreate(

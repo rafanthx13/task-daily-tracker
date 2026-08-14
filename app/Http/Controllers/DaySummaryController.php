@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaySummary;
-use Illuminate\Http\Request;
+use App\Http\Requests\PreviewDaySummaryRequest;
+use App\Http\Requests\StoreDaySummaryRequest;
 use Illuminate\Support\Str;
 
 class DaySummaryController extends Controller
 {
     use Concerns\RespondsWithJson;
 
-    public function preview(Request $request)
+    public function preview(PreviewDaySummaryRequest $request)
     {
-        $validated = $request->validate([
-            'content' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         return $this->jsonSuccess([
             'html' => Str::markdown($validated['content'] ?? '', [
@@ -24,16 +23,13 @@ class DaySummaryController extends Controller
         ]);
     }
 
-    public function storeOrUpdate(Request $request)
+    public function storeOrUpdate(StoreDaySummaryRequest $request)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'content' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         $summary = DaySummary::updateOrCreate(
-            ['date' => $request->input('date')],
-            ['content' => $request->input('content')]
+            ['date' => $validated['date']],
+            ['content' => $validated['content'] ?? null]
         );
 
         return $this->jsonSuccess(['summary' => $summary], 'Resumo salvo com sucesso!');
