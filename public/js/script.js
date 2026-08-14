@@ -276,7 +276,8 @@ $(function () {
         const isPreviousDayVisible = !previousDayColumn.hasClass('hidden');
         button
             .attr('data-active', String(isPreviousDayVisible))
-            .attr('aria-pressed', String(isPreviousDayVisible));
+            .attr('aria-expanded', String(isPreviousDayVisible))
+            .text(isPreviousDayVisible ? 'Ocultar dia anterior' : 'Ver dia anterior');
 
         // Verifica se a coluna já foi carregada para evitar requisições duplicadas
         if (previousDayColumn.data('loaded')) {
@@ -304,13 +305,31 @@ $(function () {
 
                 // Verifica se a resposta contém os dados das listas e tarefas
                 if (data && data.listas && data.tasks) {
+                    const formattedDate = new Intl.DateTimeFormat('pt-BR', {
+                        dateStyle: 'full',
+                    }).format(new Date(`${data.date}T00:00:00`));
+                    const $header = $('<div>', {
+                        class: 'mb-5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-blue-200 bg-blue-50 p-3 dark:border-blue-900 dark:bg-blue-950/40',
+                    });
+
+                    $('<h2>', {
+                        class: 'text-base font-bold text-blue-900 dark:text-blue-100',
+                    }).text(`Tarefas de ${formattedDate}`).appendTo($header);
+
+                    $('<span>', {
+                        class: 'rounded-full border border-blue-300 bg-white px-2 py-0.5 text-xs font-medium text-blue-700 dark:border-blue-700 dark:bg-gray-900 dark:text-blue-300',
+                    }).text('Somente leitura').appendTo($header);
+
+                    previousDayColumn.append($header);
 
                     const listasArray = Object.values(data.listas);
 
                     listasArray.forEach(lista => {
-                        const $section = $('<section>');
-                        $('<h2>', {
-                            class: 'text-xl font-semibold mb-3',
+                        const $section = $('<section>', {
+                            class: 'mb-6',
+                        });
+                        $('<h3>', {
+                            class: 'mb-3 text-xl font-semibold',
                         }).text(String(lista).toUpperCase()).appendTo($section);
 
                         const $list = $('<ul>', {
@@ -323,12 +342,10 @@ $(function () {
                         tasksForList.forEach(task => {
                             const tags = Array.isArray(task.tags) ? task.tags : [];
                             const $card = $('<li>', {
-                                class: 'card p-3 bg-white rounded shadow mb-2',
-                            }).data('id', task.id).data('tags', tags.map(tag => tag.id));
-                            const $cardContent = $('<div>', {
-                                class: 'flex justify-between items-start',
-                            }).appendTo($card);
-                            const $taskContent = $('<div>').appendTo($cardContent);
+                                class: 'card mb-2 rounded bg-white p-3 shadow dark:bg-gray-800',
+                                'aria-label': 'Tarefa somente leitura',
+                            });
+                            const $taskContent = $('<div>').appendTo($card);
                             const $titleRow = $('<div>', {
                                 class: 'flex items-center gap-2 flex-wrap',
                             }).appendTo($taskContent);
@@ -359,12 +376,6 @@ $(function () {
                                     class: 'text-gray-600 text-sm mt-1',
                                 }).text(task.notes).appendTo($taskContent);
                             }
-
-                            $('<button>', {
-                                class: 'edit-task text-gray-500 hover:text-blue-600 cursor-pointer',
-                                title: 'Editar',
-                                type: 'button',
-                            }).text('✏️').appendTo($cardContent);
 
                             $list.append($card);
                         });

@@ -157,11 +157,11 @@ Permitir filtrar o Kanban por:
 - status;
 - tarefas originais ou copiadas.
 
-### 17. Melhorar a visualização do dia anterior
+### 17. Melhorar a visualização do dia anterior — concluído parcialmente
 
 - mostrar claramente qual data está sendo exibida;
 - deixar a coluna somente leitura, removendo ações que não fazem sentido;
-- oferecer botão de copiar por tarefa, além da cópia em lote;
+- oferecer botão de copiar por tarefa, além da cópia em lote; *(não implementado por solicitação)*
 - manter o estado ativo do botão acessível com `aria-expanded` e `aria-controls`.
 
 ### 18. Reordenar tarefas dentro da mesma raia

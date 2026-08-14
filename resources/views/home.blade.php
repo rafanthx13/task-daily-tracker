@@ -16,11 +16,11 @@
             class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:cursor-wait disabled:opacity-50 ml-2 cursor-pointer">
             Carregar dia anterior
         </button>
-        @endif
-        <button id="btnSeePreviousDay" type="button" aria-pressed="false" data-active="false"
+        <button id="btnSeePreviousDay" type="button" aria-expanded="false" aria-controls="previous-day-kanban-column" data-active="false"
             class="bg-blue-400 hover:bg-blue-500 disabled:cursor-wait disabled:opacity-50 data-[active=true]:bg-blue-700 data-[active=true]:hover:bg-blue-800 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
             Ver dia Anterior
         </button>
+        @endif
         <button id="btnToggleReminders" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Mostrar Lembretes
         </button>
@@ -110,6 +110,17 @@
             <p id="previous-day-loading" class="hidden py-6 text-center text-sm text-gray-500 dark:text-gray-400">
                 Carregando tarefas do dia anterior...
             </p>
+            {{-- Mantém no build as classes aplicadas pelo JavaScript à visualização somente leitura. --}}
+            <template>
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-blue-200 bg-blue-50 p-3 dark:border-blue-900 dark:bg-blue-950/40">
+                    <h2 class="text-base font-bold text-blue-900 dark:text-blue-100"></h2>
+                    <span class="rounded-full border border-blue-300 bg-white px-2 py-0.5 text-xs font-medium text-blue-700 dark:border-blue-700 dark:bg-gray-900 dark:text-blue-300"></span>
+                </div>
+                <section class="mb-6">
+                    <h3 class="mb-3 text-xl font-semibold"></h3>
+                    <li class="card mb-2 rounded bg-white p-3 shadow dark:bg-gray-800"></li>
+                </section>
+            </template>
         </div>
 
         <div id="today-kanban-column" class="flex-1 space-y-6">
