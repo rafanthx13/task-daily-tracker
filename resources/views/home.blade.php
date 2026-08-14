@@ -13,12 +13,12 @@
         @if (!empty($prev))
         <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
             data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
-            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 ml-2 cursor-pointer">
+            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:cursor-wait disabled:opacity-50 ml-2 cursor-pointer">
             Carregar dia anterior
         </button>
         @endif
         <button id="btnSeePreviousDay" type="button" aria-pressed="false" data-active="false"
-            class="bg-blue-400 hover:bg-blue-500 data-[active=true]:bg-blue-700 data-[active=true]:hover:bg-blue-800 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
+            class="bg-blue-400 hover:bg-blue-500 disabled:cursor-wait disabled:opacity-50 data-[active=true]:bg-blue-700 data-[active=true]:hover:bg-blue-800 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
             Ver dia Anterior
         </button>
         <button id="btnToggleReminders" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
@@ -47,7 +47,7 @@
                 class="bg-white dark:bg-gray-800 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 px-6 py-2 rounded-lg font-bold shadow-sm transition cursor-pointer">
                 Visualizar Markdown
             </button>
-            <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
+            <button id="btnSaveSummary" class="bg-emerald-600 hover:bg-emerald-700 disabled:cursor-wait disabled:opacity-50 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
                 Salvar Resumo
             </button>
         </div>
@@ -98,7 +98,7 @@
             <button id="btnAddTimeRow" class="bg-purple-200 dark:bg-purple-900 hover:bg-purple-300 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-200 p-2 rounded-full transition shadow-sm w-8 h-8 flex items-center justify-center font-bold">
                 +
             </button>
-            <button id="btnSaveTimeEntries" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
+            <button id="btnSaveTimeEntries" class="bg-purple-600 hover:bg-purple-700 disabled:cursor-wait disabled:opacity-50 text-white px-6 py-2 rounded-lg font-bold shadow-md transition transform active:scale-95 cursor-pointer">
                 Salvar Tempo
             </button>
         </div>
@@ -106,7 +106,11 @@
 
     <div class="flex space-x-6" id="kanban-container">
 
-        <div id="previous-day-kanban-column" class="flex-1 hidden"></div>
+        <div id="previous-day-kanban-column" class="flex-1 hidden" aria-live="polite" aria-busy="false">
+            <p id="previous-day-loading" class="hidden py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                Carregando tarefas do dia anterior...
+            </p>
+        </div>
 
         <div id="today-kanban-column" class="flex-1 space-y-6">
 
