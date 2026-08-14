@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\taskController;
+use App\Http\Controllers\TaskController;
 
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AchievementController;
@@ -9,23 +9,23 @@ use App\Http\Controllers\TaskAnalyticsController;
 use App\Http\Controllers\NoteController;
 
 
-Route::get('/', [taskController::class, 'index'])->name('home');
-Route::get('/day/{date}', [taskController::class, 'index'])->name('tasks.day');
+Route::get('/', [TaskController::class, 'index'])->name('home');
+Route::get('/day/{date}', [TaskController::class, 'index'])->name('tasks.day');
 
 // Renova a sessão e fornece um token válido para páginas mantidas abertas.
 Route::get('/csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
 })->name('csrf-token');
 
-Route::get('/previous-day-tasks', [taskController::class, 'previousDayTasks'])->name('previousDayTasks');
-Route::post('/tasks', [taskController::class, 'store'])->name('tasks.store');
+Route::get('/previous-day-tasks', [TaskController::class, 'previousDayTasks'])->name('previousDayTasks');
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 
-Route::put('/tasks/change-lane/{task}', [taskController::class, 'updateLane'])->name('tasks.change-lane');
+Route::put('/tasks/change-lane/{task}', [TaskController::class, 'updateLane'])->name('tasks.change-lane');
 Route::put('/tasks/{id}', [TaskController::class, 'update']);
 Route::get('/tasks/view/{id}', [TaskController::class, 'show'])->name('tasks.show');
 Route::delete('/tasks/{id}', [TaskController::class, 'delete']);
 
-Route::get('/get-tasks-from-old-date/{oldDate}/{todayDate}', [taskController::class, 'copyTasksFromDate'])->name('tasks.copyTasksFromDate');
+Route::get('/get-tasks-from-old-date/{oldDate}/{todayDate}', [TaskController::class, 'copyTasksFromDate'])->name('tasks.copyTasksFromDate');
 
 Route::resource('tags', TagController::class);
 Route::resource('achievements', AchievementController::class);

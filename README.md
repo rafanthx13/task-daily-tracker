@@ -6,9 +6,9 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 
 ## Funcionalidades
 
-- **Kanban diário:** tarefas organizadas nas raias `TODO`, `WATING`, `DONE` e `EXTRA`, com movimentação por drag and drop.
+- **Kanban diário:** tarefas organizadas nas raias `TODO`, `WAITING`, `DONE` e `EXTRA`, com movimentação por drag and drop.
 - **Navegação por data:** acesso ao dia anterior ou seguinte que possua tarefas.
-- **Continuidade de tarefas:** cópia de tarefas pendentes (`todo` e `wating`) de uma data anterior para o dia atual.
+- **Continuidade de tarefas:** cópia de tarefas pendentes (`todo` e `waiting`) de uma data anterior para o dia atual.
 - **Histórico de tarefas:** tarefas copiadas preservam `id_original`, permitindo consultar sua linhagem, data inicial e duração.
 - **Tags de tarefas:** múltiplas tags coloridas por tarefa, com tela própria de gerenciamento.
 - **Lembretes:** lembretes recorrentes e esporádicos, incluindo histórico dos esporádicos finalizados.
@@ -19,7 +19,7 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 - **Anotações:** CRUD de textos globais com título, descrição e conteúdo renderizado como Markdown seguro.
 - **Dark mode:** alternância manual com preferência armazenada no navegador.
 
-> **Nota sobre `wating`:** esse valor está escrito dessa forma no código e no banco. Ele representa a raia “Waiting”. Corrigi-lo exige uma migration de dados e alterações coordenadas; não troque apenas a string no frontend.
+> **Compatibilidade de dados:** a migration `2026_08_13_010000_rename_wating_lane_to_waiting` converte o valor legado `wating` para `waiting`, normaliza o antigo `next` como `todo` e atualiza a restrição da coluna no SQLite. Aplique as migrations antes de usar esta versão.
 
 ## Tecnologias
 

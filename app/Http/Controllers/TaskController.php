@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Constants\Lanes;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 
 class TaskController extends Controller
@@ -43,15 +44,15 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $data = $request->validate([
-                'title' => 'required|string',
-                'notes' => 'nullable|string',
-                'date' => 'required|date',
-                'status' => 'required|in:' . Lanes::getAllAsString(),
-                'tag_ids' => 'nullable|array'
-            ]);
+        $data = $request->validate([
+            'title' => 'required|string',
+            'notes' => 'nullable|string',
+            'date' => 'required|date',
+            'status' => 'required|in:' . Lanes::getAllAsString(),
+            'tag_ids' => 'nullable|array'
+        ]);
 
+        try {
             $task = Task::create([
                 'title' => $data['title'],
                 'notes' => $data['notes'] ?? null,
@@ -60,8 +61,14 @@ class TaskController extends Controller
             ]);
             if (!empty($data['tag_ids'])) $task->tags()->sync($data['tag_ids']);
             return redirect()->route('home');
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
+        } catch (\Throwable $exception) {
+            Log::error('Erro ao criar tarefa.', [
+                'exception' => $exception,
+            ]);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Não foi possível criar a tarefa. Tente novamente.');
         }
     }
 
@@ -203,7 +210,7 @@ class TaskController extends Controller
     public function updateLane(Request $request, Task $task)
     {
         $request->validate([
-            'status' => 'required|string'
+            'status' => ['required', 'string', Rule::in(Lanes::getAllAsArray())],
         ]);
 
         $task->status = $request->status;

@@ -56,10 +56,10 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 
 ## Regras de domínio que não podem ser inferidas pelo nome
 
-1. `Lanes::WAITING` possui o valor persistido **`wating`** (sem o segundo “i”). Isso é legado compatível com o SQLite. Não renomeie apenas a constante ou o frontend. Uma correção exige migration de dados, atualização coordenada das validações e verificação dos analytics.
-2. As raias atuais são `todo`, `wating`, `done` e `extra`. Não reintroduza `next` sem alterar domínio, banco e UI.
+1. `Lanes::WAITING` possui o valor persistido **`waiting`**. A migration `2026_08_13_010000_rename_wating_lane_to_waiting` converte `wating` para `waiting` e o antigo `next` para `todo`; não reintroduza esses valores em código ou dados novos.
+2. As raias atuais são `todo`, `waiting`, `done` e `extra`. Não reintroduza `next` sem alterar domínio, banco e UI.
 3. Uma tarefa copiada recebe `id_original` igual ao ID da primeira tarefa da família. A linhagem é usada na tela de detalhes e nos analytics.
-4. A cópia entre dias inclui apenas `todo` e `wating`, preserva tags e cria novas tarefas para a data de destino.
+4. A cópia entre dias inclui apenas `todo` e `waiting`, preserva tags e cria novas tarefas para a data de destino.
 5. `time-management/sync` substitui todas as entradas da data. Alterar esse fluxo para updates parciais muda a semântica atual.
 6. Tags de tarefas (`tags`) e tags de tempo (`time_management_tags`) são entidades diferentes.
 7. O resumo diário é único por data.
@@ -138,9 +138,5 @@ Use `php artisan test` somente depois que o diretório `tests/` existir. Para mu
 
 ## Pontos de atenção conhecidos
 
-- O valor `wating` é um typo legado persistido.
-- Algumas rotas importam/referenciam `taskController` com capitalização diferente de `TaskController.php`; isso merece correção coordenada e teste em Linux/Docker.
-- `TaskController::store()` captura exceções e usa `dd()`, comportamento inadequado para produção.
-- `updateLane()` aceita qualquer string, embora a criação valide contra `Lanes`; uma futura correção deve validar os mesmos valores.
+- A coluna `tasks.status` usa uma enumeração SQLite com `todo`, `waiting`, `done` e `extra`. A migration de renomeação aceita o valor legado apenas durante sua execução.
 - Não há autenticação nem testes automatizados cobrindo os fluxos críticos.
-- HTML de tarefas do dia anterior é montado no JavaScript com valores recebidos da API; revise escape antes de expor a aplicação a usuários não confiáveis.
