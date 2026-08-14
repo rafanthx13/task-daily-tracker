@@ -251,7 +251,7 @@ class TaskController extends Controller
     {
 
         $request->validate([
-            'oldDate' => 'required|string'
+            'oldDate' => 'required|date'
         ]);
         $oldDate = $request->oldDate;
 
@@ -267,6 +267,7 @@ class TaskController extends Controller
             'listas' => $listas,
             'tasks' => $tasks,
             'tags' => $tags,
+            'date' => Carbon::parse($oldDate)->toDateString(),
         ]);
     }
 }
