@@ -7,9 +7,12 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\TaskAnalyticsController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\DailyReviewController;
 
 
 Route::get('/', [TaskController::class, 'index'])->name('home');
+Route::get('/day/{date}/review', [DailyReviewController::class, 'show'])->name('daily-reviews.show');
+Route::post('/day/{date}/review', [DailyReviewController::class, 'store'])->name('daily-reviews.store');
 Route::get('/day/{date}', [TaskController::class, 'index'])->name('tasks.day');
 
 // Renova a sessão e fornece um token válido para páginas mantidas abertas.

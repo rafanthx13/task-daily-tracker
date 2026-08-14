@@ -10,6 +10,12 @@
             Adicionar Task
         </button>
 
+        @if($date->lte(now()->endOfDay()))
+        <a href="{{ route('daily-reviews.show', ['date' => $dateStr]) }}" class="inline-block rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
+            Revisar dia
+        </a>
+        @endif
+
         @if (!empty($prev))
         <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
             data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
