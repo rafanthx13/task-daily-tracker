@@ -23,11 +23,26 @@ class TaskController extends Controller
         $prev = $this->getPreviousDate($date->copy());
         $next = $this->getNextDate($date->copy());
 
-        $tasks = Task::with('tags')
+        $tasksForDay = Task::with('tags')
             ->whereDate('date', $date->toDateString())
             ->orderBy('ordering')
-            ->get()
-            ->groupBy('status')->toArray();
+            ->get();
+
+        $originalIds = $tasksForDay
+            ->map(fn (Task $task) => $task->id_original ?? $task->id)
+            ->unique()
+            ->values();
+        $originalDates = Task::whereIn('id', $originalIds)->pluck('date', 'id');
+
+        $tasksForDay->each(function (Task $task) use ($date, $originalDates): void {
+            $originalId = $task->id_original ?? $task->id;
+            $originalDate = Carbon::parse($originalDates[$originalId] ?? $task->date)->startOfDay();
+
+            $task->setAttribute('lineage_days', (int) $originalDate->diffInDays($date) + 1);
+            $task->setAttribute('lineage_started_at', $originalDate->toDateString());
+        });
+
+        $tasks = $tasksForDay->groupBy('status')->toArray();
 
         $listas = Lanes::getAllAsArray();
         $tags = Tag::all();

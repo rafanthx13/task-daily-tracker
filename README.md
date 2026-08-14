@@ -10,6 +10,7 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 - **Navegação por data:** acesso ao dia anterior ou seguinte que possua tarefas.
 - **Continuidade de tarefas:** cópia de tarefas pendentes (`todo` e `waiting`) de uma data anterior para o dia atual.
 - **Histórico de tarefas:** tarefas copiadas preservam `id_original`, permitindo consultar sua linhagem, data inicial e duração.
+- **Tempo em aberto:** tarefas copiadas exibem no Kanban há quantos dias estão abertas desde a criação original.
 - **Tags de tarefas:** múltiplas tags coloridas por tarefa, com tela própria de gerenciamento.
 - **Lembretes:** lembretes recorrentes e esporádicos, incluindo histórico dos esporádicos finalizados.
 - **Resumo diário:** texto livre associado de forma única a cada data.
