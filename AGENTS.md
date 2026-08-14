@@ -116,6 +116,7 @@ Principais tabelas de produto:
 
 - Preserve o padrão Blade + jQuery existente, salvo pedido explícito de migração tecnológica.
 - Controllers retornam views para páginas e JSON para operações AJAX.
+- Respostas AJAX seguem o contrato `success`, `message`, `data` e `errors`; preserve-o em novos endpoints e nas falhas JSON.
 - Reutilize `showNotification()` para feedback na home.
 - Mantenha suporte a dark mode em novos componentes com variantes `dark:`.
 - Use nomes de classe PHP e imports com a capitalização exata dos arquivos, especialmente porque containers Linux diferenciam maiúsculas e minúsculas.

@@ -48,6 +48,39 @@ $(function () {
 
     window.showNotification = showNotification;
 
+    function getRequestErrorMessage(xhr, fallback = 'Não foi possível concluir a operação. Tente novamente.') {
+        const response = xhr && xhr.responseJSON ? xhr.responseJSON : {};
+
+        if (!xhr || xhr.status === 0) {
+            return 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.';
+        }
+
+        if (xhr.status === 419) {
+            return 'Sua sessão expirou. Recarregue a página e tente novamente.';
+        }
+
+        if (xhr.status === 404) {
+            return 'O registro não foi encontrado. Ele pode ter sido removido em outra aba.';
+        }
+
+        if (xhr.status === 409) {
+            return 'Este registro foi alterado em outra aba. Recarregue a página e tente novamente.';
+        }
+
+        if (xhr.status === 422) {
+            const firstError = Object.values(response.errors || {}).flat().find(Boolean);
+            return firstError || response.message || 'Verifique os dados informados e tente novamente.';
+        }
+
+        if (xhr.status >= 500) {
+            return 'Ocorreu um erro interno. Tente novamente em alguns instantes.';
+        }
+
+        return response.message || fallback;
+    }
+
+    window.getRequestErrorMessage = getRequestErrorMessage;
+
     function setButtonLoading(button, isLoading, loadingLabel, defaultLabel) {
         button
             .prop('disabled', isLoading)
@@ -107,11 +140,7 @@ $(function () {
                             "Erro ao atualizar status:",
                             xhr.responseText
                         );
-                        let errorMessage = "Erro ao atualizar o status da tarefa.";
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        }
-                        showNotification(errorMessage, 'error');
+                        showNotification(getRequestErrorMessage(xhr, 'Não foi possível atualizar a raia da tarefa.'), 'error');
 
                         // Opcional: Reverter o movimento do item se der erro?
                         // Por simplicidade apenas avisamos o erro por enquanto.
@@ -177,6 +206,9 @@ $(function () {
             success: function () {
                 location.reload(); // ou atualizar só o card editado
             },
+            error: function (xhr) {
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível atualizar a tarefa.'), 'error');
+            },
         });
     });
 
@@ -195,6 +227,9 @@ $(function () {
             },
             success: function () {
                 location.reload(); // ou atualizar só o card editado
+            },
+            error: function (xhr) {
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível excluir a tarefa.'), 'error');
             },
         });
     });
@@ -220,11 +255,7 @@ $(function () {
                 location.reload();
             },
             error: function (xhr) {
-                let errorMessage = "Erro ao copiar tarefas.";
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                }
-                showNotification(errorMessage, 'error');
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível copiar as tarefas.'), 'error');
             },
             complete: function () {
                 setButtonLoading(button, false, 'Copiando tarefas...', 'Carregar dia anterior');
@@ -267,13 +298,14 @@ $(function () {
                 oldDate: oldDate
             },
             success: function(response) {
+                const data = response.data;
 
                 previousDayColumn.empty();
 
                 // Verifica se a resposta contém os dados das listas e tarefas
-                if (response && response.listas && response.tasks) {
+                if (data && data.listas && data.tasks) {
 
-                    const listasArray = Object.values(response.listas);
+                    const listasArray = Object.values(data.listas);
 
                     listasArray.forEach(lista => {
                         const $section = $('<section>');
@@ -287,7 +319,7 @@ $(function () {
                         }).appendTo($section);
 
                         // Loop através das tarefas de cada lista
-                        const tasksForList = response.tasks[lista] || [];
+                        const tasksForList = data.tasks[lista] || [];
                         tasksForList.forEach(task => {
                             const tags = Array.isArray(task.tags) ? task.tags : [];
                             const $card = $('<li>', {
@@ -346,8 +378,8 @@ $(function () {
             },
             error: function(xhr, status, error) {
                 console.error('Erro ao buscar as tarefas do dia anterior:', error);
-                // Opcional: mostrar uma mensagem de erro para o usuário
                 previousDayColumn.html('<p class="text-red-500">Não foi possível carregar as tarefas do dia anterior.</p>');
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível carregar as tarefas do dia anterior.'), 'error');
             },
             complete: function() {
                 button.prop('disabled', false).attr('aria-busy', 'false');
@@ -382,18 +414,18 @@ $(function () {
             data: {
                 _token: csrfToken
             },
-            success: function() {
+            success: function(response) {
                 // Aplica o estilo de concluído em vez de remover
                 btn.removeClass('bg-white text-blue-600 border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-50')
                    .addClass('bg-gray-200 text-gray-500 border-gray-300 line-through cursor-default')
                    .prop('disabled', true)
                    .attr('title', 'Concluído hoje');
 
-                showNotification("Lembrete concluído!");
+                showNotification(response.message);
             },
-            error: function() {
+            error: function(xhr) {
                 btn.prop('disabled', false).removeClass('opacity-50');
-                showNotification("Erro ao concluir lembrete.", "error");
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível concluir o lembrete.'), 'error');
             }
         });
     });
@@ -412,15 +444,15 @@ $(function () {
             data: {
                 _token: csrfToken
             },
-            success: function() {
+            success: function(response) {
                 item.fadeOut(300, function() {
                     $(this).remove();
                 });
-                showNotification("Lembrete finalizado!");
+                showNotification(response.message);
             },
-            error: function() {
+            error: function(xhr) {
                 btn.prop('disabled', false).removeClass('opacity-50');
-                showNotification("Erro ao finalizar lembrete.", "error");
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível finalizar o lembrete.'), 'error');
             }
         });
     });
@@ -481,13 +513,13 @@ $(function () {
                 });
             })
             .done(function(response) {
-                preview.html(response.html || '<p class="text-gray-500 dark:text-gray-400">Nenhum conteúdo para visualizar.</p>');
+                preview.html(response.data.html || '<p class="text-gray-500 dark:text-gray-400">Nenhum conteúdo para visualizar.</p>');
                 textarea.addClass('hidden');
                 preview.removeClass('hidden');
                 btn.attr('aria-pressed', 'true').text('Editar Markdown');
             })
-            .fail(function() {
-                showNotification('Erro ao renderizar o resumo.', 'error');
+            .fail(function(xhr) {
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível renderizar o resumo.'), 'error');
                 btn.attr('aria-pressed', 'false').text('Visualizar Markdown');
             })
             .always(function() {
@@ -522,11 +554,7 @@ $(function () {
                 showNotification(response.message);
             })
             .fail(function(xhr) {
-                const message = xhr.status === 419
-                    ? 'Sua sessão expirou. Recarregue a página e tente novamente.'
-                    : 'Erro ao salvar resumo.';
-
-                showNotification(message, 'error');
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível salvar o resumo.'), 'error');
             })
             .always(function() {
                 setButtonLoading(btn, false, 'Salvando...', 'Salvar Resumo');
@@ -602,14 +630,18 @@ $(function () {
             url: `${window.APP_URL}/time-management/entries/${currentDate}`,
             method: 'GET',
             success: function(response) {
-                timeManagementTags = response.tags;
+                const data = response.data;
+                timeManagementTags = data.tags;
                 $('#time-entries-body').empty();
-                if (response.entries.length > 0) {
-                    response.entries.forEach(entry => addTimeRow(entry));
+                if (data.entries.length > 0) {
+                    data.entries.forEach(entry => addTimeRow(entry));
                 } else {
                     addTimeRow(); // start with one empty row
                 }
                 $('#time-management-section').data('loaded', true);
+            },
+            error: function(xhr) {
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível carregar os registros de tempo.'), 'error');
             }
         });
     }
@@ -657,8 +689,8 @@ $(function () {
             success: function(response) {
                 showNotification(response.message);
             },
-            error: function() {
-                showNotification("Erro ao salvar registros de tempo.", "error");
+            error: function(xhr) {
+                showNotification(getRequestErrorMessage(xhr, 'Não foi possível salvar os registros de tempo.'), 'error');
             },
             complete: function() {
                 setButtonLoading(btn, false, 'Salvando...', 'Salvar Tempo');

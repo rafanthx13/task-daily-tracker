@@ -14,6 +14,8 @@ use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
+    use Concerns\RespondsWithJson;
+
     public function index($date = null)
     {
         $date = $date ? Carbon::parse($date)->startOfDay() : now()->startOfDay();
@@ -90,10 +92,7 @@ class TaskController extends Controller
                 ->get();
 
             if ($oldNextTasks->isEmpty()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Não há tarefas em Waiting ou Next para adicionar.'
-                ], 400);
+                return $this->jsonError('Não há tarefas pendentes para copiar.', 422);
             }
 
             DB::transaction(function () use ($oldNextTasks, $dateToday) {
@@ -117,16 +116,15 @@ class TaskController extends Controller
                 }
             });
 
-            return response()->json(['success' => true]);
+            return $this->jsonSuccess([
+                'copied_count' => $oldNextTasks->count(),
+            ], 'Tarefas copiadas com sucesso.');
         } catch (\Throwable $e) {
             Log::error('Erro ao copiar tarefas', [
                 'exception' => $e
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao copiar tarefas do dia anterior.'
-            ], 500);
+            return $this->jsonError('Não foi possível copiar as tarefas do dia anterior.', 500);
         }
     }
 
@@ -216,7 +214,7 @@ class TaskController extends Controller
         $task->status = $request->status;
         $task->save();
 
-        return response()->json(['success' => true, 'task' => $task]);
+        return $this->jsonSuccess(['task' => $task], 'Raia da tarefa atualizada.');
     }
 
     public function update(Request $request, $id)
@@ -238,7 +236,7 @@ class TaskController extends Controller
             $task->tags()->detach();
         }
 
-        return response()->json(['success' => true]);
+        return $this->jsonSuccess(['task' => $task->load('tags')], 'Tarefa atualizada.');
     }
 
     public function delete(Request $request, $id)
@@ -246,7 +244,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->delete();
 
-        return response()->json(['success' => true]);
+        return $this->jsonSuccess(null, 'Tarefa excluída.');
     }
 
     public function previousDayTasks(Request $request)
@@ -265,7 +263,7 @@ class TaskController extends Controller
 
         $listas = Lanes::getAllAsArray();
         $tags = Tag::all();
-        return response()->json([
+        return $this->jsonSuccess([
             'listas' => $listas,
             'tasks' => $tasks,
             'tags' => $tags,

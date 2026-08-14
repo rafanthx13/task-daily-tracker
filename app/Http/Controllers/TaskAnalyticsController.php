@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 class TaskAnalyticsController extends Controller
 {
+    use Concerns\RespondsWithJson;
+
     /**
 
      * Exibe a view principal de analytics
@@ -26,7 +28,7 @@ class TaskAnalyticsController extends Controller
         $monthYear = $request->get('month'); // Ex: '2025-12'
 
         if (!$monthYear) {
-            return response()->json(['error' => 'Mês não informado'], 400);
+            return $this->jsonError('Mês não informado.', 422);
         }
 
         $date = Carbon::parse($monthYear . '-01');
@@ -45,7 +47,7 @@ class TaskAnalyticsController extends Controller
         $originalIds = $originalTasks->pluck('id');
 
         if ($originalIds->isEmpty()) {
-            return response()->json([
+            return $this->jsonSuccess([
                 'tasks' => [],
                 'summary' => [
                     'total' => 0,
@@ -82,7 +84,7 @@ class TaskAnalyticsController extends Controller
             return $group->count();
         });
 
-        return response()->json([
+        return $this->jsonSuccess([
             'tasks' => $processedTasks,
             'summary' => [
                 'total' => $processedTasks->count(),

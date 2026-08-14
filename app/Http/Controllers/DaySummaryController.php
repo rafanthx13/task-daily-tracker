@@ -8,13 +8,15 @@ use Illuminate\Support\Str;
 
 class DaySummaryController extends Controller
 {
+    use Concerns\RespondsWithJson;
+
     public function preview(Request $request)
     {
         $validated = $request->validate([
             'content' => 'nullable|string',
         ]);
 
-        return response()->json([
+        return $this->jsonSuccess([
             'html' => Str::markdown($validated['content'] ?? '', [
                 'html_input' => 'strip',
                 'allow_unsafe_links' => false,
@@ -34,10 +36,6 @@ class DaySummaryController extends Controller
             ['content' => $request->input('content')]
         );
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Resumo salvo com sucesso!',
-            'summary' => $summary
-        ]);
+        return $this->jsonSuccess(['summary' => $summary], 'Resumo salvo com sucesso!');
     }
 }

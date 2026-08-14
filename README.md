@@ -19,6 +19,8 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 - **Anotações:** CRUD de textos globais com título, descrição e conteúdo renderizado como Markdown seguro.
 - **Dark mode:** alternância manual com preferência armazenada no navegador.
 
+Os endpoints AJAX usam o contrato `{ success, message, data, errors }`. Falhas de validação, sessão expirada e registros não encontrados também retornam esse formato para que a interface apresente uma ação clara ao usuário.
+
 > **Compatibilidade de dados:** a migration `2026_08_13_010000_rename_wating_lane_to_waiting` converte o valor legado `wating` para `waiting`, normaliza o antigo `next` como `todo` e atualiza a restrição da coluna no SQLite. Aplique as migrations antes de usar esta versão.
 
 ## Tecnologias

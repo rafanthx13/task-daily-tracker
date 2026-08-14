@@ -95,7 +95,7 @@ Avaliar índices para:
 
 Antes de criar, comparar planos de consulta e volume real do SQLite.
 
-### 11. Padronizar respostas AJAX
+### 11. Padronizar respostas AJAX — concluído
 
 Alguns endpoints retornam `success`, outros apenas `message`, e os erros não seguem uma estrutura única.
 
@@ -130,7 +130,7 @@ Adicionar indicadores durante:
 
 Os botões devem ficar desabilitados enquanto a operação estiver em andamento, evitando envios duplicados.
 
-### 14. Melhorar mensagens de erro
+### 14. Melhorar mensagens de erro — concluído
 
 Em vez de mensagens genéricas, diferenciar:
 

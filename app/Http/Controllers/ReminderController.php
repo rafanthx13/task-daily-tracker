@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 class ReminderController extends Controller
 {
+    use Concerns\RespondsWithJson;
+
     public function index()
     {
         return view('reminders.index');
@@ -73,7 +75,7 @@ class ReminderController extends Controller
         $reminder = Reminder::where('id', $id)->where('type', 'recurring')->firstOrFail();
         $reminder->update(['last_completed_at' => now()]);
 
-        return response()->json(['success' => true]);
+        return $this->jsonSuccess(['reminder' => $reminder], 'Lembrete concluído.');
     }
 
     public function finishSporadic($id)
@@ -81,6 +83,6 @@ class ReminderController extends Controller
         $reminder = Reminder::where('id', $id)->where('type', 'sporadic')->firstOrFail();
         $reminder->update(['last_completed_at' => now()]);
 
-        return response()->json(['success' => true]);
+        return $this->jsonSuccess(['reminder' => $reminder], 'Lembrete finalizado.');
     }
 }
