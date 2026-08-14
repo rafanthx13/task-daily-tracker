@@ -397,7 +397,7 @@ Adicionar uma ação “Iniciar foco” em uma tarefa. O cronômetro poderia:
 
 O backend deve ser a fonte do horário inicial para evitar perda ou divergência caso a aba seja atualizada.
 
-### 37. Detecção de tarefas estagnadas
+### 37. Detecção de tarefas estagnadas — concluído parcialmente
 
 Usar a linhagem já existente para identificar tarefas copiadas por vários dias sem conclusão. O sistema poderia destacar visualmente itens estagnados e sugerir ações como:
 
@@ -407,7 +407,7 @@ Usar a linhagem já existente para identificar tarefas copiadas por vários dias
 - arquivar ou cancelar;
 - transformar observações acumuladas em uma anotação.
 
-O limite de dias deve ser configurável para não gerar alertas excessivos.
+Foi implementado apenas o indicador visual de dias em aberto para tarefas copiadas, conforme solicitado. Não há alertas, sugestões de ação ou limite configurável.
 
 ### 38. Linha do tempo de atividades
 

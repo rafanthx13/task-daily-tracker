@@ -60,12 +60,13 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 1. `Lanes::WAITING` possui o valor persistido **`waiting`**. A migration `2026_08_13_010000_rename_wating_lane_to_waiting` converte `wating` para `waiting` e o antigo `next` para `todo`; não reintroduza esses valores em código ou dados novos.
 2. As raias atuais são `todo`, `waiting`, `done` e `extra`. Não reintroduza `next` sem alterar domínio, banco e UI.
 3. Uma tarefa copiada recebe `id_original` igual ao ID da primeira tarefa da família. A linhagem é usada na tela de detalhes e nos analytics.
-4. A cópia entre dias inclui apenas `todo` e `waiting`, preserva tags e cria novas tarefas para a data de destino.
-5. `time-management/sync` substitui todas as entradas da data. Alterar esse fluxo para updates parciais muda a semântica atual.
-6. Tags de tarefas (`tags`) e tags de tempo (`time_management_tags`) são entidades diferentes.
-7. O resumo diário é único por data.
-8. A revisão diária é única por data e compartilha o texto com o resumo diário; não crie um segundo campo de reflexão para o mesmo propósito.
-9. O endpoint `GET /csrf-token` renova sessão/token antes de salvar o resumo após longos períodos com a aba aberta.
+4. A home calcula `lineage_days` somente para exibição: é a contagem inclusiva entre a data da tarefa original e a data exibida, usada no badge de tarefas copiadas.
+5. A cópia entre dias inclui apenas `todo` e `waiting`, preserva tags e cria novas tarefas para a data de destino.
+6. `time-management/sync` substitui todas as entradas da data. Alterar esse fluxo para updates parciais muda a semântica atual.
+7. Tags de tarefas (`tags`) e tags de tempo (`time_management_tags`) são entidades diferentes.
+8. O resumo diário é único por data.
+9. A revisão diária é única por data e compartilha o texto com o resumo diário; não crie um segundo campo de reflexão para o mesmo propósito.
+10. O endpoint `GET /csrf-token` renova sessão/token antes de salvar o resumo após longos períodos com a aba aberta.
 
 ## JavaScript e CSRF
 
