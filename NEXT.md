@@ -299,17 +299,16 @@ Este roadmap deve ser atualizado quando uma melhoria for implementada, removida 
 
 ## Novas sugestões de funcionalidades
 
-### 29. Revisão diária guiada
+### 29. Revisão diária guiada — concluído
 
 Criar um fluxo de encerramento do dia que reúna, em uma única tela:
 
 - tarefas concluídas, pendentes e extras;
-- tempo registrado por categoria;
 - lembretes concluídos;
 - resumo do dia;
-- campo opcional para humor, energia ou nota do dia.
+- campos opcionais para humor e energia; a nota do dia reutiliza o Resumo do Dia, sem duplicação.
 
-Ao finalizar, o sistema pode marcar a data como revisada e gerar automaticamente uma versão Markdown do relatório diário. Isso transforma dados já existentes em um ritual útil, sem exigir preenchimento duplicado.
+Ao finalizar, o sistema marca a data como revisada e gera automaticamente uma versão Markdown do relatório diário. Esta revisão não usa os registros de gestão de tempo. Isso transforma dados já existentes em um ritual útil, sem exigir preenchimento duplicado.
 
 ### 30. Revisão semanal
 

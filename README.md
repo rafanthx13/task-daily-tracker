@@ -13,6 +13,7 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 - **Tags de tarefas:** múltiplas tags coloridas por tarefa, com tela própria de gerenciamento.
 - **Lembretes:** lembretes recorrentes e esporádicos, incluindo histórico dos esporádicos finalizados.
 - **Resumo diário:** texto livre associado de forma única a cada data.
+- **Revisão diária:** fechamento do dia com tarefas, lembretes, humor, energia e relatório Markdown; reutiliza o texto do resumo diário.
 - **Gestão de tempo:** registros de atividade com início, fim, duração calculada e categorias próprias.
 - **Analytics mensal:** relatório de tarefas originais e o estado mais recente de cada linhagem.
 - **Conquistas:** registros agrupados por período no formato `MM/AAAA`.
@@ -161,6 +162,7 @@ docker compose up --build
 - `tags` e `tag_task`: tags de tarefas e relacionamento muitos-para-muitos.
 - `reminders`: lembretes `recurring` ou `sporadic`.
 - `day_summaries`: um resumo por data.
+- `daily_reviews`: uma revisão por data, com check-in opcional e snapshot do relatório Markdown.
 - `time_management_entries`: registros de tempo de uma data.
 - `time_management_tags`: categorias exclusivas da gestão de tempo.
 - `achievements`: conquistas agrupadas por período.
@@ -173,6 +175,7 @@ docker compose up --build
 |---|---|
 | `/` | Kanban do dia atual |
 | `/day/{date}` | Kanban de uma data específica |
+| `/day/{date}/review` | Revisão e fechamento da data |
 | `/tags` | Gerenciamento de tags de tarefas |
 | `/analytics` | Relatório mensal |
 | `/reminders` | Central de lembretes |

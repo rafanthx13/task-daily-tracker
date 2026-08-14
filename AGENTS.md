@@ -37,6 +37,7 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 - `TaskAnalyticsController`: considera apenas tarefas originais do mês e substitui seu status pelo membro mais recente da linhagem.
 - `ReminderController`: separa lembretes `recurring` e `sporadic`; `last_completed_at` indica conclusão.
 - `DaySummaryController`: mantém um único resumo por data com `updateOrCreate`.
+- `DailyReviewController`: encerra uma data com tarefas, lembretes e check-in opcional; reutiliza `day_summaries.content` como texto da revisão e salva o relatório Markdown como snapshot.
 - `NoteController`: CRUD de anotações globais; renderiza o conteúdo Markdown com HTML bruto removido e links inseguros bloqueados.
 - `TimeManagementController`: sincroniza todas as entradas de uma data por substituição (delete + create).
 - `AchievementController`: agrupa conquistas pelo campo textual `period` (`MM/AAAA`).
@@ -63,7 +64,8 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 5. `time-management/sync` substitui todas as entradas da data. Alterar esse fluxo para updates parciais muda a semântica atual.
 6. Tags de tarefas (`tags`) e tags de tempo (`time_management_tags`) são entidades diferentes.
 7. O resumo diário é único por data.
-8. O endpoint `GET /csrf-token` renova sessão/token antes de salvar o resumo após longos períodos com a aba aberta.
+8. A revisão diária é única por data e compartilha o texto com o resumo diário; não crie um segundo campo de reflexão para o mesmo propósito.
+9. O endpoint `GET /csrf-token` renova sessão/token antes de salvar o resumo após longos períodos com a aba aberta.
 
 ## JavaScript e CSRF
 
@@ -93,6 +95,7 @@ Principais tabelas de produto:
 - `tasks`, `tags`, `tag_task`
 - `reminders`
 - `day_summaries`
+- `daily_reviews`
 - `time_management_entries`, `time_management_tags`
 - `achievements`
 - `notes`
