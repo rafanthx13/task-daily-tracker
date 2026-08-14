@@ -251,64 +251,78 @@ $(function () {
             },
             success: function(response) {
 
-                // Variável para armazenar o HTML que será gerado
-                let previousDayHtml = '';
+                previousDayColumn.empty();
 
                 // Verifica se a resposta contém os dados das listas e tarefas
                 if (response && response.listas && response.tasks) {
 
                     const listasArray = Object.values(response.listas);
 
-                    // Loop através das listas (ex: 'NEXT', 'PROGRESS', 'DONE')
                     listasArray.forEach(lista => {
-                        previousDayHtml += `
-                            <section>
-                                <h2 class="text-xl font-semibold mb-3">${lista.toUpperCase()}</h2>
-                                <ul class="lista" id="lista-anterior-${lista.toLowerCase().replace(' ', '-')}">
-                        `;
+                        const $section = $('<section>');
+                        $('<h2>', {
+                            class: 'text-xl font-semibold mb-3',
+                        }).text(String(lista).toUpperCase()).appendTo($section);
+
+                        const $list = $('<ul>', {
+                            class: 'lista',
+                            id: `lista-anterior-${String(lista).toLowerCase().replace(' ', '-')}`,
+                        }).appendTo($section);
 
                         // Loop através das tarefas de cada lista
                         const tasksForList = response.tasks[lista] || [];
                         tasksForList.forEach(task => {
-                            let tagsHtml = '';
-                            let tagIds = [];
-                            if (task.tags && task.tags.length > 0) {
-                                tagIds = task.tags.map(t => t.id);
-                                tagsHtml = `
-                                    <div class="flex flex-wrap gap-1">
-                                        ${task.tags.map(tag => `<span class="px-2 py-0.5 rounded-full text-xs font-medium border" style="background-color: ${tag.color || '#E0E7FF'}20; color: ${tag.color || '#3730A3'}; border-color: ${tag.color || '#E0E7FF'}40;">${tag.name}</span>`).join('')}
-                                    </div>
-                                `;
+                            const tags = Array.isArray(task.tags) ? task.tags : [];
+                            const $card = $('<li>', {
+                                class: 'card p-3 bg-white rounded shadow mb-2',
+                            }).data('id', task.id).data('tags', tags.map(tag => tag.id));
+                            const $cardContent = $('<div>', {
+                                class: 'flex justify-between items-start',
+                            }).appendTo($card);
+                            const $taskContent = $('<div>').appendTo($cardContent);
+                            const $titleRow = $('<div>', {
+                                class: 'flex items-center gap-2 flex-wrap',
+                            }).appendTo($taskContent);
+
+                            $('<h3>', {
+                                class: 'font-bold text-gray-800',
+                            }).text(task.title || '').appendTo($titleRow);
+
+                            if (tags.length > 0) {
+                                const $tags = $('<div>', {
+                                    class: 'flex flex-wrap gap-1',
+                                }).appendTo($titleRow);
+
+                                tags.forEach(tag => {
+                                    const color = tag.color || '#3730A3';
+                                    $('<span>', {
+                                        class: 'px-2 py-0.5 rounded-full text-xs font-medium border',
+                                    }).css({
+                                        backgroundColor: `${color}20`,
+                                        color: color,
+                                        borderColor: `${color}40`,
+                                    }).text(tag.name || '').appendTo($tags);
+                                });
                             }
 
-                            previousDayHtml += `
-                                <li class="card p-3 bg-white rounded shadow mb-2" data-id="${task.id}" data-tags='${JSON.stringify(tagIds)}'>
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <div class="flex items-center gap-2 flex-wrap">
-                                                <h3 class="font-bold text-gray-800">${task.title}</h3>
-                                                ${tagsHtml}
-                                            </div>
-                                            ${task.notes ? `<p class="text-gray-600 text-sm mt-1">${task.notes}</p>` : ''}
-                                        </div>
-                                        <button class="edit-task text-gray-500 hover:text-blue-600 cursor-pointer" title="Editar">
-                                            ✏️
-                                        </button>
-                                    </div>
-                                </li>
-                            `;
+                            if (task.notes) {
+                                $('<p>', {
+                                    class: 'text-gray-600 text-sm mt-1',
+                                }).text(task.notes).appendTo($taskContent);
+                            }
+
+                            $('<button>', {
+                                class: 'edit-task text-gray-500 hover:text-blue-600 cursor-pointer',
+                                title: 'Editar',
+                                type: 'button',
+                            }).text('✏️').appendTo($cardContent);
+
+                            $list.append($card);
                         });
 
-                        previousDayHtml += `
-                                </ul>
-                            </section>
-                        `;
+                        previousDayColumn.append($section);
                     });
                 }
-
-                // Insere o HTML gerado na div de "previous-day-kanban-column"
-                console.log(previousDayHtml);
-                previousDayColumn.html(previousDayHtml);
 
                 // Marca a coluna como carregada
                 previousDayColumn.data('loaded', true);

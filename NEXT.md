@@ -18,13 +18,13 @@ O projeto ainda não possui uma suíte funcional em `tests/`. Os primeiros teste
 
 **Resultado esperado:** executar `php artisan test` com cobertura dos principais fluxos de negócio.
 
-### 2. Remover `dd()` do fluxo de criação de tarefas
+### 2. Remover `dd()` do fluxo de criação de tarefas — concluído
 
 `TaskController::store()` captura exceções e chama `dd()`. Em produção isso interrompe a resposta e pode exibir informações internas.
 
 **Sugestão:** registrar a exceção no log e retornar uma mensagem amigável, preservando os dados enviados com `withInput()`.
 
-### 3. Validar mudanças de raia no backend
+### 3. Validar mudanças de raia no backend — concluído
 
 `updateLane()` aceita qualquer string como status, enquanto a criação valida os valores de `Lanes`.
 
@@ -32,13 +32,13 @@ O projeto ainda não possui uma suíte funcional em `tests/`. Os primeiros teste
 
 **Resultado esperado:** valores inválidos nunca entram na coluna `tasks.status`.
 
-### 4. Corrigir a capitalização de `TaskController`
+### 4. Corrigir a capitalização de `TaskController` — concluído
 
 Existem referências a `taskController` enquanto o arquivo e a classe usam `TaskController`. Isso pode funcionar no Windows, mas causar problemas em ambientes Linux e Docker.
 
 **Sugestão:** padronizar imports, referências de rota e nomes conforme PSR-4 e PSR-12.
 
-### 5. Tratar conteúdo inserido no HTML pelo JavaScript
+### 5. Tratar conteúdo inserido no HTML pelo JavaScript — concluído
 
 A visualização do dia anterior monta HTML com título, notas e tags retornados pela API. Se esses valores contiverem marcação maliciosa, podem gerar XSS.
 
@@ -56,9 +56,9 @@ Atualmente todas as rotas ficam públicas. Antes de disponibilizar o sistema na 
 
 ## Prioridade 2 — Integridade e manutenção
 
-### 7. Corrigir o valor legado `wating`
+### 7. Corrigir o valor legado `wating` — concluído
 
-O status `WAITING` está persistido como `wating`. A correção deve ser coordenada para não quebrar dados existentes.
+Implementado pela migration `2026_08_13_010000_rename_wating_lane_to_waiting`, que preserva tarefas ao converter `wating` para `waiting` e o antigo `next` para `todo`.
 
 Etapas sugeridas:
 
@@ -294,7 +294,6 @@ Uma sequência segura para as próximas etapas seria:
 7. persistência da ordenação e melhorias de UX;
 8. refatoração gradual do JavaScript;
 9. novos analytics, exportação e backups;
-10. correção migrada de `wating` para `waiting`.
 
 Este roadmap deve ser atualizado quando uma melhoria for implementada, removida ou substituída por outra decisão arquitetural.
 

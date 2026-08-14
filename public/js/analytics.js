@@ -44,7 +44,7 @@ $(function () {
                     let statusClasses = 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-100 dark:border-gray-700'; // Default
                     if (task.status === 'todo') {
                         statusClasses = 'bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900';
-                    } else if (task.status === 'wating') { // Note: misspelled in constants
+                    } else if (task.status === 'waiting') {
                         statusClasses = 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900';
                     } else if (task.status === 'done') {
                         statusClasses = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900';
