@@ -1,9 +1,14 @@
 $(function () {
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
+    let isLoading = false;
 
     function loadAnalytics() {
         const month = $('#month-select').val();
-        if (!month) return;
+        if (!month || isLoading) return;
+
+        isLoading = true;
+        const button = $('#btn-load-analytics');
+        button.prop('disabled', true).attr('aria-busy', 'true').text('Gerando relatório...');
 
         $('#analytics-results').addClass('hidden');
         $('#analytics-empty').addClass('hidden');
@@ -77,6 +82,10 @@ $(function () {
                 } else {
                     alert('Erro ao carregar os dados do relatório.');
                 }
+            },
+            complete: function () {
+                isLoading = false;
+                button.prop('disabled', false).attr('aria-busy', 'false').text('Gerar Relatório');
             }
         });
     }

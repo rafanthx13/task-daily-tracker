@@ -20,7 +20,7 @@
                 class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="mt-4 md:mt-5">
-            <button id="btn-load-analytics" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200 cursor-pointer shadow-md">
+            <button id="btn-load-analytics" type="button" aria-busy="false" class="bg-blue-600 hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60 text-white px-6 py-2 rounded-lg transition duration-200 cursor-pointer shadow-md">
                 Gerar Relatório
             </button>
         </div>

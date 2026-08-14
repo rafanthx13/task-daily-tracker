@@ -118,7 +118,7 @@ Depois, importar esses módulos por `resources/js/app.js` e Vite. Fazer a migra�
 
 ## Prioridade 3 — Experiência do usuário
 
-### 13. Exibir estados de carregamento consistentes
+### 13. Exibir estados de carregamento consistentes — concluído
 
 Adicionar indicadores durante:
 

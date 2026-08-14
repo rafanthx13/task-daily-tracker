@@ -48,6 +48,13 @@ $(function () {
 
     window.showNotification = showNotification;
 
+    function setButtonLoading(button, isLoading, loadingLabel, defaultLabel) {
+        button
+            .prop('disabled', isLoading)
+            .attr('aria-busy', String(isLoading))
+            .text(isLoading ? loadingLabel : defaultLabel);
+    }
+
     function updateThemeToggle(isDark) {
         $('#themeToggle')
             .attr('aria-pressed', String(isDark))
@@ -196,8 +203,11 @@ $(function () {
     $("#btnGetPreviousNextTask").click(function (e) {
         e.preventDefault();
 
-        let oldDate = $("#btnGetPreviousNextTask").data("old");
-        let todayDate = $("#btnGetPreviousNextTask").data("today");
+        const button = $(this);
+        const oldDate = button.data("old");
+        const todayDate = button.data("today");
+
+        setButtonLoading(button, true, 'Copiando tarefas...', 'Carregar dia anterior');
 
         $.ajax({
             url: `${window.APP_URL}/get-tasks-from-old-date/${oldDate}/${todayDate}`,
@@ -215,6 +225,9 @@ $(function () {
                     errorMessage = xhr.responseJSON.message;
                 }
                 showNotification(errorMessage, 'error');
+            },
+            complete: function () {
+                setButtonLoading(button, false, 'Copiando tarefas...', 'Carregar dia anterior');
             }
         });
 
@@ -240,6 +253,10 @@ $(function () {
         }
 
         let oldDate = $("#btnGetPreviousNextTask").data("old");
+        const loading = $('#previous-day-loading');
+
+        button.prop('disabled', true).attr('aria-busy', 'true');
+        previousDayColumn.attr('aria-busy', 'true').empty().append(loading.removeClass('hidden'));
 
         // Requisição AJAX para obter as tarefas do dia anterior
         $.ajax({
@@ -331,6 +348,10 @@ $(function () {
                 console.error('Erro ao buscar as tarefas do dia anterior:', error);
                 // Opcional: mostrar uma mensagem de erro para o usuário
                 previousDayColumn.html('<p class="text-red-500">Não foi possível carregar as tarefas do dia anterior.</p>');
+            },
+            complete: function() {
+                button.prop('disabled', false).attr('aria-busy', 'false');
+                previousDayColumn.attr('aria-busy', 'false').append(loading.addClass('hidden'));
             }
         });
     });
@@ -481,7 +502,7 @@ $(function () {
         const date = textarea.data('date');
         const btn = $(this);
 
-        btn.prop('disabled', true).addClass('opacity-50').text('Salvando...');
+        setButtonLoading(btn, true, 'Salvando...', 'Salvar Resumo');
 
         // Obtém um token novo antes de salvar. Isso também renova a sessão caso
         // a página tenha permanecido aberta além do SESSION_LIFETIME.
@@ -508,7 +529,7 @@ $(function () {
                 showNotification(message, 'error');
             })
             .always(function() {
-                btn.prop('disabled', false).removeClass('opacity-50').text('Salvar Resumo');
+                setButtonLoading(btn, false, 'Salvando...', 'Salvar Resumo');
             });
     });
 
@@ -623,7 +644,7 @@ $(function () {
         });
 
         const btn = $(this);
-        btn.prop('disabled', true).text('Salvando...');
+        setButtonLoading(btn, true, 'Salvando...', 'Salvar Tempo');
 
         $.ajax({
             url: `${window.APP_URL}/time-management/sync`,
@@ -635,11 +656,12 @@ $(function () {
             },
             success: function(response) {
                 showNotification(response.message);
-                btn.prop('disabled', false).text('Salvar Tempo');
             },
             error: function() {
                 showNotification("Erro ao salvar registros de tempo.", "error");
-                btn.prop('disabled', false).text('Salvar Tempo');
+            },
+            complete: function() {
+                setButtonLoading(btn, false, 'Salvando...', 'Salvar Tempo');
             }
         });
     });
