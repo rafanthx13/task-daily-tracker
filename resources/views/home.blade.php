@@ -23,14 +23,14 @@
             Carregar dia anterior
         </button>
         <button id="btnSeePreviousDay" type="button" aria-expanded="false" aria-controls="previous-day-kanban-column" data-active="false"
-            class="bg-blue-400 hover:bg-blue-500 disabled:cursor-wait disabled:opacity-50 data-[active=true]:bg-blue-700 data-[active=true]:hover:bg-blue-800 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
+            class="bg-blue-600 hover:bg-blue-700 disabled:cursor-wait disabled:opacity-50 data-[active=true]:bg-blue-800 data-[active=true]:hover:bg-blue-900 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
             Ver dia Anterior
         </button>
         @endif
-        <button id="btnToggleReminders" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
+        <button id="btnToggleReminders" class="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Mostrar Lembretes
         </button>
-        <button id="btnToggleSummary" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
+        <button id="btnToggleSummary" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Resumo do Dia
         </button>
         <button id="btnToggleTimeManagement" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition mt-2">
@@ -133,16 +133,16 @@
 
             {{-- Seção de Lembretes --}}
             @if($sporadicReminders->isNotEmpty() || $recurringReminders->isNotEmpty())
-            <div id="reminders-section" class="hidden p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm transition-all duration-300">
+            <div id="reminders-section" class="hidden p-4 bg-pink-50 dark:bg-pink-950/40 rounded-lg border border-pink-100 dark:border-pink-900/60 shadow-sm transition-all duration-300">
                 @if($recurringReminders->isNotEmpty())
                 <div class="mb-4">
-                    <h3 class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lembretes Diários</h3>
+                    <h3 class="text-[10px] font-bold text-pink-700 dark:text-pink-300 uppercase tracking-widest mb-2">Lembretes Diários</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($recurringReminders as $reminder)
                         @php
                             $isCompletedToday = $reminder->last_completed_at && $reminder->last_completed_at->isToday();
                         @endphp
-                        <button class="complete-recurring-tag px-3 py-1 rounded-full text-xs font-semibold border transition duration-200 cursor-pointer shadow-sm {{ $isCompletedToday ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-700 line-through cursor-default' : 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white hover:border-blue-600' }}"
+                        <button class="complete-recurring-tag px-3 py-1 rounded-full text-xs font-semibold border transition duration-200 cursor-pointer shadow-sm {{ $isCompletedToday ? 'bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-700 line-through cursor-default' : 'bg-white dark:bg-gray-800 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-900 hover:bg-pink-700 dark:hover:bg-pink-700 hover:text-white hover:border-pink-700' }}"
                                 data-id="{{ $reminder->id }}"
                                 {{ $isCompletedToday ? 'disabled' : '' }}
                                 title="{{ $isCompletedToday ? 'Concluído hoje' : 'Clique para concluir hoje' }}">
@@ -155,12 +155,12 @@
 
                 @if($sporadicReminders->isNotEmpty())
                 <div>
-                    <h3 class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lembretes</h3>
+                    <h3 class="text-[10px] font-bold text-pink-700 dark:text-pink-300 uppercase tracking-widest mb-2">Lembretes</h3>
                     <ul class="grid grid-cols-1 gap-1">
                         @foreach($sporadicReminders as $reminder)
-                        <li class="text-sm text-gray-600 dark:text-gray-300 flex items-center justify-between bg-white dark:bg-gray-800 p-2 rounded border border-gray-50 dark:border-gray-700 group">
+                        <li class="text-sm text-pink-950 dark:text-pink-100 flex items-center justify-between bg-white/80 dark:bg-pink-950/60 p-2 rounded border border-pink-100 dark:border-pink-900 group">
                             <div class="flex items-start gap-2">
-                                <span class="text-emerald-500 mt-0.5">📌</span>
+                                <span class="text-pink-600 dark:text-pink-400 mt-0.5">📌</span>
                                 <span class="leading-tight">{{ $reminder->title }}</span>
                             </div>
                             <button class="finish-sporadic-btn text-gray-300 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition p-1 cursor-pointer"

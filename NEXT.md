@@ -182,15 +182,15 @@ Sugestões:
 
 Evitar atalhos enquanto o usuário estiver digitando em inputs ou textareas.
 
-### 20. Melhorar responsividade e acessibilidade
+### 20. Melhorar responsividade e acessibilidade — concluído parcialmente
 
 - testar Kanban e modais em telas pequenas;
 - garantir navegação completa por teclado;
 - adicionar foco visível;
 - associar labels aos campos;
-- revisar contraste nos modos claro e escuro;
-- adicionar `aria-live` às notificações;
-- respeitar `prefers-reduced-motion`.
+- revisar contraste nos modos claro e escuro; *(concluído)*
+- adicionar `aria-live` às notificações; *(concluído)*
+- respeitar `prefers-reduced-motion`. *(concluído)*
 
 ## Prioridade 4 — Analytics e produtividade
 

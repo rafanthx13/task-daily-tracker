@@ -36,7 +36,8 @@
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6 max-w-3xl mx-auto font-sans transition-colors duration-200">
 
     <!-- Notification Container -->
-    <div id="notification-container" class="fixed top-16 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="notification-container" role="status" aria-live="polite" aria-atomic="true" aria-label="Notificações"
+        class="fixed top-16 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- Dark Mode Toggle Button -->
     <button id="themeToggle" type="button" aria-label="Alternar modo escuro" aria-pressed="false" title="Ativar modo escuro"

@@ -233,9 +233,22 @@ html.dark .text-gray-600,
 
 .day-summary-markdown ul { list-style: disc; padding-left: 1.5rem; }
 .day-summary-markdown ol { list-style: decimal; padding-left: 1.5rem; }
-.day-summary-markdown a { color: #059669; text-decoration: underline; }
-.day-summary-markdown blockquote { border-left: 4px solid #6ee7b7; padding-left: 1rem; color: #6b7280; }
+.day-summary-markdown a { color: #047857; text-decoration: underline; }
+.day-summary-markdown blockquote { border-left: 4px solid #059669; padding-left: 1rem; color: #4b5563; }
 .day-summary-markdown code { background: rgba(107, 114, 128, 0.15); border-radius: 0.25rem; padding: 0.1rem 0.3rem; }
 .day-summary-markdown pre { overflow-x: auto; border-radius: 0.5rem; padding: 0.75rem; background: rgba(17, 24, 39, 0.08); }
 .day-summary-markdown pre code { background: transparent; padding: 0; }
 
+.dark .day-summary-markdown a { color: #6ee7b7; }
+.dark .day-summary-markdown blockquote { border-color: #34d399; color: #cbd5e1; }
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

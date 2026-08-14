@@ -9,7 +9,7 @@
             </a>
             <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100">Minhas Conquistas 🏆</h1>
         </div>
-        <button onclick="toggleForm()" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 shadow-md cursor-pointer">
+        <button onclick="toggleForm()" class="bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300 shadow-md cursor-pointer">
             + Adicionar Conquista
         </button>
     </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="flex justify-end gap-3">
                 <button type="button" onclick="toggleForm()" class="px-6 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">Cancelar</button>
-                <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-8 rounded-lg transition shadow-md cursor-pointer">Salvar Conquista</button>
+                <button type="submit" class="bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-2 px-8 rounded-lg transition shadow-md cursor-pointer">Salvar Conquista</button>
             </div>
         </form>
     </div>
