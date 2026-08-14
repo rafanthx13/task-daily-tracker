@@ -19,9 +19,10 @@ $(function () {
             method: 'GET',
             data: { month: month },
             success: function (response) {
+                const data = response.data;
                 $('#analytics-loading').addClass('hidden');
 
-                if (!response.tasks || response.tasks.length === 0) {
+                if (!data.tasks || data.tasks.length === 0) {
                     $('#analytics-empty').removeClass('hidden');
                     return;
                 }
@@ -29,13 +30,13 @@ $(function () {
                 $('#analytics-results').removeClass('hidden');
 
                 // Update stats
-                $('#stat-total').text(response.summary.total);
+                $('#stat-total').text(data.summary.total);
 
                 // Update table
                 const tbody = $('#tasks-table-body');
                 tbody.empty();
 
-                response.tasks.forEach(task => {
+                data.tasks.forEach(task => {
                     const dateObj = new Date(task.date);
                     const dateFormatted = dateObj.toLocaleDateString('pt-BR');
 
@@ -78,7 +79,7 @@ $(function () {
                 $('#analytics-loading').addClass('hidden');
                 console.error('Erro ao carregar analytics:', xhr.responseText);
                 if (typeof showNotification === 'function') {
-                    showNotification('Erro ao carregar os dados do relatório.', 'error');
+                    showNotification(window.getRequestErrorMessage(xhr, 'Não foi possível carregar os dados do relatório.'), 'error');
                 } else {
                     alert('Erro ao carregar os dados do relatório.');
                 }

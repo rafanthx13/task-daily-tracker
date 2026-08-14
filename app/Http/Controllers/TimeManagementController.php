@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class TimeManagementController extends Controller
 {
+    use Concerns\RespondsWithJson;
+
     public function getEntriesByDate($date)
     {
         $entries = TimeManagementEntry::with('tag')
@@ -16,7 +18,7 @@ class TimeManagementController extends Controller
 
         $tags = TimeManagementTag::all();
 
-        return response()->json([
+        return $this->jsonSuccess([
             'entries' => $entries,
             'tags' => $tags
         ]);
@@ -42,7 +44,7 @@ class TimeManagementController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Entradas de tempo salvas com sucesso!']);
+        return $this->jsonSuccess(null, 'Entradas de tempo salvas com sucesso!');
     }
 
     public function storeTag(Request $request)
@@ -55,7 +57,7 @@ class TimeManagementController extends Controller
         $tag = TimeManagementTag::create($request->only('name', 'color'));
 
         if ($request->ajax()) {
-            return response()->json($tag);
+            return $this->jsonSuccess(['tag' => $tag], 'Tag de tempo adicionada com sucesso.', 201);
         }
 
         return back()->with('success', 'Tag de tempo adicionada com sucesso!');
