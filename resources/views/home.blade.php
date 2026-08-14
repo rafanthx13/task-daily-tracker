@@ -192,7 +192,7 @@
                                     @if (!empty($task['id_original']) && ($task['lineage_days'] ?? 1) > 1)
                                     <span title="Tarefa criada em {{ \Carbon\Carbon::parse($task['lineage_started_at'])->format('d/m/Y') }}"
                                         class="rounded-full border border-orange-200 bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-700 dark:border-orange-900 dark:bg-orange-950/50 dark:text-orange-300">
-                                        ⏳ {{ $task['lineage_days'] }} {{ $task['lineage_days'] === 1 ? 'dia' : 'dias' }} em aberto
+                                        ⏳ {{ $task['lineage_days'] }}d
                                     </span>
                                     @endif
                                     @if (!empty($task['tags']))

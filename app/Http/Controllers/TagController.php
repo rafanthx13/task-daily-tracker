@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
-use Illuminate\Http\Request;
+use App\Http\Requests\TaskTagRequest;
 use Carbon\Carbon;
 
 class TagController extends Controller
@@ -19,23 +19,15 @@ class TagController extends Controller
         return view('tags', compact('tags', 'date', 'prev', 'next'));
     }
 
-    public function store(Request $request)
+    public function store(TaskTagRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'color' => 'nullable|string'
-        ]);
-        Tag::create($request->only('name', 'color'));
+        Tag::create($request->validated());
         return back()->with('success', 'Tag adicionada com sucesso!');
     }
 
-    public function update(Request $request, Tag $tag)
+    public function update(TaskTagRequest $request, Tag $tag)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'color' => 'nullable|string'
-        ]);
-        $tag->update($request->only('name', 'color'));
+        $tag->update($request->validated());
         return back()->with('success', 'Tag atualizada com sucesso!');
     }
 

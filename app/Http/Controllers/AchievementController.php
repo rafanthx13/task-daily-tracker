@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Achievement;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAchievementRequest;
+use App\Http\Requests\UpdateAchievementRequest;
 
 class AchievementController extends Controller
 {
@@ -21,15 +22,9 @@ class AchievementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAchievementRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'period' => 'required|string|regex:/^\d{2}\/\d{4}$/', // 01/2026
-        ]);
-
-        Achievement::create($request->all());
+        Achievement::create($request->validated());
 
         return redirect()->route('achievements.index')->with('success', 'Conquista adicionada!');
     }
@@ -37,15 +32,10 @@ class AchievementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Achievement $achievement)
+    public function update(UpdateAchievementRequest $request, Achievement $achievement)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
         // Period is NOT allowed to be changed
-        $achievement->update($request->only(['title', 'description']));
+        $achievement->update($request->validated());
 
         return redirect()->route('achievements.index')->with('success', 'Conquista atualizada!');
     }

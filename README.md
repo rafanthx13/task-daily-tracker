@@ -146,6 +146,7 @@ docker compose up --build
 |---|---|
 | `app/Constants/Lanes.php` | Valores válidos das raias do Kanban |
 | `app/Http/Controllers/` | Regras HTTP e casos de uso da aplicação |
+| `app/Http/Requests/` | Form Requests com validações de entrada por fluxo |
 | `app/Models/` | Modelos Eloquent e relacionamentos |
 | `database/migrations/` | Estrutura do SQLite |
 | `resources/views/` | Layout e páginas Blade |

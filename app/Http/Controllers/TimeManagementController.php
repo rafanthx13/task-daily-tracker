@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TimeManagementEntry;
 use App\Models\TimeManagementTag;
-use Illuminate\Http\Request;
+use App\Http\Requests\SyncTimeEntriesRequest;
+use App\Http\Requests\TimeManagementTagRequest;
 
 class TimeManagementController extends Controller
 {
@@ -24,10 +25,11 @@ class TimeManagementController extends Controller
         ]);
     }
 
-    public function syncEntries(Request $request)
+    public function syncEntries(SyncTimeEntriesRequest $request)
     {
-        $date = $request->input('date');
-        $entriesData = $request->input('entries', []);
+        $validated = $request->validated();
+        $date = $validated['date'];
+        $entriesData = $validated['entries'] ?? [];
 
         // Remove existing entries for this date to sync
         TimeManagementEntry::where('date', $date)->delete();
@@ -38,23 +40,18 @@ class TimeManagementController extends Controller
             TimeManagementEntry::create([
                 'date' => $date,
                 'task_name' => $data['task_name'],
-                'start_time' => $data['start_time'] ?: null,
-                'end_time' => $data['end_time'] ?: null,
-                'tag_id' => $data['tag_id'] ?: null,
+                'start_time' => ($data['start_time'] ?? null) ?: null,
+                'end_time' => ($data['end_time'] ?? null) ?: null,
+                'tag_id' => ($data['tag_id'] ?? null) ?: null,
             ]);
         }
 
         return $this->jsonSuccess(null, 'Entradas de tempo salvas com sucesso!');
     }
 
-    public function storeTag(Request $request)
+    public function storeTag(TimeManagementTagRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'color' => 'nullable|string|max:7',
-        ]);
-
-        $tag = TimeManagementTag::create($request->only('name', 'color'));
+        $tag = TimeManagementTag::create($request->validated());
 
         if ($request->ajax()) {
             return $this->jsonSuccess(['tag' => $tag], 'Tag de tempo adicionada com sucesso.', 201);
@@ -73,13 +70,9 @@ class TimeManagementController extends Controller
         return view('time_management.tags', compact('tags', 'date', 'prev', 'next'));
     }
 
-    public function updateTag(Request $request, TimeManagementTag $tag)
+    public function updateTag(TimeManagementTagRequest $request, TimeManagementTag $tag)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'color' => 'nullable|string|max:7'
-        ]);
-        $tag->update($request->only('name', 'color'));
+        $tag->update($request->validated());
         return back()->with('success', 'Tag de tempo atualizada com sucesso!');
     }
 
