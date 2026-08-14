@@ -1,6 +1,7 @@
 $(function () {
 
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function refreshCsrfToken() {
         return $.ajax({
@@ -26,22 +27,33 @@ $(function () {
 
         $('#notification-container').append(notification);
 
-        // Animate in
-        setTimeout(() => {
+        if (prefersReducedMotion()) {
             notification.removeClass('translate-x-full opacity-0');
-        }, 10);
+        } else {
+            setTimeout(() => {
+                notification.removeClass('translate-x-full opacity-0');
+            }, 10);
+        }
+
+        function dismissNotification() {
+            if (prefersReducedMotion()) {
+                notification.remove();
+                return;
+            }
+
+            notification.addClass('translate-x-full opacity-0');
+            setTimeout(() => notification.remove(), 500);
+        }
 
         // Remove on click
         notification.find('button').on('click', function() {
-            notification.addClass('translate-x-full opacity-0');
-            setTimeout(() => notification.remove(), 500);
+            dismissNotification();
         });
 
         // Auto remove
         setTimeout(() => {
             if (notification.parent().length) {
-                notification.addClass('translate-x-full opacity-0');
-                setTimeout(() => notification.remove(), 500);
+                dismissNotification();
             }
         }, 5000);
     }
@@ -404,9 +416,9 @@ $(function () {
         section.toggleClass('hidden');
 
         if (section.hasClass('hidden')) {
-            $(this).text('Mostrar Lembretes').removeClass('bg-pink-700').addClass('bg-pink-500');
+            $(this).text('Mostrar Lembretes').removeClass('bg-pink-800').addClass('bg-pink-600');
         } else {
-            $(this).text('Ocultar Lembretes').removeClass('bg-pink-500').addClass('bg-pink-700');
+            $(this).text('Ocultar Lembretes').removeClass('bg-pink-600').addClass('bg-pink-800');
         }
     });
 
@@ -427,7 +439,7 @@ $(function () {
             },
             success: function(response) {
                 // Aplica o estilo de concluído em vez de remover
-                btn.removeClass('bg-white text-blue-600 border-blue-100 hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-50')
+                btn.removeClass('bg-white text-pink-700 border-pink-200 hover:bg-pink-700 hover:text-white hover:border-pink-700 opacity-50')
                    .addClass('bg-gray-200 text-gray-500 border-gray-300 line-through cursor-default')
                    .prop('disabled', true)
                    .attr('title', 'Concluído hoje');
@@ -456,9 +468,13 @@ $(function () {
                 _token: csrfToken
             },
             success: function(response) {
-                item.fadeOut(300, function() {
-                    $(this).remove();
-                });
+                if (prefersReducedMotion()) {
+                    item.remove();
+                } else {
+                    item.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }
                 showNotification(response.message);
             },
             error: function(xhr) {
