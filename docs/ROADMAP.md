@@ -4,9 +4,11 @@
 
 + DarkMode
 + Em Docker
-
++ Badge (tipo tag)
+  
 ## Ideias
 
 + Atualizar Laravel, PHP e dependências
-+ Badge (tipo tag)
 + Exportar conquistas
++ Exportar Resumo de forma mensal/semanal
++ Instrução detalhada de como usar o sistema, parte por parte

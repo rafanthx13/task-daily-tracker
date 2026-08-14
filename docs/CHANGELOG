@@ -2,6 +2,31 @@
 
 ## [2026-08-13]
 
+### Adicionado
+
+- **Revisão diária guiada:** nova tela de encerramento por data, com tarefas concluídas, pendentes e extras, lembretes concluídos, humor, energia e relatório Markdown salvo como snapshot.
+- **Texto compartilhado na revisão:** a reflexão da revisão reutiliza o Resumo do Dia, sem criar conteúdo duplicado.
+- **Tempo em aberto:** tarefas copiadas exibem uma badge compacta (`⏳ Nd`) com a quantidade de dias desde a criação original.
+- **Form Requests:** validações de tarefas, lembretes, resumos, tempo, tags, conquistas, anotações, analytics e revisões foram separadas dos controllers.
+
+### Melhorado
+
+- **Estados de carregamento:** cópia de tarefas, dia anterior, resumo, gestão de tempo e analytics informam o andamento e evitam envios duplicados.
+- **Mensagens de erro:** a interface diferencia falha de conexão, sessão expirada, validação, registro inexistente, conflito e erro interno.
+- **Respostas AJAX:** endpoints seguem o contrato `success`, `message`, `data` e `errors`.
+- **Dia anterior:** mostra a data completa, é somente leitura e possui controle expansível acessível.
+- **Lembretes:** a área aberta e seus lembretes pendentes agora usam a paleta rosa do módulo.
+- **Acessibilidade:** contraste reforçado em controles e Markdown, notificações anunciadas por leitor de tela e respeito a `prefers-reduced-motion`.
+
+### Corrigido
+
+- **Status Waiting:** migration converte o valor legado `wating` em `waiting`, normaliza o antigo `next` como `todo` e atualiza a constraint SQLite.
+- **Criação e movimentação de tarefas:** remoção de `dd()` em produção, registro de exceções e validação das raias no backend.
+- **Compatibilidade Linux/Docker:** referências de rota agora usam a capitalização correta de `TaskController`.
+- **Segurança do dia anterior:** títulos, notas e tags retornados por AJAX são inseridos com APIs DOM, evitando injeção de HTML.
+
+## [2026-08-12]
+
 + Ver md as anotaçoes de reumo do dia
 + feat de anotaçoes globais: editar e ver md
 + fix problema de urls js sem windwos.App, sem isos dá eror n IIS
