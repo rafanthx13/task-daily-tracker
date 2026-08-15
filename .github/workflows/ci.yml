@@ -39,11 +39,11 @@ jobs:
           cp .env.example .env
           php artisan key:generate --force
 
+      - name: Compilar frontend
+        run: npm run build
+
       - name: Rodar testes PHPUnit
         run: php artisan test
 
       - name: Validar views Blade
         run: php artisan view:cache
-
-      - name: Compilar frontend
-        run: npm run build
