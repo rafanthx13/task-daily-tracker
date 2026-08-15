@@ -1,4 +1,6 @@
-# Daily Task Tracker
+# Task Daily Tracker
+
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white) ![PHP](https://img.shields.io/badge/PHP-8\.2+-777BB4?logo=php&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 
 ![Tela inicial do Daily Task Tracker](docs/daily-task-tracker-home.png)
 

@@ -4,11 +4,11 @@ Este documento reúne sugestões para evolução do Daily Task Tracker. A ordem 
 
 ## Prioridade 1 — Confiabilidade e segurança
 
-### 1. Criar testes automatizados
+### 1. Criar testes automatizados — concluído parcialmente
 
-O projeto ainda não possui uma suíte funcional em `tests/`. Os primeiros testes devem proteger os fluxos que podem causar perda ou alteração incorreta de dados:
+A suíte funcional inicial em `tests/` deve ser ampliada para proteger os fluxos que podem causar perda ou alteração incorreta de dados:
 
-- criação, edição, exclusão e movimentação de tarefas;
+- criação, edição, exclusão e movimentação de tarefas; *(concluído)*
 - cópia de tarefas entre dias e preservação da linhagem;
 - sincronização das entradas de gestão de tempo;
 - conclusão de lembretes recorrentes e esporádicos;
