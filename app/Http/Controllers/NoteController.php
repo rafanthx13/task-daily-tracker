@@ -31,7 +31,7 @@ class NoteController extends Controller
 
     public function show(Note $note)
     {
-        $contentHtml = Str::markdown($note->content ?? '', [
+        $contentHtml = Str::markdown($this->withoutDuplicatedFirstHeading($note), [
             'html_input' => 'strip',
             'allow_unsafe_links' => false,
         ]);
@@ -62,4 +62,24 @@ class NoteController extends Controller
             ->with('success', 'Anotação excluída com sucesso!');
     }
 
+    /**
+     * Evita repetir o título da anotação quando o conteúdo Markdown começa com
+     * um H1 igual. A descrição permanece no cabeçalho da página.
+     */
+    private function withoutDuplicatedFirstHeading(Note $note): string
+    {
+        $content = $note->content ?? '';
+
+        $matched = preg_match(
+            '/\\A(?:\\xEF\\xBB\\xBF)?(?:[ \\t]*\\R)*[ \\t]*#(?!#)[ \\t]+(?<heading>.*?)(?:[ \\t]+#+)?[ \\t]*(?:\\R|$)/',
+            $content,
+            $matches,
+        );
+
+        if (! $matched || Str::squish($matches['heading']) !== Str::squish($note->title)) {
+            return $content;
+        }
+
+        return substr($content, strlen($matches[0]));
+    }
 }
