@@ -176,6 +176,20 @@ $(function () {
         $("#modalAddCard").dialog("open");
     });
 
+    // Impede que cliques repetidos criem a mesma tarefa mais de uma vez enquanto
+    // o formulário aguarda a resposta do servidor.
+    $("#formAddCard").on("submit.taskCreation", function (event) {
+        const form = $(this);
+
+        if (form.data("isSubmitting")) {
+            event.preventDefault();
+            return;
+        }
+
+        form.data("isSubmitting", true);
+        setButtonLoading($("#addTaskSubmitButton"), true, "Adicionando...", "Adicionar");
+    });
+
     // Abrir modal de Editar Task
     $(document).on("click", ".edit-task", function () {
         let card = $(this).closest(".card");
