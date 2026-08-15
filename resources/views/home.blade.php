@@ -5,7 +5,7 @@
 <div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 border border-transparent dark:border-gray-700 shadow-xl rounded">
 
     <!-- Botão que abre modal para adicionar card -->
-    <div class="mb-6 text-center">
+    <div class="mb-6 flex flex-wrap justify-center gap-3">
         <button id="btnAddCard" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded cursor-pointer">
             Adicionar Task
         </button>
@@ -19,7 +19,7 @@
         @if (!empty($prev))
         <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
             data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
-            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:cursor-wait disabled:opacity-50 ml-2 cursor-pointer">
+            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
             Carregar dia anterior
         </button>
         <button id="btnSeePreviousDay" type="button" aria-expanded="false" aria-controls="previous-day-kanban-column" data-active="false"
@@ -33,7 +33,7 @@
         <button id="btnToggleSummary" class="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Resumo do Dia
         </button>
-        <button id="btnToggleTimeManagement" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition mt-2">
+        <button id="btnToggleTimeManagement" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded cursor-pointer shadow-sm transition">
             Gerenciar Tempo
         </button>
     </div>
