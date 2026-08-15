@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [2026-08-15]
+
++ Release v1.0.0
++ Atualizar página do github: Description, tags do projeto, Release (SemVer); License, READEM com badg de shields.io
++ Criar primeiros testes da aplicação
+
 ## [2026-08-13]
 
 ### Adicionado
