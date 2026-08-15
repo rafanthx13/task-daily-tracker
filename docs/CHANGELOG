@@ -4,32 +4,36 @@
 
 + Release v1.0.0
 + Atualizar página do github: Description, tags do projeto, Release (SemVer); License, READEM com badg de shields.io
-+ Criar primeiros testes da aplicação
++ Criar primeiros testes da aplicação  integrar no ci
++ Corrção de Bugs e ajustes:
+    + Espaçamento dos botões do card interno
+    + Desabilitar btn de add task após clicado (permitir duplicar task)
+    + Não permitir carregar dia antetior mais de uma vez
 
 ## [2026-08-13]
 
 ### Adicionado
 
-- **Revisão diária guiada:** nova tela de encerramento por data, com tarefas concluídas, pendentes e extras, lembretes concluídos, humor, energia e relatório Markdown salvo como snapshot.
-- **Texto compartilhado na revisão:** a reflexão da revisão reutiliza o Resumo do Dia, sem criar conteúdo duplicado.
-- **Tempo em aberto:** tarefas copiadas exibem uma badge compacta (`⏳ Nd`) com a quantidade de dias desde a criação original.
-- **Form Requests:** validações de tarefas, lembretes, resumos, tempo, tags, conquistas, anotações, analytics e revisões foram separadas dos controllers.
++ **Revisão diária guiada:** nova tela de encerramento por data, com tarefas concluídas, pendentes e extras, lembretes concluídos, humor, energia e relatório Markdown salvo como snapshot.
++ **Texto compartilhado na revisão:** a reflexão da revisão reutiliza o Resumo do Dia, sem criar conteúdo duplicado.
++ **Tempo em aberto:** tarefas copiadas exibem uma badge compacta (`⏳ Nd`) com a quantidade de dias desde a criação original.
++ **Form Requests:** validações de tarefas, lembretes, resumos, tempo, tags, conquistas, anotações, analytics e revisões foram separadas dos controllers.
 
 ### Melhorado
 
-- **Estados de carregamento:** cópia de tarefas, dia anterior, resumo, gestão de tempo e analytics informam o andamento e evitam envios duplicados.
-- **Mensagens de erro:** a interface diferencia falha de conexão, sessão expirada, validação, registro inexistente, conflito e erro interno.
-- **Respostas AJAX:** endpoints seguem o contrato `success`, `message`, `data` e `errors`.
-- **Dia anterior:** mostra a data completa, é somente leitura e possui controle expansível acessível.
-- **Lembretes:** a área aberta e seus lembretes pendentes agora usam a paleta rosa do módulo.
-- **Acessibilidade:** contraste reforçado em controles e Markdown, notificações anunciadas por leitor de tela e respeito a `prefers-reduced-motion`.
++ **Estados de carregamento:** cópia de tarefas, dia anterior, resumo, gestão de tempo e analytics informam o andamento e evitam envios duplicados.
++ **Mensagens de erro:** a interface diferencia falha de conexão, sessão expirada, validação, registro inexistente, conflito e erro interno.
++ **Respostas AJAX:** endpoints seguem o contrato `success`, `message`, `data` e `errors`.
++ **Dia anterior:** mostra a data completa, é somente leitura e possui controle expansível acessível.
++ **Lembretes:** a área aberta e seus lembretes pendentes agora usam a paleta rosa do módulo.
++ **Acessibilidade:** contraste reforçado em controles e Markdown, notificações anunciadas por leitor de tela e respeito a `prefers-reduced-motion`.
 
 ### Corrigido
 
-- **Status Waiting:** migration converte o valor legado `wating` em `waiting`, normaliza o antigo `next` como `todo` e atualiza a constraint SQLite.
-- **Criação e movimentação de tarefas:** remoção de `dd()` em produção, registro de exceções e validação das raias no backend.
-- **Compatibilidade Linux/Docker:** referências de rota agora usam a capitalização correta de `TaskController`.
-- **Segurança do dia anterior:** títulos, notas e tags retornados por AJAX são inseridos com APIs DOM, evitando injeção de HTML.
++ **Status Waiting:** migration converte o valor legado `wating` em `waiting`, normaliza o antigo `next` como `todo` e atualiza a constraint SQLite.
++ **Criação e movimentação de tarefas:** remoção de `dd()` em produção, registro de exceções e validação das raias no backend.
++ **Compatibilidade Linux/Docker:** referências de rota agora usam a capitalização correta de `TaskController`.
++ **Segurança do dia anterior:** títulos, notas e tags retornados por AJAX são inseridos com APIs DOM, evitando injeção de HTML.
 
 ## [2026-08-12]
 
@@ -48,24 +52,24 @@
 
 ### Adicionado
 
-- **AntiGravity AI**: Integração do assistente AI para acelerar o desenvolvimento.
-- **Visualização Detalhada (Show Task)**: Nova tela para ver detalhes da tarefa, notas e linhagem histórica.
-- **Linhagem Histórica**: Rastreamento de tarefas através de `id_original`, permitindo ver a evolução de uma tarefa copiada de dias anteriores.
-- **Métricas de Task**: Cálculo automático de data de início, conclusão e duração total em dias.
-- **Analytics Mensal**: Novo painel de relatórios com visualização de tarefas únicas iniciadas no mês e filtros por data.
++ **AntiGravity AI**: Integração do assistente AI para acelerar o desenvolvimento.
++ **Visualização Detalhada (Show Task)**: Nova tela para ver detalhes da tarefa, notas e linhagem histórica.
++ **Linhagem Histórica**: Rastreamento de tarefas através de `id_original`, permitindo ver a evolução de uma tarefa copiada de dias anteriores.
++ **Métricas de Task**: Cálculo automático de data de início, conclusão e duração total em dias.
++ **Analytics Mensal**: Novo painel de relatórios com visualização de tarefas únicas iniciadas no mês e filtros por data.
 
 ### Melhorado
 
-- **Gerenciamento de Tags**: Refatoração completa para suportar múltiplas tags por tarefa, com cores customizadas e melhor visualização no Kanban.
-- **Navegação**: Sistema de setas melhorado para navegar entre dias, mesmo quando não há tarefas registradas.
-- **Layout Kanban**: Ajustes finos de UX/UI, com efeitos hover, melhores espaçamentos e organização visual premium.
-- **Responsividade**: Melhorias no layout mobile e tabelas de analytics.
-- **Arquitetura**: Separação mais clara entre CSS, JS e Partials Blade.
++ **Gerenciamento de Tags**: Refatoração completa para suportar múltiplas tags por tarefa, com cores customizadas e melhor visualização no Kanban.
++ **Navegação**: Sistema de setas melhorado para navegar entre dias, mesmo quando não há tarefas registradas.
++ **Layout Kanban**: Ajustes finos de UX/UI, com efeitos hover, melhores espaçamentos e organização visual premium.
++ **Responsividade**: Melhorias no layout mobile e tabelas de analytics.
++ **Arquitetura**: Separação mais clara entre CSS, JS e Partials Blade.
 
 ### Corrigido
 
-- **Filtro de Data**: Correção do erro no método `whereDate` que impedia filtros avançados no controller.
-- **Sincronização de Tags**: Correção de bugs ao salvar e editar tags em massa.
++ **Filtro de Data**: Correção do erro no método `whereDate` que impedia filtros avançados no controller.
++ **Sincronização de Tags**: Correção de bugs ao salvar e editar tags em massa.
 
 ---
 
@@ -73,8 +77,8 @@
 
 ### Melhorado
 
-- Fluxo de redirecionamento: tarefas 'next' agora redirecionam corretamente para a home.
-- Comparativo Visual: Aumento da largura das tasks e visualização simultânea do dia atual e anterior para comparação rápida.
++ Fluxo de redirecionamento: tarefas 'next' agora redirecionam corretamente para a home.
++ Comparativo Visual: Aumento da largura das tasks e visualização simultânea do dia atual e anterior para comparação rápida.
 
 ---
 
@@ -82,14 +86,14 @@
 
 ### Adicionado
 
-- Nova raia (Lane) **Waiting**.
-- Centralização de estados das raias em `App\Constants\Lanes`.
++ Nova raia (Lane) **Waiting**.
++ Centralização de estados das raias em `App\Constants\Lanes`.
 
 ### Melhorado
 
-- Organização de arquivos: separação de CSS/JS e Partials de templates.
-- Estilo e UX: Melhorias em hover, espaçamentos e design dos cards.
-- Refatoração de código e limpeza de arquivos temporários.
++ Organização de arquivos: separação de CSS/JS e Partials de templates.
++ Estilo e UX: Melhorias em hover, espaçamentos e design dos cards.
++ Refatoração de código e limpeza de arquivos temporários.
 
 ---
 
@@ -97,13 +101,13 @@
 
 ### Adicionado
 
-- Funcionalidade de **Editar** e **Deletar** tarefas.
-- Navegação entre dia anterior e posterior.
-- Sistema de cópia de tarefas 'next' para o dia seguinte como 'todo'.
++ Funcionalidade de **Editar** e **Deletar** tarefas.
++ Navegação entre dia anterior e posterior.
++ Sistema de cópia de tarefas 'next' para o dia seguinte como 'todo'.
 
 ### Corrigido
 
-- Campo de notas no formulário de inclusão.
++ Campo de notas no formulário de inclusão.
 
 ---
 
@@ -111,10 +115,10 @@
 
 ### Adicionado
 
-- Estrutura base de banco de dados (Laravel Migrations).
-- Modal para adição de tarefas com suporte a notas e tags.
-- Sistema de Drag & Drop entre raias do Kanban com atualização de status.
-- Visualização histórica de dias individuais via `/day/yyyy-mm-dd`.
++ Estrutura base de banco de dados (Laravel Migrations).
++ Modal para adição de tarefas com suporte a notas e tags.
++ Sistema de Drag & Drop entre raias do Kanban com atualização de status.
++ Visualização histórica de dias individuais via `/day/yyyy-mm-dd`.
 
 ---
 
@@ -124,8 +128,8 @@
 
 ### Adicionado
 
-- CRUD básico de Tarefas.
-- Layout inicial da aplicação (Bootstrap/Custom).
++ CRUD básico de Tarefas.
++ Layout inicial da aplicação (Bootstrap/Custom).
 
 ---
 
@@ -133,5 +137,5 @@
 
 ### Adicionado
 
-- Início do projeto Daily Tracker.
-- Configuração de Tailwind CSS, JQuery e estrutura de raias (Lanes).
++ Início do projeto Daily Tracker.
++ Configuração de Tailwind CSS, JQuery e estrutura de raias (Lanes).
