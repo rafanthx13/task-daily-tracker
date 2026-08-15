@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTaskLaneRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Tag;
 use App\Models\Task;
+use App\Models\TaskCopyOperation;
 use Carbon\Carbon;
 use App\Constants\Lanes;
 use Illuminate\Support\Facades\Log;
@@ -50,6 +51,7 @@ class TaskController extends Controller
         $tags = Tag::all();
 
         $dateStr = Carbon::parse($date)->format('Y-m-d');
+        $hasCopiedTasksFromPreviousDate = TaskCopyOperation::whereDate('destination_date', $dateStr)->exists();
 
         // Resumo do dia
         $daySummary = \App\Models\DaySummary::where('date', $dateStr)->first();
@@ -58,7 +60,7 @@ class TaskController extends Controller
         $sporadicReminders = \App\Models\Reminder::where('type', 'sporadic')->whereNull('last_completed_at')->get();
         $recurringReminders = \App\Models\Reminder::where('type', 'recurring')->get();
 
-        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next', 'dateStr', 'sporadicReminders', 'recurringReminders', 'daySummary'));
+        return view('home', compact('tasks', 'listas', 'tags', 'date', 'prev', 'next', 'dateStr', 'hasCopiedTasksFromPreviousDate', 'sporadicReminders', 'recurringReminders', 'daySummary'));
     }
 
     public function store(StoreTaskRequest $request)
@@ -95,6 +97,9 @@ class TaskController extends Controller
     public function copyTasksFromDate(string $dateOld, string $dateToday)
     {
         try {
+            if (TaskCopyOperation::whereDate('destination_date', $dateToday)->exists()) {
+                return $this->jsonError('As tarefas do dia anterior já foram carregadas para esta data.', 422);
+            }
 
             // PEGA TODO E NEXT
             $oldNextTasks = Task::with('tags')
@@ -107,6 +112,11 @@ class TaskController extends Controller
             }
 
             DB::transaction(function () use ($oldNextTasks, $dateToday) {
+                TaskCopyOperation::create([
+                    'source_date' => $oldNextTasks->first()->date,
+                    'destination_date' => $dateToday,
+                ]);
+
                 foreach ($oldNextTasks as $task) {
 
                     // Pega a atividade da Lane TODO

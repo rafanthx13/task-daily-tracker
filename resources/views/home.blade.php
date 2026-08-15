@@ -19,8 +19,11 @@
         @if (!empty($prev))
         <button id="btnGetPreviousNextTask" data-old="{{ $prev }}"
             data-today="{{ \Carbon\Carbon::parse($date)->format('Y-m-d') }}"
-            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
-            Carregar dia anterior
+            @disabled($hasCopiedTasksFromPreviousDate)
+            aria-disabled="{{ $hasCopiedTasksFromPreviousDate ? 'true' : 'false' }}"
+            title="{{ $hasCopiedTasksFromPreviousDate ? 'As tarefas do dia anterior já foram carregadas para esta data.' : '' }}"
+            class="inline-block px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer">
+            {{ $hasCopiedTasksFromPreviousDate ? 'Dia anterior carregado' : 'Carregar dia anterior' }}
         </button>
         <button id="btnSeePreviousDay" type="button" aria-expanded="false" aria-controls="previous-day-kanban-column" data-active="false"
             class="bg-blue-600 hover:bg-blue-700 disabled:cursor-wait disabled:opacity-50 data-[active=true]:bg-blue-800 data-[active=true]:hover:bg-blue-900 data-[active=true]:ring-2 data-[active=true]:ring-blue-300 data-[active=true]:shadow-inner text-white px-4 py-2 rounded cursor-pointer transition-all">
