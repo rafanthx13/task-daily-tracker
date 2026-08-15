@@ -48,37 +48,37 @@ Os endpoints AJAX usam o contrato `{ success, message, data, errors }`. Falhas d
 
 Clone o projeto e instale as dependências:
 
-```bash
+````bash
 composer install
 npm install
-```
+````
 
 Crie o arquivo de ambiente:
 
-```bash
+````bash
 cp .env.example .env
-```
+````
 
 No PowerShell, use:
 
-```powershell
+````powershell
 Copy-Item .env.example .env
-```
+````
 
 Prepare a aplicação e o banco:
 
-```bash
+````bash
 php artisan key:generate
 php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
 php artisan migrate
-```
+````
 
 Compile os assets e inicie o Laravel:
 
-```bash
+````bash
 npm run build
 php artisan serve
-```
+````
 
 A aplicação ficará disponível, por padrão, em [http://localhost:8000](http://localhost:8000).
 
@@ -86,15 +86,15 @@ A aplicação ficará disponível, por padrão, em [http://localhost:8000](http:
 
 Para recompilar Tailwind e JavaScript automaticamente durante alterações:
 
-```bash
+````bash
 npm run dev
-```
+````
 
 Em outro terminal, mantenha o Laravel em execução:
 
-```bash
+````bash
 php artisan serve
-```
+````
 
 ## Execução com Docker Compose
 
@@ -105,42 +105,42 @@ O ambiente Docker utiliza dois serviços:
 
 Antes da primeira execução, crie o `.env` caso ele ainda não exista:
 
-```bash
+````bash
 cp .env.example .env
-```
+````
 
 Depois construa e inicie os serviços:
 
-```bash
+````bash
 docker compose up --build
-```
+````
 
 Acesse [http://localhost:8000](http://localhost:8000). Para executar em segundo plano:
 
-```bash
+````bash
 docker compose up --build -d
-```
+````
 
 Para encerrar:
 
-```bash
+````bash
 docker compose down
-```
+````
 
 O diretório local `database/` é montado no container, portanto o arquivo `database.sqlite` é preservado. O diretório `storage/` utiliza um volume Docker. Na inicialização, o entrypoint cria os diretórios necessários, ajusta permissões e executa `php artisan migrate --force`.
 
 Para usar outra porta:
 
-```bash
+````bash
 APP_PORT=8080 docker compose up --build
-```
+````
 
 No PowerShell:
 
-```powershell
+````powershell
 $env:APP_PORT=8080
 docker compose up --build
-```
+````
 
 ## Estrutura do projeto
 
@@ -189,13 +189,13 @@ docker compose up --build
 
 Para visualizar todas as rotas:
 
-```bash
+````bash
 php artisan route:list --except-vendor
-```
+````
 
 ## Comandos úteis
 
-```bash
+````bash
 # Limpar caches do Laravel
 php artisan optimize:clear
 
@@ -207,4 +207,4 @@ npm run build
 
 # Validar a sintaxe do JavaScript principal
 node --check public/js/script.js
-```
+````
