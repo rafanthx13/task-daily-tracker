@@ -5,6 +5,7 @@
 + DarkMode
 + Em Docker
 + Badge (tipo tag)
++ Testes
   
 ## Ideias
 
