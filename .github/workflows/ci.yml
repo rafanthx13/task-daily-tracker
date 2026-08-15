@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Instalar dependências PHP
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Instalar dependências JavaScript
+        run: npm ci
+
+      - name: Criar ambiente temporário
+        run: |
+          cp .env.example .env
+          php artisan key:generate --force
+
+      - name: Rodar testes PHPUnit
+        run: php artisan test
+
+      - name: Validar views Blade
+        run: php artisan view:cache
+
+      - name: Compilar frontend
+        run: npm run build
