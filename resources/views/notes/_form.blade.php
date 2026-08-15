@@ -40,8 +40,14 @@
 <script>
     $(function() {
         function resizeNoteTextarea() {
+            // Reduzir a altura temporariamente pode reposicionar a página quando
+            // o cursor está no fim de um textarea longo. Preservamos a leitura.
+            const pageScrollY = window.scrollY;
+
             this.style.height = 'auto';
             this.style.height = `${this.scrollHeight}px`;
+
+            window.scrollTo(window.scrollX, pageScrollY);
         }
 
         $('.note-auto-resize').each(resizeNoteTextarea).on('input', resizeNoteTextarea);
