@@ -265,8 +265,13 @@ $(function () {
         e.preventDefault();
 
         const button = $(this);
+        if (button.prop('disabled')) {
+            return;
+        }
+
         const oldDate = button.data("old");
         const todayDate = button.data("today");
+        let copyCompleted = false;
 
         setButtonLoading(button, true, 'Copiando tarefas...', 'Carregar dia anterior');
 
@@ -277,14 +282,17 @@ $(function () {
                 _token: csrfToken,
             },
             success: function (response) {
-                // console.log(response);
+                copyCompleted = true;
+                setButtonLoading(button, true, 'Dia anterior carregado', 'Carregar dia anterior');
                 location.reload();
             },
             error: function (xhr) {
                 showNotification(getRequestErrorMessage(xhr, 'Não foi possível copiar as tarefas.'), 'error');
             },
             complete: function () {
-                setButtonLoading(button, false, 'Copiando tarefas...', 'Carregar dia anterior');
+                if (!copyCompleted) {
+                    setButtonLoading(button, false, 'Copiando tarefas...', 'Carregar dia anterior');
+                }
             }
         });
 

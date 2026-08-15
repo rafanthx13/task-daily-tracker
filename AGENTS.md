@@ -61,7 +61,7 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 2. As raias atuais são `todo`, `waiting`, `done` e `extra`. Não reintroduza `next` sem alterar domínio, banco e UI.
 3. Uma tarefa copiada recebe `id_original` igual ao ID da primeira tarefa da família. A linhagem é usada na tela de detalhes e nos analytics.
 4. A home calcula `lineage_days` somente para exibição: é a contagem inclusiva entre a data da tarefa original e a data exibida, usada no badge de tarefas copiadas.
-5. A cópia entre dias inclui apenas `todo` e `waiting`, preserva tags e cria novas tarefas para a data de destino.
+5. A cópia entre dias inclui apenas `todo` e `waiting`, preserva tags e cria novas tarefas para a data de destino. Cada data de destino aceita uma única operação de cópia, registrada em `task_copy_operations`.
 6. `time-management/sync` substitui todas as entradas da data. Alterar esse fluxo para updates parciais muda a semântica atual.
 7. Tags de tarefas (`tags`) e tags de tempo (`time_management_tags`) são entidades diferentes.
 8. O resumo diário é único por data.
@@ -94,6 +94,7 @@ Não suba containers, servidores ou serviços externos a menos que o usuário pe
 Principais tabelas de produto:
 
 - `tasks`, `tags`, `tag_task`
+- `task_copy_operations`
 - `reminders`
 - `day_summaries`
 - `daily_reviews`

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Constants\Lanes;
 use App\Models\Tag;
 use App\Models\Task;
+use App\Models\TaskCopyOperation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -123,5 +124,37 @@ class TaskManagementTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.task.status', Lanes::WAITING);
         $this->assertDatabaseHas('tasks', ['id' => $task->id, 'status' => Lanes::WAITING]);
+    }
+
+    public function test_copies_pending_tasks_from_a_previous_day_only_once_per_destination_date(): void
+    {
+        Task::create([
+            'title' => 'Tarefa pendente',
+            'date' => '2026-08-14',
+            'status' => Lanes::TODO,
+        ]);
+
+        $firstResponse = $this->getJson(route('tasks.copyTasksFromDate', [
+            'oldDate' => '2026-08-14',
+            'todayDate' => '2026-08-15',
+        ]));
+
+        $firstResponse->assertOk()->assertJsonPath('success', true);
+        $operation = TaskCopyOperation::firstOrFail();
+        $this->assertSame('2026-08-14', $operation->source_date->toDateString());
+        $this->assertSame('2026-08-15', $operation->destination_date->toDateString());
+        $this->assertSame(1, Task::whereDate('date', '2026-08-15')->count());
+
+        $secondResponse = $this->getJson(route('tasks.copyTasksFromDate', [
+            'oldDate' => '2026-08-14',
+            'todayDate' => '2026-08-15',
+        ]));
+
+        $secondResponse
+            ->assertUnprocessable()
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('message', 'As tarefas do dia anterior já foram carregadas para esta data.');
+        $this->assertSame(1, Task::whereDate('date', '2026-08-15')->count());
+        $this->assertSame(1, TaskCopyOperation::count());
     }
 }

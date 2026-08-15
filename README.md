@@ -10,7 +10,7 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 
 - **Kanban diário:** tarefas organizadas nas raias `TODO`, `WAITING`, `DONE` e `EXTRA`, com movimentação por drag and drop.
 - **Navegação por data:** acesso ao dia anterior ou seguinte que possua tarefas.
-- **Continuidade de tarefas:** cópia de tarefas pendentes (`todo` e `waiting`) de uma data anterior para o dia atual.
+- **Continuidade de tarefas:** cópia única de tarefas pendentes (`todo` e `waiting`) de uma data anterior para o dia atual, evitando duplicações acidentais.
 - **Histórico de tarefas:** tarefas copiadas preservam `id_original`, permitindo consultar sua linhagem, data inicial e duração.
 - **Tempo em aberto:** tarefas copiadas exibem no Kanban há quantos dias estão abertas desde a criação original.
 - **Tags de tarefas:** múltiplas tags coloridas por tarefa, com tela própria de gerenciamento.
@@ -163,6 +163,7 @@ docker compose up --build
 ## Modelo de dados resumido
 
 - `tasks`: tarefa de uma data, raia, ordenação e referência opcional à tarefa original.
+- `task_copy_operations`: registro da cópia de tarefas concluída para cada data de destino.
 - `tags` e `tag_task`: tags de tarefas e relacionamento muitos-para-muitos.
 - `reminders`: lembretes `recurring` ou `sporadic`.
 - `day_summaries`: um resumo por data.
