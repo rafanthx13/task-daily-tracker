@@ -16,7 +16,7 @@ Aplicação pessoal para planejar tarefas diárias, acompanhar pendências entre
 - **Tags de tarefas:** múltiplas tags coloridas por tarefa, com tela própria de gerenciamento.
 - **Lembretes:** lembretes recorrentes e esporádicos, incluindo histórico dos esporádicos finalizados.
 - **Resumo diário:** texto livre associado de forma única a cada data.
-- **Revisão diária:** fechamento do dia com tarefas, lembretes, humor, energia e relatório Markdown; reutiliza o texto do resumo diário.
+- **Revisão diária:** fechamento do dia com tarefas, resumo, check-in opcional, preferências de exibição e exportação em PDF do snapshot salvo.
 - **Gestão de tempo:** registros de atividade com início, fim, duração calculada e categorias próprias.
 - **Analytics mensal:** relatório de tarefas originais e o estado mais recente de cada linhagem.
 - **Conquistas:** registros agrupados por período no formato `MM/AAAA`.
@@ -168,6 +168,7 @@ docker compose up --build
 - `reminders`: lembretes `recurring` ou `sporadic`.
 - `day_summaries`: um resumo por data.
 - `daily_reviews`: uma revisão por data, com check-in opcional e snapshot do relatório Markdown.
+- `daily_review_settings`: preferências globais de exibição da revisão diária.
 - `time_management_entries`: registros de tempo de uma data.
 - `time_management_tags`: categorias exclusivas da gestão de tempo.
 - `achievements`: conquistas agrupadas por período.
@@ -181,6 +182,8 @@ docker compose up --build
 | `/` | Kanban do dia atual |
 | `/day/{date}` | Kanban de uma data específica |
 | `/day/{date}/review` | Revisão e fechamento da data |
+| `/day/{date}/review/export` | Download do PDF de uma revisão já salva |
+| `/daily-reviews/settings` | Preferências de exibição da revisão |
 | `/tags` | Gerenciamento de tags de tarefas |
 | `/analytics` | Relatório mensal |
 | `/reminders` | Central de lembretes |
