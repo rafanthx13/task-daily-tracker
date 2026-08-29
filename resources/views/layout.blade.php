@@ -33,7 +33,7 @@
     @stack('head') <!-- Para adicionar coisas específicas por página -->
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6 max-w-3xl mx-auto font-sans transition-colors duration-200">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6 {{ request()->routeIs('daily-reviews.*') ? 'max-w-7xl' : 'max-w-3xl' }} mx-auto font-sans transition-colors duration-200">
 
     <!-- Notification Container -->
     <div id="notification-container" role="status" aria-live="polite" aria-atomic="true" aria-label="Notificações"

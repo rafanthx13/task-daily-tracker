@@ -12,10 +12,12 @@ class DailyReview extends Model
         'energy',
         'reviewed_at',
         'report_markdown',
+        'report_snapshot',
     ];
 
     protected $casts = [
         'date' => 'date',
         'reviewed_at' => 'datetime',
+        'report_snapshot' => 'array',
     ];
 }
